@@ -134,6 +134,7 @@ class CoinDataStore:
             return False, f"Liq {label} 30s=${s/1000:.0f}k < ${sustained_min/1000:.0f}k"
 
     # ── CVD ────────────────────────────────────────────────────
+    # ── CVD ────────────────────────────────────────────────────
     def add_trade(self, side: str, usd: float) -> None:
         """side: 'BUY' atau 'SELL'"""
         if usd > 0:
@@ -141,19 +142,59 @@ class CoinDataStore:
 
     def _cvd(self, seconds: float) -> float:
         cutoff = time.time() - seconds
-        total = 0.0
+        total  = 0.0
         for ts, side, usd in self._trades:
             if ts < cutoff:
                 continue
             total += usd if side == "BUY" else -usd
         return total
 
+    def _fetch_cvd_rest(self) -> float:
+        """
+        Ambil CVD 2 menit dari Hyperliquid REST sebagai fallback.
+        Pakai recent trades endpoint.
+        """
+        try:
+            import requests as _req
+            resp = _req.post(
+                self.HYPERLIQUID_REST,
+                json={"type": "recentTrades", "coin": self.symbol},
+                timeout=3,
+            )
+            if resp.status_code == 200:
+                trades = resp.json()
+                cutoff = time.time() - 120
+                cvd    = 0.0
+                for t in trades:
+                    # Hyperliquid REST trades format
+                    ts  = float(t.get("time", 0)) / 1000  # ms to seconds
+                    if ts < cutoff:
+                        continue
+                    side = "BUY" if t.get("side", "") == "B" else "SELL"
+                    px   = float(t.get("px", 0))
+                    sz   = float(t.get("sz", 0))
+                    usd  = px * sz
+                    cvd += usd if side == "BUY" else -usd
+                    # Cache trades ke deque
+                    self._trades.append((ts, side, usd))
+                return cvd
+        except Exception:
+            pass
+        return 0.0
+
     @property
-    def cvd_1min(self)  -> float: return self._cvd(60)
+    def cvd_1min(self) -> float:
+        cvd = self._cvd(60)
+        return cvd if cvd != 0 else self._fetch_cvd_rest() / 2
+
     @property
-    def cvd_2min(self)  -> float: return self._cvd(120)
+    def cvd_2min(self) -> float:
+        cvd = self._cvd(120)
+        return cvd if cvd != 0 else self._fetch_cvd_rest()
+
     @property
-    def cvd_5min(self)  -> float: return self._cvd(300)
+    def cvd_5min(self) -> float:
+        return self._cvd(300)
 
     def check_cvd(self, direction: str, threshold: float) -> tuple[bool, str]:
         cvd = self.cvd_2min
