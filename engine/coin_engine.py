@@ -14,7 +14,6 @@ memilih sinyal terkuat untuk dieksekusi.
 
 import time
 import logging
-import os
 from dataclasses import dataclass, field
 from typing import Optional, TYPE_CHECKING
 
@@ -121,13 +120,7 @@ class CoinEngine:
         self.entry_min    = entry_min
         self.entry_max    = entry_max
         self.min_odds     = min_odds
-        self.config       = dict(COIN_CONFIG.get(self.symbol, DEFAULT_CONFIG))
-        env_beat_distance = os.getenv("LATE_BEAT_DISTANCE")
-        if env_beat_distance:
-            try:
-                self.config["beat_distance"] = float(env_beat_distance)
-            except ValueError:
-                logger.warning(f"[CoinEngine:{self.symbol}] Invalid LATE_BEAT_DISTANCE={env_beat_distance}")
+        self.config       = COIN_CONFIG.get(self.symbol, DEFAULT_CONFIG)
         self.cl_monitor   = chainlink_monitor
         self.cl_min_edge  = cl_min_edge
         self.cl_min_rem   = cl_min_remaining
