@@ -79,18 +79,13 @@ class TelegramController:
 
     def _start_workers(self) -> None:
         """Start sender dan receiver threads."""
-        self._running = True
         threading.Thread(target=self._sender_worker, daemon=True).start()
         threading.Thread(target=self._receiver_worker, daemon=True).start()
-
-    def stop(self) -> None:
-        """Stop sender/receiver workers dengan graceful."""
-        self._running = False
 
     # ── Sender ────────────────────────────────────────────────
 
     def _sender_worker(self) -> None:
-        while self._running:
+        while True:
             try:
                 text = self._send_queue.get(timeout=1)
                 self._send_raw(text)
@@ -131,7 +126,7 @@ class TelegramController:
 
     def _receiver_worker(self) -> None:
         """Poll Telegram updates setiap 2 detik."""
-        while self._running:
+        while True:
             try:
                 self._poll_updates()
             except Exception as e:
@@ -262,25 +257,6 @@ class TelegramController:
             f"Total   : {total_claimed} posisi"
         )
 
-    def notify_loss_insight(self, insight: dict) -> None:
-        """Kirim ringkasan analisa loss per-event."""
-        if not insight:
-            return
-        drivers = insight.get("primary_drivers", [])[:3]
-        actions = insight.get("actions", [])[:3]
-        drv_txt = "\n".join(f"• {d}" for d in drivers) if drivers else "• (belum ada driver dominan)"
-        act_txt = "\n".join(f"• {a}" for a in actions) if actions else "• (belum ada aksi)"
-        self.send(
-            f"🧠 <b>Loss Deep Analysis</b>\n"
-            f"━━━━━━━━━━━━━━━\n"
-            f"Window     : {insight.get('window_id', '-')}\n"
-            f"Risk       : <b>{insight.get('risk_level', '-')}</b>\n"
-            f"Loss streak: {insight.get('loss_streak', 0)}\n"
-            f"Sample     : {insight.get('sample_size', 0)} trades\n\n"
-            f"<b>Primary Drivers</b>\n{drv_txt}\n\n"
-            f"<b>Suggested Actions</b>\n{act_txt}"
-        )
-
     def maybe_send_daily_summary(self, balance: float, running_pnl: float) -> None:
         now = time.time()
         if now - self._last_daily < 86400:
@@ -356,7 +332,7 @@ class CommandHandler:
                 self._cmd_config(state)
 
             elif c == "/set":
-                self._cmd_set(args, state, engines)
+                self._cmd_set(args, state)
 
             elif c == "/block":
                 self._cmd_block(args, state)
@@ -418,7 +394,6 @@ class CommandHandler:
         beat = eng.candle.beat_price
         rem  = eng.candle.remaining
 
-        beat_str = f"${beat:,.2f}" if beat else "N/A"
         self.tg.send(
             f"📊 <b>Bot Status</b>\n"
             f"━━━━━━━━━━━━━━━\n"
@@ -427,8 +402,8 @@ class CommandHandler:
             f"Bet/trade: ${state.bet_amount:.2f}\n\n"
             f"<b>Market</b>\n"
             f"BTC Price: {price_str}\n"
-            f"Beat     : {beat_str}\n"
-            f"Sisa win : {rem:.0f}s\n\n"
+            f"Beat     : ${beat:,.2f}" if beat else "Beat: N/A\n"
+            f"\nSisa win : {rem:.0f}s\n\n"
             f"<b>Hasil</b>\n"
             f"Bets : {results.total_bets} (W:{results.wins} L:{results.losses})\n"
             f"WR   : {results.win_rate:.1f}%\n"
@@ -492,7 +467,7 @@ class CommandHandler:
             f"ACTIVE_COINS: {os.getenv('ACTIVE_COINS','BTC')}"
         )
 
-    def _cmd_set(self, args: list, state, engines) -> None:
+    def _cmd_set(self, args: list, state) -> None:
         if len(args) < 2:
             self.tg.send(
                 "❌ Format: <code>/set &lt;key&gt; &lt;value&gt;</code>\n\n"
@@ -536,22 +511,6 @@ class CommandHandler:
             f"⚠️ Efektif di window berikutnya."
         )
         logger.info(f"[TelegramCtrl] Config changed: {env_key} = {value}")
-        numeric_value = float(value)
-        if env_key == "MIN_ODDS":
-            for eng in engines.values():
-                eng.min_odds = numeric_value
-        elif env_key == "LATE_BEAT_DISTANCE":
-            for eng in engines.values():
-                eng.config["beat_distance"] = numeric_value
-        elif env_key == "CHAINLINK_MIN_EDGE":
-            for eng in engines.values():
-                eng.cl_min_edge = numeric_value
-        elif env_key == "CHAINLINK_MIN_REM":
-            for eng in engines.values():
-                eng.cl_min_rem = numeric_value
-        elif env_key == "CHAINLINK_MAX_REM":
-            for eng in engines.values():
-                eng.cl_max_rem = numeric_value
 
     def _cmd_block(self, args: list, state) -> None:
         if not args:
