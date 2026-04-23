@@ -31,6 +31,7 @@ logger = logging.getLogger(__name__)
 
 LOSS_LOG_PATH = "logs/loss_analysis.json"
 PATTERN_LOG_PATH = "logs/bet_patterns.json"
+LOSS_EVENT_LOG_PATH = "logs/loss_events.jsonl"
 
 
 @dataclass
@@ -78,6 +79,7 @@ class LossAnalyzer:
     def __init__(self):
         self._contexts: List[BetContext] = []
         self._loaded   = False
+        self._last_loss_insight: Optional[dict] = None
         os.makedirs("logs", exist_ok=True)
         self._load()
 
@@ -113,6 +115,9 @@ class LossAnalyzer:
 
         # Log loss dengan detail
         if ctx.result == "LOSS":
+            insight = self.analyze_loss_event(ctx)
+            self._last_loss_insight = insight
+            self._append_loss_event(insight)
             logger.info(
                 f"[LossAnalyzer] LOSS recorded | "
                 f"{ctx.direction} rem={ctx.remaining_secs:.0f}s "
@@ -120,6 +125,152 @@ class LossAnalyzer:
                 f"cvd=${ctx.cvd_2min/1000:+.0f}k edge={ctx.cl_edge:.3f} "
                 f"hour={ctx.hour_utc}UTC"
             )
+            logger.info(
+                f"[LossAnalyzer] LOSS insight | risk={insight.get('risk_level')} "
+                f"streak={insight.get('loss_streak')} "
+                f"drivers={', '.join(insight.get('primary_drivers', [])) or '-'}"
+            )
+
+    def _append_loss_event(self, insight: dict) -> None:
+        """Append insight loss per-event ke JSONL agar mudah di-stream/parse."""
+        try:
+            with open(LOSS_EVENT_LOG_PATH, "a") as f:
+                f.write(json.dumps(insight) + "\n")
+        except Exception as e:
+            logger.debug(f"[LossAnalyzer] Save loss event error: {e}")
+
+    def get_last_loss_insight(self) -> Optional[dict]:
+        return self._last_loss_insight
+
+    def analyze_loss_event(self, ctx: BetContext, lookback: int = 150) -> dict:
+        """
+        Analisa mendalam untuk satu event LOSS dengan membandingkan
+        kondisi trade ini terhadap histori terbaru.
+        """
+        history = self._contexts[-lookback:] if lookback > 0 else self._contexts
+        if not history:
+            return {
+                "status": "no_history",
+                "window_id": ctx.window_id,
+                "risk_level": "LOW",
+                "loss_streak": 1,
+                "primary_drivers": [],
+                "actions": [],
+            }
+
+        def _bucket(val: float, buckets: list[tuple[float, float]]) -> str:
+            for lo, hi in buckets:
+                if lo <= val < hi:
+                    return f"{lo}-{hi}"
+            return f"{buckets[-1][0]}-{buckets[-1][1]}"
+
+        rem_bucket = _bucket(ctx.remaining_secs, [(0,30), (30,60), (60,120), (120,180), (180,240), (240,300)])
+        spread_bucket = _bucket(ctx.odds_spread, [(0,0.05), (0.05,0.10), (0.10,0.15), (0.15,0.20), (0.20,1.0)])
+        dist_bucket = _bucket(ctx.beat_distance, [(0,20), (20,40), (40,60), (60,100), (100,999)])
+
+        def wr_of(subset: list[BetContext]) -> float:
+            if not subset:
+                return 0.0
+            wins = sum(1 for x in subset if x.result == "WIN")
+            return wins / len(subset) * 100
+
+        same_mode = [x for x in history if x.signal_mode == ctx.signal_mode]
+        same_dir = [x for x in history if x.direction == ctx.direction]
+        same_hour = [x for x in history if x.hour_utc == ctx.hour_utc]
+        similar = [
+            x for x in history
+            if x.signal_mode == ctx.signal_mode
+            and x.direction == ctx.direction
+            and abs(x.remaining_secs - ctx.remaining_secs) <= 30
+            and abs(x.odds_spread - ctx.odds_spread) <= 0.03
+        ]
+
+        rem_subset = [x for x in history if _bucket(x.remaining_secs, [(0,30), (30,60), (60,120), (120,180), (180,240), (240,300)]) == rem_bucket]
+        spread_subset = [x for x in history if _bucket(x.odds_spread, [(0,0.05), (0.05,0.10), (0.10,0.15), (0.15,0.20), (0.20,1.0)]) == spread_bucket]
+        dist_subset = [x for x in history if _bucket(x.beat_distance, [(0,20), (20,40), (40,60), (60,100), (100,999)]) == dist_bucket]
+
+        drivers: list[str] = []
+        actions: list[str] = []
+        score = 0
+
+        for label, subset, threshold in [
+            (f"remaining[{rem_bucket}]", rem_subset, 48),
+            (f"spread[{spread_bucket}]", spread_subset, 48),
+            (f"distance[{dist_bucket}]", dist_subset, 48),
+            (f"hour[{ctx.hour_utc}]", same_hour, 45),
+        ]:
+            if len(subset) >= 5:
+                wr = wr_of(subset)
+                if wr < threshold:
+                    drivers.append(f"{label} WR={wr:.1f}%")
+                    score += 1
+
+        cvd_aligned = (ctx.direction == "UP" and ctx.cvd_2min > 0) or (ctx.direction == "DOWN" and ctx.cvd_2min < 0)
+        if not cvd_aligned:
+            drivers.append("CVD opposite direction")
+            actions.append("Pertimbangkan wajibkan CVD searah untuk entry serupa")
+            score += 1
+
+        if ctx.signal_mode == "CHAINLINK" and ctx.cl_edge < 0.10:
+            drivers.append(f"Chainlink edge tipis ({ctx.cl_edge:.3f})")
+            actions.append("Naikkan CHAINLINK_MIN_EDGE (contoh +0.01 s/d +0.02)")
+            score += 1
+
+        if ctx.odds_spread < 0.05:
+            actions.append("Skip setup dengan odds spread terlalu sempit (<0.05)")
+
+        if ctx.beat_distance < 20:
+            actions.append("Pertimbangkan naikkan beat distance minimum untuk mengurangi noise")
+
+        if len(similar) >= 5 and wr_of(similar) < 45:
+            drivers.append(f"Similar setup WR rendah ({wr_of(similar):.1f}%, n={len(similar)})")
+            score += 2
+
+        # Hitung loss streak terbaru
+        loss_streak = 0
+        for x in reversed(self._contexts):
+            if x.result == "LOSS":
+                loss_streak += 1
+            elif x.result == "WIN":
+                break
+
+        if loss_streak >= 3:
+            actions.append("Aktifkan cooldown: pause auto-bet sementara setelah loss streak")
+            score += 2
+
+        risk_level = "LOW"
+        if score >= 5:
+            risk_level = "HIGH"
+        elif score >= 3:
+            risk_level = "MEDIUM"
+
+        if not actions:
+            actions.append("Belum ada pola kuat; lanjutkan kumpulkan data")
+
+        return {
+            "status": "ok",
+            "generated_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            "window_id": ctx.window_id,
+            "direction": ctx.direction,
+            "signal_mode": ctx.signal_mode,
+            "risk_level": risk_level,
+            "loss_streak": loss_streak,
+            "sample_size": len(history),
+            "wr": {
+                "overall": round(wr_of(history), 1),
+                "same_mode": round(wr_of(same_mode), 1) if same_mode else 0,
+                "same_direction": round(wr_of(same_dir), 1) if same_dir else 0,
+                "same_hour": round(wr_of(same_hour), 1) if same_hour else 0,
+                "similar_setup": round(wr_of(similar), 1) if similar else 0,
+            },
+            "buckets": {
+                "remaining": rem_bucket,
+                "odds_spread": spread_bucket,
+                "beat_distance": dist_bucket,
+            },
+            "primary_drivers": drivers[:5],
+            "actions": actions[:5],
+        }
 
     # ── Pattern Analysis ──────────────────────────────────────
 

@@ -262,6 +262,25 @@ class TelegramController:
             f"Total   : {total_claimed} posisi"
         )
 
+    def notify_loss_insight(self, insight: dict) -> None:
+        """Kirim ringkasan analisa loss per-event."""
+        if not insight:
+            return
+        drivers = insight.get("primary_drivers", [])[:3]
+        actions = insight.get("actions", [])[:3]
+        drv_txt = "\n".join(f"• {d}" for d in drivers) if drivers else "• (belum ada driver dominan)"
+        act_txt = "\n".join(f"• {a}" for a in actions) if actions else "• (belum ada aksi)"
+        self.send(
+            f"🧠 <b>Loss Deep Analysis</b>\n"
+            f"━━━━━━━━━━━━━━━\n"
+            f"Window     : {insight.get('window_id', '-')}\n"
+            f"Risk       : <b>{insight.get('risk_level', '-')}</b>\n"
+            f"Loss streak: {insight.get('loss_streak', 0)}\n"
+            f"Sample     : {insight.get('sample_size', 0)} trades\n\n"
+            f"<b>Primary Drivers</b>\n{drv_txt}\n\n"
+            f"<b>Suggested Actions</b>\n{act_txt}"
+        )
+
     def maybe_send_daily_summary(self, balance: float, running_pnl: float) -> None:
         now = time.time()
         if now - self._last_daily < 86400:

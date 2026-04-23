@@ -547,6 +547,25 @@ async def main_loop(
                             hour_utc=rec.hour_utc,
                         )
                         state.loss_analyzer.record(ctx)
+                        if rec.result == "LOSS":
+                            insight = state.loss_analyzer.get_last_loss_insight()
+                            if insight:
+                                state.tg.notify_loss_insight(insight)
+                                streak_type, streak_count = results.current_streak
+                                if (
+                                    streak_type == "L"
+                                    and streak_count >= 3
+                                    and insight.get("risk_level") == "HIGH"
+                                    and state.auto_bet
+                                ):
+                                    state.auto_bet = False
+                                    state.tg.notify_error(
+                                        "Auto-bet di-pause otomatis: HIGH risk loss pattern + loss streak >= 3. "
+                                        "Review /analysis lalu /resume jika sudah siap."
+                                    )
+                                    logger.warning(
+                                        "[RiskGuard] Auto-bet paused due to high-risk loss pattern and loss streak"
+                                    )
 
                         # Print report setiap 20 bets
                         if results.total_bets % 20 == 0 and results.total_bets > 0:
