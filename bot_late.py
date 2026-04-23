@@ -262,9 +262,9 @@ async def odds_loop(state: BotState, engines: Dict[str, CoinEngine], executor: P
     while True:
         for coin in ACTIVE_COINS:
             try:
-                market = executor.get_active_market(coin)
+                market = await asyncio.to_thread(executor.get_active_market, coin)
                 if market:
-                    up, down = executor.get_odds(market)
+                    up, down = await asyncio.to_thread(executor.get_odds, market)
                     state.odds[coin] = (up, down)
                     engines[coin].update_odds(up, down)
             except Exception as e:
@@ -328,7 +328,7 @@ def setup_keyboard(state: BotState) -> None:
 
 
 # ── Claim ─────────────────────────────────────────────────────
-def maybe_claim(state: BotState, executor: PolymarketExecutor) -> None:
+async def maybe_claim(state: BotState, executor: PolymarketExecutor) -> None:
     if not AUTO_REDEEM:
         return
     if not executor._relayer or not executor._relayer.is_available():
@@ -338,18 +338,19 @@ def maybe_claim(state: BotState, executor: PolymarketExecutor) -> None:
         return
     state.last_claim_check = now
     claimed_now = 0
-    for pos in executor.get_redeemable_positions():
+    positions = await asyncio.to_thread(executor.get_redeemable_positions)
+    for pos in positions:
         cid = pos.get("conditionId", "")
-        if cid and executor.claim_position(cid):
+        if cid and await asyncio.to_thread(executor.claim_position, cid):
             state.total_claimed += 1
             claimed_now += 1
-        time.sleep(1)
+        await asyncio.sleep(1)
     if claimed_now > 0:
         state.tg.notify_claim(claimed_now, state.total_claimed)
 
 
 # ── Execute bet ───────────────────────────────────────────────
-def execute_bet(
+async def execute_bet(
     coin: str, direction: str,
     state: BotState, engines: Dict[str, CoinEngine], mws: MultiWS,
     results: ResultTracker, executor: PolymarketExecutor, arbiter: SignalArbiter,
@@ -364,7 +365,7 @@ def execute_bet(
     data      = mws.coins.get(coin)
     price     = data.get_price() if data else 0
     remaining = eng.candle.remaining
-    market    = executor.get_active_market(coin, force_refresh=True)
+    market    = await asyncio.to_thread(executor.get_active_market, coin, True)
 
     if not market:
         logger.warning(f"[Bet] Tidak ada market aktif untuk {coin}")
@@ -374,8 +375,14 @@ def execute_bet(
     token_id = market["token_id_up"] if direction == "UP" else market["token_id_down"]
     logger.info(f"[Bet] {coin} {direction} ${state.bet_amount:.2f} @ {odds:.4f} beat={beat:.3f}")
 
-    ok = executor.place_order(token_id=token_id, amount=state.bet_amount,
-                               side="BUY", price=odds, direction=direction)
+    ok = await asyncio.to_thread(
+        executor.place_order,
+        token_id=token_id,
+        amount=state.bet_amount,
+        side="BUY",
+        price=odds,
+        direction=direction,
+    )
     if ok:
         eng.mark_bet_done()
         arbiter.mark_executed()
@@ -485,7 +492,7 @@ async def main_loop(
 
         # ── 4. Balance + low balance warning ──────────────────
         if now - last_balance > 30:
-            executor.get_balance()
+            await asyncio.to_thread(executor.get_balance)
             last_balance = now
             if executor.balance < state.bet_amount * 3 and executor.balance > 0:
                 if now - state._last_low_balance_warn > 3600:  # max 1x per jam
@@ -496,7 +503,7 @@ async def main_loop(
         state.tg.maybe_send_daily_summary(executor.balance, results.running_pnl)
 
         # ── 6. Claim ──────────────────────────────────────────
-        maybe_claim(state, executor)
+        await maybe_claim(state, executor)
 
         # ── 7. Resolve hasil bet sebelumnya ───────────────────
         if results.current_bet:
@@ -540,6 +547,25 @@ async def main_loop(
                             hour_utc=rec.hour_utc,
                         )
                         state.loss_analyzer.record(ctx)
+                        if rec.result == "LOSS":
+                            insight = state.loss_analyzer.get_last_loss_insight()
+                            if insight:
+                                state.tg.notify_loss_insight(insight)
+                                streak_type, streak_count = results.current_streak
+                                if (
+                                    streak_type == "L"
+                                    and streak_count >= 3
+                                    and insight.get("risk_level") == "HIGH"
+                                    and state.auto_bet
+                                ):
+                                    state.auto_bet = False
+                                    state.tg.notify_error(
+                                        "Auto-bet di-pause otomatis: HIGH risk loss pattern + loss streak >= 3. "
+                                        "Review /analysis lalu /resume jika sudah siap."
+                                    )
+                                    logger.warning(
+                                        "[RiskGuard] Auto-bet paused due to high-risk loss pattern and loss streak"
+                                    )
 
                         # Print report setiap 20 bets
                         if results.total_bets % 20 == 0 and results.total_bets > 0:
@@ -562,13 +588,13 @@ async def main_loop(
             if state.manual_bet:
                 c, d = state.manual_bet
                 state.manual_bet = None
-                execute_bet(c, d, state, engines, mws, results, executor, arbiter)
+                await execute_bet(c, d, state, engines, mws, results, executor, arbiter)
             elif state.auto_bet:
                 valid = [s for s in signals.values() if s and s.should_bet]
                 best  = arbiter.select(valid)
                 if best:
                     logger.info(f"[Arbiter] {best.coin} {best.direction} str={best.strength:.2f}")
-                    execute_bet(best.coin, best.direction, state, engines, mws, results, executor, arbiter, signal=best)
+                    await execute_bet(best.coin, best.direction, state, engines, mws, results, executor, arbiter, signal=best)
 
         # ── 9. Dashboard ──────────────────────────────────────
         any_zone = any(ENTRY_MIN - 10 <= e.candle.elapsed <= ENTRY_MAX + 10 for e in engines.values())
@@ -679,7 +705,7 @@ async def run():
     logger.info("[LateBot] Connecting...")
     await asyncio.sleep(3)
 
-    executor.get_balance()
+    await asyncio.to_thread(executor.get_balance)
     logger.info(f"[LateBot] Saldo: ${executor.balance:.2f}")
     if not DRY_RUN and executor.balance < bet:
         print(red(f"\n  ⚠️  Saldo ${executor.balance:.2f} < bet ${bet:.2f}"))
@@ -695,6 +721,7 @@ async def run():
         if cl_monitor:
             await cl_monitor.stop()
         state.tg.notify_stop(results.total_bets, results.wins, results.losses, results.running_pnl)
+        state.tg.stop()
         print(yellow("\n\n  Late Bot dihentikan."))
         print(f"  Hasil: {results.summary()}\n")
 
