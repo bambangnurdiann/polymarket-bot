@@ -63,7 +63,7 @@ logger = logging.getLogger(__name__)
 
 # ── Imports ───────────────────────────────────────────────────
 from utils.colors import green, red, yellow, cyan, bold, dim, clear_screen
-from utils.telegram_notifier import TelegramNotifier
+from utils.telegram_controller import TelegramController, CommandHandler
 from fetcher.multi_ws import MultiWS
 from fetcher.chainlink_monitor import ChainlinkMonitor
 from engine.coin_engine import CoinEngine, SignalResult
@@ -85,21 +85,59 @@ ACTIVE_COINS   = [c.strip().upper() for c in os.getenv("ACTIVE_COINS", "BTC,ETH,
 
 # Chainlink Arbitrage config
 CL_ENABLED     = os.getenv("CHAINLINK_ARB_ENABLED", "true").lower() == "true"
-CL_MIN_EDGE    = float(os.getenv("CHAINLINK_MIN_EDGE", "0.08"))    # min 8% edge
-CL_MIN_REM     = float(os.getenv("CHAINLINK_MIN_REM", "15"))       # min sisa 15s
-CL_MAX_REM     = float(os.getenv("CHAINLINK_MAX_REM", "270"))      # max sisa 270s
-CL_VOL         = float(os.getenv("CHAINLINK_VOLATILITY", "0.001")) # vol per menit
+CL_MIN_EDGE    = float(os.getenv("CHAINLINK_MIN_EDGE", "0.08"))
+CL_MIN_REM     = float(os.getenv("CHAINLINK_MIN_REM", "15"))
+CL_MAX_REM     = float(os.getenv("CHAINLINK_MAX_REM", "270"))
+CL_VOL         = float(os.getenv("CHAINLINK_VOLATILITY", "0.001"))
 
 
+# ── Session Block ─────────────────────────────────────────────
 def is_session_blocked() -> tuple:
+    """
+    Cek apakah waktu sekarang masuk dalam salah satu session block.
+    Membaca langsung dari os.environ setiap call, sehingga perubahan
+    via /block atau /unblock dari Telegram langsung efektif tanpa restart.
+    """
     now_utc = datetime.now(timezone.utc)
     now_str = now_utc.strftime("%H:%M")
-    def to_min(t):
+
+    def to_min(t: str) -> int:
         h, m = t.split(":")
-        return int(h)*60+int(m)
-    nm, sm, em = to_min(now_str), to_min(SESSION_START), to_min(SESSION_END)
-    blocked = (sm <= nm <= em) if sm <= em else (nm >= sm or nm <= em)
-    return (True, f"SESSION BLOCK: {SESSION_START}–{SESSION_END} UTC") if blocked else (False, "")
+        return int(h) * 60 + int(m)
+
+    nm = to_min(now_str)
+
+    # Kumpulkan semua block dari env (dibaca fresh setiap call)
+    blocks = []
+
+    # Format baru: SESSION_BLOCKS=23:55-01:05,03:55-05:05
+    raw = os.getenv("SESSION_BLOCKS", "")
+    if raw:
+        for part in raw.split(","):
+            part = part.strip()
+            if len(part) > 5 and "-" in part[5:]:
+                times = part.rsplit("-", 1)
+                if len(times) == 2:
+                    blocks.append((times[0].strip(), times[1].strip()))
+
+    # Format lama: SESSION_BLOCK_START + SESSION_BLOCK_END (tetap kompatibel)
+    s_start = os.getenv("SESSION_BLOCK_START", "00:00")
+    s_end   = os.getenv("SESSION_BLOCK_END",   "00:01")
+    if s_start and s_end and s_start != "00:00":
+        blocks.append((s_start, s_end))
+
+    for start, end in blocks:
+        try:
+            sm = to_min(start)
+            em = to_min(end)
+            # Handle overnight blocks (misal 23:55-01:05)
+            blocked = (sm <= nm <= em) if sm <= em else (nm >= sm or nm <= em)
+            if blocked:
+                return True, f"SESSION BLOCK: {start}–{end} UTC"
+        except Exception:
+            continue
+
+    return False, ""
 
 
 # ── State ─────────────────────────────────────────────────────
@@ -112,9 +150,10 @@ class BotState:
         self.uptime_start     = time.time()
         self.manual_bet: Optional[tuple] = None
         self.odds: Dict[str, tuple] = {}
-        self.tg = TelegramNotifier()
+        self.tg  = TelegramController()
         self._last_low_balance_warn = 0.0
         self.loss_analyzer = LossAnalyzer()
+        self.stop_requested = False
 
 
 # ── Dashboard ─────────────────────────────────────────────────
@@ -162,7 +201,7 @@ def render_dashboard(
 
         # Signal label
         if sig and sig.should_bet:
-            mode_tag = cyan("[CL]") if sig.mode == "CHAINLINK" else ""
+            mode_tag  = cyan("[CL]") if sig.mode == "CHAINLINK" else ""
             sig_label = green(bold(f"▶ BET {sig.direction} str={sig.strength:.2f}")) + f" {mode_tag}"
         elif sig:
             fd    = sig.filter_details or {}
@@ -171,11 +210,11 @@ def render_dashboard(
         else:
             sig_label = dim("—")
 
-        in_zone = ENTRY_MIN <= elapsed <= ENTRY_MAX
-        zone_c  = green if in_zone else dim
-        diff_c  = (green if diff and diff>0 else red) if diff else dim
-        diff_str= f"{diff:+.3f}" if diff is not None else "N/A"
-        beat_str= f"${beat:,.2f}" if beat else "N/A"
+        in_zone  = ENTRY_MIN <= elapsed <= ENTRY_MAX
+        zone_c   = green if in_zone else dim
+        diff_c   = (green if diff and diff > 0 else red) if diff else dim
+        diff_str = f"{diff:+.3f}" if diff is not None else "N/A"
+        beat_str = f"${beat:,.2f}" if beat else "N/A"
 
         print(f"  | {bold(f'[{coin}]')} ${price:>10,.2f}  CVD:{cyan(f'{cvd2/1000:+.0f}k'):<10} Sig:{sig_label}")
         print(f"  |   Liq S:${data.liq_short_3s:>6,.0f}  Liq L:${data.liq_long_3s:>6,.0f}  UP={odds_up:.2f}/DN={odds_down:.2f}")
@@ -211,7 +250,7 @@ def render_dashboard(
     line(f"  Bets:{results.total_bets} W:{results.wins} L:{results.losses} WR:{results.win_rate:.1f}%  Claimed:{state.total_claimed}")
     if results.current_bet:
         cb  = results.current_bet
-        d_c = green if cb.direction=="UP" else red
+        d_c = green if cb.direction == "UP" else red
         line(f"  Active: {cb.window_id}  {d_c(bold(cb.direction))}  ${cb.bet_amount:.2f} @ {cb.odds:.4f}")
     sep()
     print(f"  | {dim('[A] Auto  [Ctrl+C] Stop'):^{W}} |")
@@ -360,7 +399,7 @@ def execute_bet(
             liq_s30  = data.liq_short_30s
             liq_l30  = data.liq_long_30s
 
-        rec = results.record_bet(
+        results.record_bet(
             window_id=eng.candle.window_id,
             direction=direction,
             bet_amount=state.bet_amount,
@@ -399,17 +438,30 @@ async def main_loop(
     executor: PolymarketExecutor, arbiter: SignalArbiter,
 ) -> None:
     signals: Dict[str, Optional[SignalResult]] = {}
-    last_dash    = 0.0
-    last_balance = 0.0
-    last_resolved= ""
+    last_dash     = 0.0
+    last_balance  = 0.0
+    last_resolved = ""
 
     logger.info(f"[LateBot] Main loop — coins: {ACTIVE_COINS}")
     asyncio.create_task(odds_loop(state, engines, executor))
 
+    # Init command handler
+    cmd_handler = CommandHandler(state.tg)
+
+    # ── SINGLE unified loop ───────────────────────────────────
     while True:
         now = time.time()
 
-        # Master clock dari coin pertama
+        # ── 1. Proses Telegram commands ───────────────────────
+        cmd = state.tg.get_pending_command()
+        if cmd:
+            cmd_handler.process(cmd, state, results, engines, mws)
+
+        # Stop jika diminta via /stop dari Telegram
+        if state.stop_requested:
+            break
+
+        # ── 2. Master clock dari coin pertama ─────────────────
         master = engines[ACTIVE_COINS[0]]
         master.candle.update()
         current_win = master.candle.window_id
@@ -417,7 +469,7 @@ async def main_loop(
 
         blocked, _ = is_session_blocked()
 
-        # Tick semua coin
+        # ── 3. Tick semua coin ────────────────────────────────
         for coin in ACTIVE_COINS:
             eng  = engines[coin]
             data = mws.coins.get(coin)
@@ -431,27 +483,26 @@ async def main_loop(
                 eng.candle.set_beat_price(price)
             signals[coin] = None if blocked else eng.tick(data)
 
-        # Balance + low balance warning
+        # ── 4. Balance + low balance warning ──────────────────
         if now - last_balance > 30:
             executor.get_balance()
             last_balance = now
-            # Peringatan saldo rendah (< 3x bet amount)
             if executor.balance < state.bet_amount * 3 and executor.balance > 0:
                 if now - state._last_low_balance_warn > 3600:  # max 1x per jam
                     state.tg.notify_low_balance(executor.balance, state.bet_amount)
                     state._last_low_balance_warn = now
 
-        # Daily summary
+        # ── 5. Daily summary ──────────────────────────────────
         state.tg.maybe_send_daily_summary(executor.balance, results.running_pnl)
 
-        # Claim
+        # ── 6. Claim ──────────────────────────────────────────
         maybe_claim(state, executor)
 
-        # Resolve sebelumnya
+        # ── 7. Resolve hasil bet sebelumnya ───────────────────
         if results.current_bet:
-            cb = results.current_bet
+            cb       = results.current_bet
             bet_coin = getattr(cb, "coin", "BTC")
-            cb_eng = engines.get(bet_coin, master)
+            cb_eng   = engines.get(bet_coin, master)
             if (cb_eng.candle.elapsed < 5
                     and cb.window_id != current_win
                     and cb.window_id != last_resolved):
@@ -461,9 +512,9 @@ async def main_loop(
                     rec = results.resolve_bet(cb.window_id, cp)
                     if rec:
                         last_resolved = rec.window_id
+
                         # Feed loss analyzer
-                        from datetime import timezone
-                        now_utc = __import__('datetime').datetime.now(timezone.utc)
+                        now_utc = datetime.now(timezone.utc)
                         ctx = BetContext(
                             timestamp=rec.timestamp,
                             window_id=rec.window_id,
@@ -490,7 +541,7 @@ async def main_loop(
                         )
                         state.loss_analyzer.record(ctx)
 
-                        # Run analysis every 20 bets
+                        # Print report setiap 20 bets
                         if results.total_bets % 20 == 0 and results.total_bets > 0:
                             state.loss_analyzer.print_report()
 
@@ -506,7 +557,7 @@ async def main_loop(
                             win_rate=results.win_rate,
                         )
 
-        # Betting logic
+        # ── 8. Betting logic ──────────────────────────────────
         if not arbiter.window_bet_done:
             if state.manual_bet:
                 c, d = state.manual_bet
@@ -519,8 +570,8 @@ async def main_loop(
                     logger.info(f"[Arbiter] {best.coin} {best.direction} str={best.strength:.2f}")
                     execute_bet(best.coin, best.direction, state, engines, mws, results, executor, arbiter, signal=best)
 
-        # Dashboard
-        any_zone = any(ENTRY_MIN-10 <= e.candle.elapsed <= ENTRY_MAX+10 for e in engines.values())
+        # ── 9. Dashboard ──────────────────────────────────────
+        any_zone = any(ENTRY_MIN - 10 <= e.candle.elapsed <= ENTRY_MAX + 10 for e in engines.values())
         if now - last_dash >= (0.5 if any_zone else 2.0):
             render_dashboard(state, engines, mws, results, executor, signals, arbiter)
             last_dash = now
@@ -591,12 +642,12 @@ def startup_prompt() -> float:
 
 
 async def run():
-    bet     = startup_prompt()
-    state   = BotState(bet)
-    mws     = MultiWS(ACTIVE_COINS)
-    arbiter = SignalArbiter(min_strength=0.2)
-    results = ResultTracker(csv_path="logs/late_bot_results.csv")
-    executor= PolymarketExecutor(dry_run=DRY_RUN)
+    bet      = startup_prompt()
+    state    = BotState(bet)
+    mws      = MultiWS(ACTIVE_COINS)
+    arbiter  = SignalArbiter(min_strength=0.2)
+    results  = ResultTracker(csv_path="logs/late_bot_results.csv")
+    executor = PolymarketExecutor(dry_run=DRY_RUN)
 
     # Init Chainlink Monitor (F0 strategy)
     cl_monitor = None
