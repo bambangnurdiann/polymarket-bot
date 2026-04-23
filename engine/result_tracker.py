@@ -12,8 +12,7 @@ Menyimpan semua bet ke CSV dan menghitung:
 import csv
 import logging
 import os
-import time
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from datetime import datetime
 from typing import Optional
 
@@ -26,8 +25,9 @@ CSV_HEADERS = [
     "payout", "pnl", "running_pnl",
     # Extended context fields
     "remaining_secs", "odds_spread", "beat_distance",
-    "signal_mode", "cl_edge", "cvd_2min",
-    "liq_short_3s", "liq_long_3s", "hour_utc",
+    "signal_mode", "cl_edge", "cl_fair_odds", "cl_vol", "cvd_2min",
+    "liq_short_3s", "liq_long_3s", "liq_short_30s", "liq_long_30s",
+    "hour_utc", "coin",
 ]
 
 
@@ -106,8 +106,8 @@ class ResultTracker:
                     pnl_str = row.get("running_pnl", "0")
                     try:
                         self.running_pnl = float(pnl_str)
-                    except:
-                        pass
+                    except (TypeError, ValueError):
+                        logger.debug(f"[ResultTracker] Invalid running_pnl value in CSV: {pnl_str}")
             logger.info(f"[ResultTracker] Loaded {self.total_bets} records dari {self.csv_path}")
         except Exception as e:
             logger.warning(f"[ResultTracker] Gagal load CSV: {e}")
@@ -242,9 +242,10 @@ class ResultTracker:
                     f"{rec.payout:.2f}", f"{rec.pnl:+.2f}", f"{rec.running_pnl:+.2f}",
                     f"{rec.remaining_secs:.0f}", f"{rec.odds_spread:.4f}",
                     f"{rec.beat_distance:.2f}", rec.signal_mode,
-                    f"{rec.cl_edge:.4f}", f"{rec.cvd_2min:.0f}",
+                    f"{rec.cl_edge:.4f}", f"{rec.cl_fair_odds:.4f}", f"{rec.cl_vol:.6f}", f"{rec.cvd_2min:.0f}",
                     f"{rec.liq_short_3s:.0f}", f"{rec.liq_long_3s:.0f}",
-                    str(rec.hour_utc),
+                    f"{rec.liq_short_30s:.0f}", f"{rec.liq_long_30s:.0f}",
+                    str(rec.hour_utc), rec.coin,
                 ])
         except Exception as e:
             logger.error(f"[ResultTracker] Gagal write CSV: {e}")
