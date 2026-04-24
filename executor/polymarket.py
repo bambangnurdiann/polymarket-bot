@@ -171,11 +171,42 @@ class PolymarketExecutor:
         if not self._initialized:
             return 0.0
         try:
-            balance = self._client.get_balance()
-            self.balance = float(balance) if balance else 0.0
+            # py-clob-client versi terbaru tidak punya get_balance(),
+            # gunakan get_balance_allowance(asset_type=COLLATERAL).
+            if hasattr(self._client, "get_balance_allowance"):
+                from py_clob_client.clob_types import BalanceAllowanceParams, AssetType
+
+                params = BalanceAllowanceParams(asset_type=AssetType.COLLATERAL)
+                resp = self._client.get_balance_allowance(params)
+
+                # Bentuk response bisa beda antar versi:
+                # {"balance": "..."} atau {"balance": {"decimal": "..."}}
+                raw_balance = None
+                if isinstance(resp, dict):
+                    raw_balance = resp.get("balance")
+                    if isinstance(raw_balance, dict):
+                        raw_balance = (
+                            raw_balance.get("decimal")
+                            or raw_balance.get("value")
+                            or raw_balance.get("balance")
+                        )
+                if raw_balance is not None:
+                    self.balance = float(raw_balance)
+                    return self.balance
+
+                logger.warning(f"[Executor] Unexpected balance response shape: {resp}")
+                return self.balance
+
+            # Fallback untuk py-clob-client versi lama
+            if hasattr(self._client, "get_balance"):
+                balance = self._client.get_balance()
+                self.balance = float(balance) if balance else 0.0
+                return self.balance
+
+            logger.error("[Executor] Client tidak mendukung get_balance/get_balance_allowance")
             return self.balance
         except Exception as e:
-            logger.debug(f"[Executor] get_balance error: {e}")
+            logger.warning(f"[Executor] get_balance error: {e}")
             return self.balance
 
     # Slug prefix per coin untuk market 5-menit
