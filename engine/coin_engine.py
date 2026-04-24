@@ -69,6 +69,8 @@ DEFAULT_CONFIG = {
     "cvd_threshold":  5_000,
 }
 
+BAD_HOURS_DEFAULT: list[int] = []
+
 
 @dataclass
 class SignalResult:
@@ -112,6 +114,8 @@ class CoinEngine:
         entry_min:      float = 210,
         entry_max:      float = 290,
         min_odds:       float = 0.45,
+        min_strength:   float = 0.0,
+        bad_hours:      Optional[list[int]] = None,
         chainlink_monitor=None,   # Optional[ChainlinkMonitor]
         cl_min_edge:    float = 0.08,   # minimum edge untuk F0
         cl_min_remaining: float = 15.0, # minimum sisa detik untuk F0
@@ -121,7 +125,18 @@ class CoinEngine:
         self.entry_min    = entry_min
         self.entry_max    = entry_max
         self.min_odds     = min_odds
-        self.config       = dict(COIN_CONFIG.get(self.symbol, DEFAULT_CONFIG))
+
+        cfg = COIN_CONFIG.get(self.symbol, DEFAULT_CONFIG)
+        self.config = {**DEFAULT_CONFIG, **cfg}
+        self.min_strength = min_strength
+        self.bad_hours = bad_hours if bad_hours is not None else cfg.get("bad_hours", BAD_HOURS_DEFAULT)
+
+        # Jika caller tidak override explicit, izinkan entry dari config coin.
+        if entry_min == 210:
+            self.entry_min = self.config.get("entry_min", self.entry_min)
+        if entry_max == 290:
+            self.entry_max = self.config.get("entry_max", self.entry_max)
+
         env_beat_distance = os.getenv("LATE_BEAT_DISTANCE")
         if env_beat_distance:
             try:
