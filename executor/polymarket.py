@@ -11,11 +11,12 @@ Tanggung jawab:
   5. Claim posisi yang sudah menang (via relayer)
   6. Cek saldo akun
 
-Polymarket menggunakan:
-  - Polygon network untuk transaksi
-  - CLOB API untuk order book
-  - Proxy wallet (Safe) untuk menyimpan USDC
-  - Relayer untuk gasless transactions
+Perubahan dari versi sebelumnya:
+  - signature_type=1 (POLY_PROXY) — fix utama untuk balance $0
+  - Balance parsing fix: dibagi 1_000_000 (USDC Polygon = 6 desimal)
+  - Balance fallback via on-chain web3 jika CLOB API gagal
+  - Error logging lebih detail (tidak silent lagi)
+  - Retry logic untuk get_balance
 """
 
 import logging
@@ -32,8 +33,16 @@ CLOB_BASE_URL  = "https://clob.polymarket.com"
 GAMMA_BASE_URL = "https://gamma-api.polymarket.com"
 DATA_BASE_URL  = "https://data-api.polymarket.com"
 
-# Market tag untuk BTC 5-menit
-BTC_5MIN_SLUG_PATTERN = "btc-up-or-down"
+# USDC contract di Polygon (untuk on-chain fallback)
+USDC_POLYGON   = "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174"
+USDC_DECIMALS  = 6  # USDC Polygon = 6 desimal → bagi 1_000_000
+
+# Polygon RPC untuk fallback on-chain balance
+POLYGON_RPCS = [
+    "https://polygon-rpc.com",
+    "https://rpc.ankr.com/polygon",
+    "https://matic-mainnet.chainstacklabs.com",
+]
 
 
 class PolymarketRelayer:
@@ -101,7 +110,7 @@ class PolymarketExecutor:
 
     Attributes:
         dry_run   : bool  — Jika True, tidak benar-benar submit order
-        balance   : float — Saldo USDC terakhir diketahui
+        balance   : float — Saldo USDC terakhir diketahui (dalam USD, bukan micro)
     """
 
     def __init__(self, dry_run: bool = False):
@@ -110,8 +119,8 @@ class PolymarketExecutor:
         self._client = None
         self._relayer: Optional[PolymarketRelayer] = None
         self._initialized = False
-        self._active_market_cache: dict = {}
-        self._cache_time: float = 0.0
+        self._market_cache:    dict = {}
+        self._market_cache_ts: dict = {}
         self._odds_cache: dict = {}
         self._odds_cache_time: float = 0.0
 
@@ -126,7 +135,7 @@ class PolymarketExecutor:
         self._init()
 
     def _init(self) -> None:
-        """Inisialisasi CLOB client."""
+        """Inisialisasi CLOB client dengan signature_type=1 (POLY_PROXY)."""
         if not self._private_key:
             logger.warning("[Executor] POLYMARKET_PRIVATE_KEY tidak ditemukan di .env")
             return
@@ -144,12 +153,13 @@ class PolymarketExecutor:
             self._client = ClobClient(
                 host=CLOB_BASE_URL,
                 key=self._private_key,
-                chain_id=137,  # Polygon
+                chain_id=137,           # Polygon mainnet
                 creds=creds,
                 funder=self._funder,
+                signature_type=1,       # POLY_PROXY — wajib untuk akun Polymarket biasa
             )
 
-            # Setup relayer
+            # Setup relayer untuk auto-claim
             if self._relayer_key and self._relayer_addr:
                 self._relayer = PolymarketRelayer(
                     api_key=self._relayer_key,
@@ -159,28 +169,32 @@ class PolymarketExecutor:
                 )
 
             self._initialized = True
-            logger.info("[Executor] CLOB client initialized")
+            logger.info("[Executor] CLOB client initialized (sig_type=1 POLY_PROXY)")
 
         except ImportError:
             logger.error("[Executor] py-clob-client tidak terinstall. Run: pip install py-clob-client")
         except Exception as e:
             logger.error(f"[Executor] Init error: {e}")
 
+    # ── Balance ───────────────────────────────────────────────
+
     def get_balance(self) -> float:
-        """Ambil saldo USDC dari Polymarket."""
-        if not self._initialized:
-            return 0.0
-        try:
-            # py-clob-client versi terbaru tidak punya get_balance(),
-            # gunakan get_balance_allowance(asset_type=COLLATERAL).
-            if hasattr(self._client, "get_balance_allowance"):
+        """
+        Ambil saldo USDC dari Polymarket.
+
+        PERBAIKAN:
+          - USDC Polygon = 6 desimal → response dibagi 1_000_000
+          - Fallback ke on-chain web3 jika CLOB API gagal
+          - Error logging detail (tidak silent)
+        """
+        # ── Cara 1: CLOB get_balance_allowance ────────────────
+        if self._initialized and self._client:
+            try:
                 from py_clob_client.clob_types import BalanceAllowanceParams, AssetType
 
                 params = BalanceAllowanceParams(asset_type=AssetType.COLLATERAL)
-                resp = self._client.get_balance_allowance(params)
+                resp   = self._client.get_balance_allowance(params)
 
-                # Bentuk response bisa beda antar versi:
-                # {"balance": "..."} atau {"balance": {"decimal": "..."}}
                 raw_balance = None
                 if isinstance(resp, dict):
                     raw_balance = resp.get("balance")
@@ -190,26 +204,68 @@ class PolymarketExecutor:
                             or raw_balance.get("value")
                             or raw_balance.get("balance")
                         )
+
                 if raw_balance is not None:
-                    self.balance = float(raw_balance)
+                    raw_float = float(raw_balance)
+
+                    # USDC Polygon = 6 desimal.
+                    # CLOB API mengembalikan nilai dalam satuan terkecil (micro-USDC).
+                    # Contoh: 21622484 → $21.62 USDC
+                    # Jika nilai > 1_000 (threshold wajar saldo dalam USD),
+                    # asumsikan ini micro-USDC dan bagi 1_000_000.
+                    if raw_float > 1_000:
+                        self.balance = raw_float / 1_000_000
+                    else:
+                        self.balance = raw_float
+
+                    logger.debug(f"[Executor] Balance CLOB: raw={raw_float} → ${self.balance:.2f}")
                     return self.balance
 
-                logger.warning(f"[Executor] Unexpected balance response shape: {resp}")
-                return self.balance
+                logger.warning(f"[Executor] Balance response tidak terduga: {resp}")
 
-            # Fallback untuk py-clob-client versi lama
-            if hasattr(self._client, "get_balance"):
-                balance = self._client.get_balance()
-                self.balance = float(balance) if balance else 0.0
-                return self.balance
+            except Exception as e:
+                err_str = str(e).lower()
+                if "401" in err_str or "unauthorized" in err_str:
+                    logger.error(
+                        "[Executor] ⚠️  AUTH ERROR saat get_balance — API key invalid atau expired.\n"
+                        "           Jalankan: python regen_creds.py untuk regenerate credentials."
+                    )
+                else:
+                    logger.warning(f"[Executor] get_balance CLOB error: {type(e).__name__}: {e}")
 
-            logger.error("[Executor] Client tidak mendukung get_balance/get_balance_allowance")
-            return self.balance
-        except Exception as e:
-            logger.warning(f"[Executor] get_balance error: {e}")
-            return self.balance
+        # ── Cara 2: on-chain USDC balance di Polygon ──────────
+        if self._funder:
+            try:
+                from web3 import Web3
+                USDC_ABI = [{"inputs": [{"name": "account", "type": "address"}],
+                             "name": "balanceOf",
+                             "outputs": [{"name": "", "type": "uint256"}],
+                             "stateMutability": "view", "type": "function"}]
 
-    # Slug prefix per coin untuk market 5-menit
+                for rpc in POLYGON_RPCS:
+                    try:
+                        w3 = Web3(Web3.HTTPProvider(rpc, request_kwargs={"timeout": 5}))
+                        if not w3.is_connected():
+                            continue
+                        contract = w3.eth.contract(
+                            address=Web3.to_checksum_address(USDC_POLYGON),
+                            abi=USDC_ABI,
+                        )
+                        raw = contract.functions.balanceOf(
+                            Web3.to_checksum_address(self._funder)
+                        ).call()
+                        self.balance = raw / (10 ** USDC_DECIMALS)
+                        logger.info(f"[Executor] Balance (on-chain fallback): ${self.balance:.2f}")
+                        return self.balance
+                    except Exception:
+                        continue
+            except Exception as e:
+                logger.debug(f"[Executor] on-chain balance error: {e}")
+
+        return self.balance
+
+    # ── Market fetching ───────────────────────────────────────
+
     COIN_SLUG_PREFIX = {
         "BTC":  ["btc-updown-5m", "btc-up-or-down", "bitcoin-updown-5m"],
         "ETH":  ["eth-updown-5m", "eth-up-or-down", "ethereum-updown-5m"],
@@ -227,29 +283,26 @@ class PolymarketExecutor:
     }
 
     def get_active_btc_market(self, force_refresh: bool = False) -> Optional[dict]:
-        """Alias backward compatibility."""
+        """Alias backward compatibility untuk bot_sniper.py."""
         return self.get_active_market("BTC", force_refresh)
 
     def get_active_market(self, coin: str = "BTC", force_refresh: bool = False) -> Optional[dict]:
         """
         Fetch market 5-menit yang aktif untuk coin tertentu.
-        Mencoba beberapa metode fetch secara berurutan.
         Di-cache 30 detik per coin.
         """
         coin = coin.upper()
         now  = time.time()
-        if not hasattr(self, "_market_cache"):
-            self._market_cache:    dict = {}
-            self._market_cache_ts: dict = {}
 
-        if (not force_refresh and coin in self._market_cache
+        if (not force_refresh
+                and coin in self._market_cache
                 and (now - self._market_cache_ts.get(coin, 0)) < 30):
             return self._market_cache[coin]
 
         result = (
-            self._fetch_market_via_events(coin) or
-            self._fetch_market_via_clob(coin) or
-            self._fetch_market_via_search(coin)
+            self._fetch_market_via_events(coin)
+            or self._fetch_market_via_clob(coin)
+            or self._fetch_market_via_search(coin)
         )
 
         if result:
@@ -260,19 +313,12 @@ class PolymarketExecutor:
         return result or self._market_cache.get(coin)
 
     def _fetch_market_via_events(self, coin: str) -> Optional[dict]:
-        """Fetch via Gamma events API menggunakan slug prefix btc-updown-5m."""
+        """Fetch via Gamma events API."""
         slug_prefix = f"{coin.lower()}-updown-5m"
-        kw_list     = self.COIN_QUESTION_KW.get(coin, [coin.lower()])
-
         try:
             resp = requests.get(
                 f"{GAMMA_BASE_URL}/events",
-                params={
-                    "active":     "true",
-                    "limit":      "50",
-                    "order":      "createdAt",
-                    "ascending":  "false",
-                },
+                params={"active": "true", "limit": "50", "order": "createdAt", "ascending": "false"},
                 timeout=8,
             )
             if resp.status_code != 200:
@@ -282,33 +328,20 @@ class PolymarketExecutor:
             if not isinstance(events, list):
                 return None
 
-            # Cari event dengan slug btc-updown-5m-* yang paling baru
-            # dan acceptingOrders=true
-            best = None
             for ev in events:
                 ev_slug = ev.get("slug", "").lower()
                 if not ev_slug.startswith(slug_prefix):
                     continue
-
                 markets = ev.get("markets", [])
                 if not markets:
                     continue
-
                 m = markets[0]
-
-                # Harus accepting orders
                 if not m.get("acceptingOrders", False):
                     continue
-
                 result = self._parse_market_dict(m, coin)
                 if result:
-                    # Overwrite question dengan title event yang lebih deskriptif
                     result["question"] = ev.get("title", result["question"])
-                    best = result
-                    break  # sudah sorted by createdAt desc, ambil yang pertama
-
-            return best
-
+                    return result
         except Exception as e:
             logger.debug(f"[Executor] _fetch_market_via_events({coin}): {e}")
         return None
@@ -324,14 +357,13 @@ class PolymarketExecutor:
             )
             if resp.status_code != 200:
                 return None
-            data = resp.json()
+            data    = resp.json()
             markets = data if isinstance(data, list) else data.get("data", [])
             for m in markets:
                 q    = m.get("question", "").lower()
                 slug = m.get("market_slug", "").lower()
                 coin_match = any(k in q or k in slug for k in kw_list)
-                time_match = ("5 min" in q or "5-min" in q or
-                              "updown" in slug or "5m" in slug)
+                time_match = ("5 min" in q or "5-min" in q or "updown" in slug or "5m" in slug)
                 dir_match  = "up" in q and "down" in q
                 if coin_match and time_match and dir_match:
                     token_up = token_down = None
@@ -357,12 +389,11 @@ class PolymarketExecutor:
     def _fetch_market_via_search(self, coin: str) -> Optional[dict]:
         """Fetch via Gamma markets search sebagai last resort."""
         kw_list = self.COIN_QUESTION_KW.get(coin, [coin.lower()])
-        queries = [f"{kw} up or down 5" for kw in kw_list[:1]]
         try:
-            for q in queries:
+            for kw in kw_list[:1]:
                 resp = requests.get(
                     f"{GAMMA_BASE_URL}/markets",
-                    params={"search": q, "active": "true", "limit": "10"},
+                    params={"search": f"{kw} up or down 5", "active": "true", "limit": "10"},
                     timeout=5,
                 )
                 if resp.status_code != 200:
@@ -381,27 +412,10 @@ class PolymarketExecutor:
             logger.debug(f"[Executor] _fetch_market_via_search({coin}): {e}")
         return None
 
-    def _extract_from_event(self, event: dict, coin: str) -> Optional[dict]:
-        """Extract market data dari event object."""
-        markets = event.get("markets", [])
-        if not markets:
-            return None
-        # Ambil market pertama yang punya token UP dan DOWN
-        for m in markets:
-            result = self._parse_market_dict(m, coin)
-            if result:
-                result["question"] = event.get("title", result["question"])
-                return result
-        return None
-
     def _parse_market_dict(self, m: dict, coin: str) -> Optional[dict]:
-        """
-        Parse satu market dict dan extract token IDs.
-        clobTokenIds dan outcomes bisa berupa JSON string atau list Python.
-        """
+        """Parse satu market dict dan extract token IDs."""
         token_up = token_down = None
 
-        # Helper: parse field yang mungkin JSON string atau sudah list
         def parse_field(val):
             if isinstance(val, list):
                 return val
@@ -416,7 +430,6 @@ class PolymarketExecutor:
         clob_ids = parse_field(m.get("clobTokenIds", []))
         outcomes = parse_field(m.get("outcomes", []))
 
-        # Map token IDs berdasarkan outcomes
         if len(clob_ids) >= 2 and len(outcomes) >= 2:
             for i, out in enumerate(outcomes):
                 out_str = str(out).strip().upper()
@@ -425,11 +438,9 @@ class PolymarketExecutor:
                 elif out_str in ("DOWN", "LOWER", "NO") and i < len(clob_ids):
                     token_down = clob_ids[i]
         elif len(clob_ids) >= 2:
-            # Tidak ada outcomes info → asumsikan index 0=Up, 1=Down
             token_up   = clob_ids[0]
             token_down = clob_ids[1]
 
-        # Fallback: tokens sebagai list of dict
         if not (token_up and token_down):
             tokens = parse_field(m.get("tokens", []))
             for t in tokens:
@@ -453,22 +464,24 @@ class PolymarketExecutor:
             "end_date":      m.get("endDate") or m.get("endDateIso") or m.get("end_date_iso", ""),
         }
 
-    def get_odds(self, market: dict) -> tuple[float, float]:
+    # ── Odds ──────────────────────────────────────────────────
+
+    def get_odds(self, market: dict) -> tuple:
         """
         Ambil odds UP dan DOWN.
-        Prioritas: Gamma outcomePrices → CLOB book → CLOB price endpoint
+        Prioritas: Gamma outcomePrices → CLOB midpoints → CLOB order book
         """
-        now = time.time()
+        now       = time.time()
         cache_key = market.get("market_id", "")
         if cache_key and (now - self._odds_cache_time) < 3:
             cached = self._odds_cache.get(cache_key)
             if cached:
                 return cached
 
-        # ── Cara 1: Gamma API outcomePrices (paling reliable) ─
+        # ── Cara 1: Gamma outcomePrices ───────────────────────
         try:
             cond_id = market.get("market_id", "")
-            resp = requests.get(
+            resp    = requests.get(
                 f"{GAMMA_BASE_URL}/markets",
                 params={"conditionId": cond_id},
                 timeout=4,
@@ -477,9 +490,7 @@ class PolymarketExecutor:
                 import json as _json
                 data    = resp.json()
                 markets = data if isinstance(data, list) else [data]
-
-                # Cari exact match conditionId dulu, fallback ke index 0
-                target = next((m for m in markets if m.get("conditionId") == cond_id), None)
+                target  = next((m for m in markets if m.get("conditionId") == cond_id), None)
                 if not target and markets:
                     target = markets[0]
 
@@ -504,17 +515,17 @@ class PolymarketExecutor:
 
                         if 0.01 < odds_up < 0.99 and 0.01 < odds_down < 0.99:
                             result = (odds_up, odds_down)
-                            self._odds_cache[cache_key] = result
-                            self._odds_cache_time = now
+                            if cache_key:
+                                self._odds_cache[cache_key] = result
+                                self._odds_cache_time = now
                             return result
         except Exception as e:
             logger.debug(f"[Executor] get_odds gamma error: {e}")
 
-        # ── Cara 2: CLOB midpoint price ───────────────────────
+        # ── Cara 2: CLOB midpoints ────────────────────────────
         try:
             token_up   = market["token_id_up"]
             token_down = market["token_id_down"]
-
             r1 = requests.get(
                 f"{CLOB_BASE_URL}/midpoints",
                 params={"token_ids": f"{token_up},{token_down}"},
@@ -526,8 +537,9 @@ class PolymarketExecutor:
                 down = float(mids.get(token_down, 0) or 0)
                 if 0.01 < up < 0.99 and 0.01 < down < 0.99:
                     result = (up, down)
-                    self._odds_cache[cache_key] = result
-                    self._odds_cache_time = now
+                    if cache_key:
+                        self._odds_cache[cache_key] = result
+                        self._odds_cache_time = now
                     return result
         except Exception as e:
             logger.debug(f"[Executor] get_odds midpoints error: {e}")
@@ -555,22 +567,24 @@ class PolymarketExecutor:
             odds_up   = best_ask(token_up)
             odds_down = best_ask(token_down)
             result    = (odds_up, odds_down)
-            self._odds_cache[cache_key] = result
-            self._odds_cache_time = now
+            if cache_key:
+                self._odds_cache[cache_key] = result
+                self._odds_cache_time = now
             return result
-
         except Exception as e:
             logger.debug(f"[Executor] get_odds book error: {e}")
 
         return (0.5, 0.5)
 
+    # ── Order placement ───────────────────────────────────────
+
     def place_order(
         self,
         token_id:   str,
         amount:     float,
-        side:       str,   # "BUY"
-        price:      float, # odds (0-1)
-        direction:  str,   # "UP" atau "DOWN" untuk logging
+        side:       str,
+        price:      float,
+        direction:  str,
     ) -> bool:
         """
         Submit order FOK (Fill-or-Kill) ke Polymarket.
@@ -580,7 +594,7 @@ class PolymarketExecutor:
             amount    : Jumlah USDC yang mau dibet
             side      : "BUY"
             price     : Odds (harga token, antara 0 dan 1)
-            direction : Label untuk logging
+            direction : Label untuk logging ("UP" atau "DOWN")
 
         Returns:
             True jika order berhasil terisi (filled)
@@ -589,16 +603,14 @@ class PolymarketExecutor:
             logger.info(f"[Executor] DRY_RUN: {direction} ${amount:.2f} @ {price:.4f}")
             return True
 
-        if not self._initialized:
+        if not self._initialized or not self._client:
             logger.error("[Executor] Client belum initialized")
             return False
 
         try:
             from py_clob_client.clob_types import OrderArgs, OrderType
 
-            # Hitung size dalam shares (bukan USDC)
-            # Di Polymarket: amount_usdc = size * price
-            # Jadi: size = amount_usdc / price
+            # size = amount_usdc / price
             size = round(amount / price, 2) if price > 0 else amount
 
             order_args = OrderArgs(
@@ -615,29 +627,31 @@ class PolymarketExecutor:
                 return True
             else:
                 status = resp.get("status", "unknown") if resp else "no response"
-                logger.warning(f"[Executor] Order NOT filled: {status} | {direction}")
+                logger.warning(f"[Executor] Order NOT filled: status={status} | {direction}")
                 return False
 
         except Exception as e:
             err_str = str(e).lower()
             if "no match" in err_str:
-                logger.warning(f"[Executor] No counterparty (no match) untuk {direction}")
+                logger.warning(f"[Executor] No counterparty untuk {direction}")
+            elif "401" in err_str or "unauthorized" in err_str:
+                logger.error(f"[Executor] Auth error saat place_order: {e}")
             else:
                 logger.error(f"[Executor] Order error: {e}")
             return False
 
-    def get_redeemable_positions(self) -> list[dict]:
-        """
-        Fetch posisi yang sudah menang dan siap di-claim.
-        """
+    # ── Positions & claim ─────────────────────────────────────
+
+    def get_redeemable_positions(self) -> list:
+        """Fetch posisi yang sudah menang dan siap di-claim."""
         if not self._initialized or not self._funder:
             return []
         try:
             resp = requests.get(
                 f"{DATA_BASE_URL}/positions",
                 params={
-                    "user":       self._funder,
-                    "redeemable": "true",
+                    "user":          self._funder,
+                    "redeemable":    "true",
                     "sizeThreshold": "0.01",
                 },
                 timeout=10,
