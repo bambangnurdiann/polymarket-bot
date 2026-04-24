@@ -15,6 +15,7 @@ Perubahan dari analisa loss_analyzer:
 
 import time
 import logging
+import os
 from dataclasses import dataclass, field
 from typing import Optional, TYPE_CHECKING
 
@@ -94,9 +95,7 @@ DEFAULT_CONFIG = {
     "entry_max":           270,
 }
 
-# ── Session block UTC hours yang terbukti WR < 45% (dari loss analyzer) ──
-# [2, 4, 7] — dipindahkan ke sini sebagai default, bisa di-override via .env
-BAD_HOURS_DEFAULT = {2, 4, 7}
+BAD_HOURS_DEFAULT: list[int] = []
 
 
 @dataclass
@@ -142,29 +141,35 @@ class CoinEngine:
         entry_min:      float = 230,       # dipersempit
         entry_max:      float = 270,       # dipersempit
         min_odds:       float = 0.45,
-        chainlink_monitor=None,
-        cl_min_edge:    float = 0.10,
-        cl_min_remaining: float = 60,      # dinaikkan dari 15 → lebih konservatif
-        cl_max_remaining: float = 240,     # diturunkan dari 270 → hindari entry terlalu awal
-        min_strength:   float = 0.4,       # NEW: minimum strength untuk bet
-        bad_hours:      set   = None,      # NEW: jam UTC yang diblok
+        min_strength:   float = 0.0,
+        bad_hours:      Optional[list[int]] = None,
+        chainlink_monitor=None,   # Optional[ChainlinkMonitor]
+        cl_min_edge:    float = 0.08,   # minimum edge untuk F0
+        cl_min_remaining: float = 15.0, # minimum sisa detik untuk F0
+        cl_max_remaining: float = 270.0,# F0 aktif sampai detik ke-270
     ):
         self.symbol       = symbol.upper()
         self.entry_min    = entry_min
         self.entry_max    = entry_max
         self.min_odds     = min_odds
-        self.min_strength = min_strength
-        self.bad_hours    = bad_hours if bad_hours is not None else BAD_HOURS_DEFAULT
 
         cfg = COIN_CONFIG.get(self.symbol, DEFAULT_CONFIG)
         self.config = {**DEFAULT_CONFIG, **cfg}
+        self.min_strength = min_strength
+        self.bad_hours = bad_hours if bad_hours is not None else cfg.get("bad_hours", BAD_HOURS_DEFAULT)
 
-        # Pakai entry dari config jika tidak di-override
-        if entry_min == 230:
-            self.entry_min = self.config.get("entry_min", 230)
-        if entry_max == 270:
-            self.entry_max = self.config.get("entry_max", 270)
+        # Jika caller tidak override explicit, izinkan entry dari config coin.
+        if entry_min == 210:
+            self.entry_min = self.config.get("entry_min", self.entry_min)
+        if entry_max == 290:
+            self.entry_max = self.config.get("entry_max", self.entry_max)
 
+        env_beat_distance = os.getenv("LATE_BEAT_DISTANCE")
+        if env_beat_distance:
+            try:
+                self.config["beat_distance"] = float(env_beat_distance)
+            except ValueError:
+                logger.warning(f"[CoinEngine:{self.symbol}] Invalid LATE_BEAT_DISTANCE={env_beat_distance}")
         self.cl_monitor   = chainlink_monitor
         self.cl_min_edge  = cl_min_edge
         self.cl_min_rem   = cl_min_remaining
