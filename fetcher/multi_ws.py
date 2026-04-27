@@ -1,13 +1,14 @@
 """
 fetcher/multi_ws.py
 ===================
-Single WebSocket connection ke Hyperliquid yang menyuplai data
-ke semua coin sekaligus (BTC, ETH, SOL, DOGE, dll).
+Single WebSocket ke Hyperliquid — data price, CVD, liquidation.
 
-Alih-alih buka 3 koneksi per coin (price, liq, CVD),
-kita buka 1 koneksi dan fan-out datanya ke masing-masing CoinDataStore.
-
-Ini lebih efisien dan menghindari rate limit.
+PATCH:
+  - inject_chainlink_price(): sync harga Chainlink ke CoinDataStore
+    agar get_price() return harga yang sama dengan Polymarket UI
+  - add_large_trade(): proxy liquidation dari large trades (>$50k)
+    karena Hyperliquid liquidation channel tidak reliable
+  - get_price(): prioritas Chainlink jika fresh (<15s), fallback Hyperliquid
 """
 
 import asyncio
@@ -26,8 +27,6 @@ logger = logging.getLogger(__name__)
 
 HYPERLIQUID_WS_URL = "wss://api.hyperliquid.xyz/ws"
 
-# Mapping nama coin Hyperliquid
-# Hyperliquid menggunakan simbol seperti "BTC", "ETH", "SOL", "DOGE"
 COIN_SYMBOLS = {
     "BTC":  "BTC",
     "ETH":  "ETH",
@@ -36,11 +35,21 @@ COIN_SYMBOLS = {
     "XRP":  "XRP",
 }
 
+# Threshold large trade proxy untuk liquidation detection
+# Trade > nilai ini dianggap sebagai liquidation signal
+LARGE_TRADE_THRESHOLD_USD = {
+    "BTC":  50_000,
+    "ETH":  20_000,
+    "SOL":   5_000,
+    "DOGE":  2_000,
+    "XRP":   3_000,
+}
+DEFAULT_LARGE_TRADE = 10_000
+
 
 class CoinDataStore:
     """
     Menyimpan semua data real-time untuk satu coin.
-    Di-update oleh MultiWS, dengan REST fallback saat WS putus.
     """
 
     HYPERLIQUID_REST = "https://api.hyperliquid.xyz/info"
@@ -48,26 +57,40 @@ class CoinDataStore:
     def __init__(self, symbol: str):
         self.symbol = symbol
 
-        # Price
-        self.price: Optional[float] = None
+        # Harga dari Hyperliquid WS (untuk CVD reference)
+        self.price:    Optional[float] = None
         self.price_ts: float = 0.0
         self._rest_ts: float = 0.0
 
-        # Liquidations (deque of (timestamp, side, usd))
+        # Harga dari Chainlink (sync dengan Polymarket UI)
+        self.chainlink_price:    Optional[float] = None
+        self.chainlink_price_ts: float = 0.0
+
+        # Liquidations: (timestamp, side, usd)
         self._liqs: deque = deque(maxlen=1000)
 
-        # Trades untuk CVD (deque of (timestamp, side, usd))
+        # Trades untuk CVD: (timestamp, side, usd)
         self._trades: deque = deque(maxlen=5000)
 
+        # Large trade threshold untuk proxy liquidation
+        self._large_threshold = LARGE_TRADE_THRESHOLD_USD.get(symbol, DEFAULT_LARGE_TRADE)
+
     # ── Price ──────────────────────────────────────────────────
+
     def update_price(self, price: float) -> None:
-        self.price = price
+        """Update harga dari Hyperliquid WebSocket."""
+        self.price    = price
         self.price_ts = time.time()
 
+    def update_chainlink_price(self, price: float) -> None:
+        """Update harga dari Chainlink oracle (sinkron dengan Polymarket)."""
+        self.chainlink_price    = price
+        self.chainlink_price_ts = time.time()
+
     def fetch_price_rest(self) -> Optional[float]:
-        """Ambil harga via REST sebagai fallback saat WS putus."""
+        """Fallback REST saat WS putus."""
         now = time.time()
-        if now - self._rest_ts < 2:  # max 1x per 2 detik
+        if now - self._rest_ts < 2:
             return self.price
         self._rest_ts = now
         try:
@@ -90,8 +113,22 @@ class CoinDataStore:
 
     def get_price(self) -> Optional[float]:
         """
-        Ambil harga — pakai WS jika fresh, fallback ke REST jika stale.
+        Ambil harga terbaik:
+          1. Chainlink (fresh < 15s) — sama dengan Polymarket UI
+          2. Hyperliquid WS (fresh < 10s)
+          3. Hyperliquid REST fallback
         """
+        # Chainlink fresh
+        if self.chainlink_price and (time.time() - self.chainlink_price_ts) < 15:
+            return self.chainlink_price
+        # Hyperliquid WS
+        if self.price and not self.price_stale:
+            return self.price
+        # Fallback REST
+        return self.fetch_price_rest()
+
+    def get_hyperliquid_price(self) -> Optional[float]:
+        """Harga Hyperliquid murni — untuk CVD direction check."""
         if self.price and not self.price_stale:
             return self.price
         return self.fetch_price_rest()
@@ -101,10 +138,22 @@ class CoinDataStore:
         return (time.time() - self.price_ts) > 10
 
     # ── Liquidations ───────────────────────────────────────────
+
     def add_liq(self, side: str, usd: float) -> None:
-        """side: 'SHORT' atau 'LONG' (posisi yang dilikuidasi)"""
+        """Tambah liquidation event. side: 'SHORT' atau 'LONG'."""
         if usd > 100:
             self._liqs.append((time.time(), side, usd))
+
+    def add_large_trade(self, side: str, usd: float) -> None:
+        """
+        Large trade proxy untuk liquidation.
+        Trade besar sering merupakan triggered liquidation.
+        BUY besar  → SHORT squeeze  → liq side = SHORT
+        SELL besar → LONG dump      → liq side = LONG
+        """
+        if usd >= self._large_threshold:
+            liq_side = "SHORT" if side == "BUY" else "LONG"
+            self._liqs.append((time.time(), liq_side, usd))
 
     def _liq_sum(self, side: str, seconds: float) -> float:
         cutoff = time.time() - seconds
@@ -119,7 +168,7 @@ class CoinDataStore:
     @property
     def liq_long_30s(self)  -> float: return self._liq_sum("LONG", 30)
 
-    def check_liq(self, direction: str, recent_min: float, sustained_min: float) -> tuple[bool, str]:
+    def check_liq(self, direction: str, recent_min: float, sustained_min: float) -> tuple:
         if direction == "UP":
             r, s, label = self.liq_short_3s, self.liq_short_30s, "SHORT"
         else:
@@ -134,9 +183,9 @@ class CoinDataStore:
             return False, f"Liq {label} 30s=${s/1000:.0f}k < ${sustained_min/1000:.0f}k"
 
     # ── CVD ────────────────────────────────────────────────────
-    # ── CVD ────────────────────────────────────────────────────
+
     def add_trade(self, side: str, usd: float) -> None:
-        """side: 'BUY' atau 'SELL'"""
+        """Tambah trade untuk CVD. side: 'BUY' atau 'SELL'."""
         if usd > 0:
             self._trades.append((time.time(), side, usd))
 
@@ -150,10 +199,6 @@ class CoinDataStore:
         return total
 
     def _fetch_cvd_rest(self) -> float:
-        """
-        Ambil CVD 2 menit dari Hyperliquid REST sebagai fallback.
-        Pakai recent trades endpoint.
-        """
         try:
             import requests as _req
             resp = _req.post(
@@ -166,8 +211,7 @@ class CoinDataStore:
                 cutoff = time.time() - 120
                 cvd    = 0.0
                 for t in trades:
-                    # Hyperliquid REST trades format
-                    ts  = float(t.get("time", 0)) / 1000  # ms to seconds
+                    ts   = float(t.get("time", 0)) / 1000
                     if ts < cutoff:
                         continue
                     side = "BUY" if t.get("side", "") == "B" else "SELL"
@@ -175,7 +219,6 @@ class CoinDataStore:
                     sz   = float(t.get("sz", 0))
                     usd  = px * sz
                     cvd += usd if side == "BUY" else -usd
-                    # Cache trades ke deque
                     self._trades.append((ts, side, usd))
                 return cvd
         except Exception:
@@ -196,7 +239,7 @@ class CoinDataStore:
     def cvd_5min(self) -> float:
         return self._cvd(300)
 
-    def check_cvd(self, direction: str, threshold: float) -> tuple[bool, str]:
+    def check_cvd(self, direction: str, threshold: float) -> tuple:
         cvd = self.cvd_2min
         if abs(cvd) < threshold:
             return False, f"CVD 2min=${cvd/1000:+.1f}k (min ±${threshold/1000:.0f}k)"
@@ -204,57 +247,52 @@ class CoinDataStore:
             return True, f"CVD 2min=${cvd/1000:+.0f}k ✓"
         return False, f"CVD 2min=${cvd/1000:+.0f}k berlawanan dgn {direction}"
 
-    # ── Liq strength score (untuk pilih sinyal terkuat) ────────
     def signal_strength(self, direction: str) -> float:
-        """
-        Hitung skor kekuatan sinyal (0.0 - 1.0+).
-        Digunakan SignalArbiter untuk memilih coin terbaik.
-        """
         if direction == "UP":
             liq_r = self.liq_short_3s
             liq_s = self.liq_short_30s
         else:
             liq_r = self.liq_long_3s
             liq_s = self.liq_long_30s
-
-        cvd = abs(self.cvd_2min)
-
-        # Normalisasi sederhana
+        cvd   = abs(self.cvd_2min)
         score = (
-            (liq_r  / 15_000) * 0.3 +
-            (liq_s  / 50_000) * 0.4 +
-            (cvd    / 25_000) * 0.3
+            (liq_r / 15_000) * 0.3 +
+            (liq_s / 50_000) * 0.4 +
+            (cvd   / 25_000) * 0.3
         )
         return score
 
 
 class MultiWS:
     """
-    Single WebSocket ke Hyperliquid yang menyuplai semua coin.
-
-    Usage:
-        mws = MultiWS(["BTC", "ETH", "SOL", "DOGE"])
-        await mws.connect()
-        btc = mws.coins["BTC"]
-        eth = mws.coins["ETH"]
+    Single WebSocket ke Hyperliquid untuk semua coin.
     """
 
-    def __init__(self, symbols: list[str]):
+    def __init__(self, symbols: list):
         self.symbols = [s.upper() for s in symbols]
         self.coins: Dict[str, CoinDataStore] = {
             s: CoinDataStore(s) for s in self.symbols
         }
         self.is_connected = False
-        self._task: Optional[asyncio.Task] = None
-        self._running = False
-        self.error_count = 0
+        self._task:        Optional[asyncio.Task] = None
+        self._running      = False
+        self.error_count   = 0
+
+    def inject_chainlink_price(self, coin: str, price: float) -> None:
+        """
+        Inject harga Chainlink ke CoinDataStore.
+        Dipanggil dari beat_sync_loop setiap 3 detik.
+        """
+        coin = coin.upper()
+        if coin in self.coins and price and price > 0:
+            self.coins[coin].update_chainlink_price(price)
 
     async def connect(self) -> None:
         if websockets is None:
             logger.error("[MultiWS] websockets tidak terinstall")
             return
         self._running = True
-        self._task = asyncio.create_task(self._run())
+        self._task    = asyncio.create_task(self._run())
 
     async def disconnect(self) -> None:
         self._running = False
@@ -280,16 +318,16 @@ class MultiWS:
     async def _connect_once(self) -> None:
         async with websockets.connect(
             HYPERLIQUID_WS_URL,
-            ping_interval=30,    # ping setiap 30 detik
-            ping_timeout=20,     # timeout 20 detik (lebih toleran)
+            ping_interval=30,
+            ping_timeout=20,
             close_timeout=10,
-            max_size=10_000_000, # 10MB max message
+            max_size=10_000_000,
         ) as ws:
             self.is_connected = True
-            self.error_count = 0
+            self.error_count  = 0
             logger.info(f"[MultiWS] Connected — coins: {self.symbols}")
 
-            # Subscribe allMids untuk semua harga sekaligus
+            # Subscribe allMids
             await ws.send(json.dumps({
                 "method": "subscribe",
                 "subscription": {"type": "allMids"}
@@ -302,7 +340,7 @@ class MultiWS:
                     "subscription": {"type": "trades", "coin": sym}
                 }))
 
-            # Subscribe liquidations (global, semua coin)
+            # Subscribe liquidations (bonus)
             await ws.send(json.dumps({
                 "method": "subscribe",
                 "subscription": {"type": "liquidations"}
@@ -320,7 +358,7 @@ class MultiWS:
         data = json.loads(raw)
         ch   = data.get("channel", "")
 
-        # ── allMids: update harga semua coin ──────────────────
+        # allMids: update harga Hyperliquid semua coin
         if ch == "allMids":
             mids = data.get("data", {}).get("mids", {})
             for sym in self.symbols:
@@ -329,7 +367,7 @@ class MultiWS:
                     self.coins[sym].update_price(float(price_raw))
             return
 
-        # ── trades: update CVD ────────────────────────────────
+        # trades: update CVD + large trade proxy
         if ch == "trades":
             trades = data.get("data", [])
             if not isinstance(trades, list):
@@ -339,20 +377,24 @@ class MultiWS:
                 if coin not in self.coins:
                     continue
                 raw_side = t.get("side", "")
-                side = "BUY" if raw_side == "B" else "SELL"
-                px   = float(t.get("px", 0))
-                sz   = float(t.get("sz", 0))
-                usd  = px * sz
+                side     = "BUY" if raw_side == "B" else "SELL"
+                px       = float(t.get("px", 0))
+                sz       = float(t.get("sz", 0))
+                usd      = px * sz
 
+                # CVD
                 self.coins[coin].add_trade(side, usd)
 
-                # Liquidation flag di dalam trades
+                # Large trade proxy untuk liquidation
+                self.coins[coin].add_large_trade(side, usd)
+
+                # Explicit liquidation flag
                 if t.get("liquidation", False):
                     liq_side = "SHORT" if raw_side == "B" else "LONG"
                     self.coins[coin].add_liq(liq_side, usd)
             return
 
-        # ── liquidations: update liq data ─────────────────────
+        # liquidations: bonus channel
         if ch == "liquidations":
             events = data.get("data", [])
             if not isinstance(events, list):

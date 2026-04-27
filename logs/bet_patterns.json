@@ -1,0 +1,395 @@
+{
+  "wr_by_remaining": {
+    "60-120": {
+      "wr": 58.8,
+      "count": 17,
+      "wins": 10,
+      "flagged": false
+    },
+    "120-180": {
+      "wr": 82.4,
+      "count": 17,
+      "wins": 14,
+      "flagged": false
+    },
+    "180-240": {
+      "wr": 87.9,
+      "count": 33,
+      "wins": 29,
+      "flagged": false
+    }
+  },
+  "wr_by_odds_spread": {
+    "0.04-0.06": {
+      "wr": 79.1,
+      "count": 67,
+      "wins": 53,
+      "flagged": false
+    }
+  },
+  "wr_by_beat_distance": {
+    "0-20": {
+      "wr": 80.6,
+      "count": 36,
+      "wins": 29,
+      "flagged": false
+    },
+    "20-40": {
+      "wr": 75.0,
+      "count": 16,
+      "wins": 12,
+      "flagged": false
+    },
+    "40-60": {
+      "wr": 100.0,
+      "count": 3,
+      "wins": 3,
+      "flagged": false
+    },
+    "60-80": {
+      "wr": 75.0,
+      "count": 4,
+      "wins": 3,
+      "flagged": false
+    },
+    "80-120": {
+      "wr": 71.4,
+      "count": 7,
+      "wins": 5,
+      "flagged": false
+    },
+    "120-999": {
+      "wr": 100.0,
+      "count": 1,
+      "wins": 1,
+      "flagged": false
+    }
+  },
+  "wr_by_hour": {
+    "10": {
+      "wr": 100.0,
+      "count": 11,
+      "wins": 11,
+      "flagged": false
+    },
+    "11": {
+      "wr": 100.0,
+      "count": 7,
+      "wins": 7,
+      "flagged": false
+    },
+    "12": {
+      "wr": 33.3,
+      "count": 3,
+      "wins": 1,
+      "flagged": false
+    },
+    "19": {
+      "wr": 60.0,
+      "count": 5,
+      "wins": 3,
+      "flagged": false
+    },
+    "20": {
+      "wr": 0.0,
+      "count": 1,
+      "wins": 0,
+      "flagged": false
+    },
+    "5": {
+      "wr": 25.0,
+      "count": 4,
+      "wins": 1,
+      "flagged": false
+    },
+    "6": {
+      "wr": 100.0,
+      "count": 9,
+      "wins": 9,
+      "flagged": false
+    },
+    "8": {
+      "wr": 100.0,
+      "count": 1,
+      "wins": 1,
+      "flagged": false
+    },
+    "9": {
+      "wr": 100.0,
+      "count": 4,
+      "wins": 4,
+      "flagged": false
+    },
+    "14": {
+      "wr": 100.0,
+      "count": 1,
+      "wins": 1,
+      "flagged": false
+    },
+    "15": {
+      "wr": 100.0,
+      "count": 1,
+      "wins": 1,
+      "flagged": false
+    },
+    "16": {
+      "wr": 0.0,
+      "count": 2,
+      "wins": 0,
+      "flagged": false
+    },
+    "17": {
+      "wr": 100.0,
+      "count": 8,
+      "wins": 8,
+      "flagged": false
+    },
+    "18": {
+      "wr": 66.7,
+      "count": 3,
+      "wins": 2,
+      "flagged": false
+    },
+    "22": {
+      "wr": 100.0,
+      "count": 1,
+      "wins": 1,
+      "flagged": false
+    },
+    "23": {
+      "wr": 66.7,
+      "count": 3,
+      "wins": 2,
+      "flagged": false
+    },
+    "1": {
+      "wr": 33.3,
+      "count": 3,
+      "wins": 1,
+      "flagged": false
+    }
+  },
+  "wr_by_direction": {
+    "UP": {
+      "wr": 84.3,
+      "count": 51,
+      "wins": 43,
+      "flagged": false
+    },
+    "DOWN": {
+      "wr": 62.5,
+      "count": 16,
+      "wins": 10,
+      "flagged": false
+    }
+  },
+  "wr_by_mode": {
+    "CHAINLINK": {
+      "wr": 79.1,
+      "count": 67,
+      "wins": 53,
+      "flagged": false
+    }
+  },
+  "wr_cvd_alignment": {
+    "cvd_aligned": {
+      "wr": 90.0,
+      "count": 40
+    },
+    "cvd_opposite": {
+      "wr": 63.0,
+      "count": 27
+    },
+    "cvd_neutral": {
+      "wr": 0.0,
+      "count": 0,
+      "zero_pct": 0.0
+    }
+  },
+  "wr_cvd_magnitude": {
+    "strong": {
+      "wr": 78.7,
+      "count": 61,
+      "wins": 48
+    },
+    "moderate": {
+      "wr": 80.0,
+      "count": 5,
+      "wins": 4
+    },
+    "weak": {
+      "wr": 100.0,
+      "count": 1,
+      "wins": 1
+    }
+  },
+  "wr_liq_ratio": {
+    "no_liq_data": {
+      "wr": 79.1,
+      "count": 67,
+      "wins": 53
+    },
+    "liq_aligned_with_bet": {
+      "wr": 0.0,
+      "count": 0
+    },
+    "liq_opposite_to_bet": {
+      "wr": 0.0,
+      "count": 0
+    }
+  },
+  "wr_cl_edge": {
+    "cl_edge_0.10-0.15": {
+      "wr": 62.5,
+      "count": 24,
+      "wins": 15,
+      "flagged": false
+    },
+    "cl_edge_0.15-0.20": {
+      "wr": 80.0,
+      "count": 5,
+      "wins": 4,
+      "flagged": false
+    },
+    "cl_edge_0.20-1.00": {
+      "wr": 89.5,
+      "count": 38,
+      "wins": 34,
+      "flagged": false
+    }
+  },
+  "ev_by_odds": {
+    "odds_0.45-0.48": {
+      "wr": 62.5,
+      "count": 16,
+      "avg_odds": 0.475,
+      "ev_per_dollar": 0.3158,
+      "profitable": true
+    },
+    "odds_0.52-0.56": {
+      "wr": 84.3,
+      "count": 51,
+      "avg_odds": 0.525,
+      "ev_per_dollar": 0.6057,
+      "profitable": true
+    }
+  },
+  "combo_analysis": {
+    "hour_x_mode": {},
+    "cvd_x_spread": {},
+    "distance_x_remaining": {
+      "dist_far_rem_ok": {
+        "wr": 90.0,
+        "count": 10,
+        "flagged": false
+      },
+      "dist_close_rem_ok": {
+        "wr": 85.0,
+        "count": 40,
+        "flagged": false
+      },
+      "dist_close_rem_short": {
+        "wr": 58.3,
+        "count": 12,
+        "flagged": false
+      },
+      "dist_far_rem_short": {
+        "wr": 60.0,
+        "count": 5,
+        "flagged": false
+      }
+    },
+    "mode_x_direction": {
+      "CHAINLINK_UP": {
+        "wr": 84.3,
+        "count": 51,
+        "flagged": false
+      },
+      "CHAINLINK_DOWN": {
+        "wr": 62.5,
+        "count": 16,
+        "flagged": false
+      }
+    }
+  },
+  "loss_reason_summary": {
+    "beat_too_close": {
+      "count": 11,
+      "pct_of_losses": 78.6
+    },
+    "cvd_against": {
+      "count": 10,
+      "pct_of_losses": 71.4
+    }
+  },
+  "streak_analysis": {
+    "max_loss_streak": 0,
+    "max_win_streak": 25,
+    "all_streaks": [
+      {
+        "result": "WIN",
+        "count": 9,
+        "start_idx": 0
+      },
+      {
+        "result": "WIN",
+        "count": 25,
+        "start_idx": 19
+      },
+      {
+        "result": "WIN",
+        "count": 9,
+        "start_idx": 46
+      },
+      {
+        "result": "WIN",
+        "count": 3,
+        "start_idx": 56
+      },
+      {
+        "result": "WIN",
+        "count": 3,
+        "start_idx": 60
+      }
+    ]
+  },
+  "loss_conditions": {
+    "on_loss": {
+      "remaining_secs": 148.6321,
+      "odds_spread": 0.05,
+      "beat_distance": 28.9897,
+      "cl_edge": 0.2127,
+      "cl_vol": 0.0007,
+      "odds": 0.5036,
+      "cvd_2min": -357344.2032
+    },
+    "on_win": {
+      "remaining_secs": 185.2146,
+      "odds_spread": 0.05,
+      "beat_distance": 28.6412,
+      "cl_edge": 0.3162,
+      "cl_vol": 0.0005,
+      "odds": 0.5156,
+      "cvd_2min": 829935.0144
+    },
+    "loss_count": 14,
+    "win_count": 53
+  },
+  "recommendations": [
+    {
+      "type": "CVD_FILTER",
+      "action": "Tambahkan CVD alignment sebagai filter wajib",
+      "detail": "CVD aligned WR=90.0% (n=40) vs opposite WR=63.0% (n=27)",
+      "env_key": null
+    },
+    {
+      "type": "LOSS_REASON_BEAT_TOO_CLOSE",
+      "action": "Loss reason paling sering: 'beat_too_close' (78.6% dari semua loss)",
+      "detail": "Prioritaskan fix faktor ini untuk WR improvement terbesar",
+      "env_key": null
+    }
+  ],
+  "total_bets": 67,
+  "overall_wr": 79.1,
+  "generated_at": "2026-04-26 10:08:10"
+}

@@ -1,19 +1,18 @@
 """
 fetcher/chainlink_monitor.py
 ============================
-Chainlink oracle monitor dengan 4 improve utama:
+Chainlink oracle monitor dengan 4 improve utama + Round Boundary Tracking:
 
 1. AUTO-CALIBRATION VOLATILITY
    Hitung volatility nyata dari historical Chainlink rounds.
-
 2. MOMENTUM FILTER
    Cek apakah 3 round terakhir Chainlink bergerak searah sinyal.
-
 3. TIME DECAY EDGE REQUIREMENT
    Edge minimum dinamis berdasarkan sisa waktu window.
-
 4. ODDS SPREAD FILTER
    Skip kalau selisih UP dan DOWN odds < 4%.
+5. ROUND BOUNDARY TRACKING (Patch Terintegrasi)
+   Melacak kesegaran (freshness) data, arah pergerakan, dan kekuatan (strength) round baru.
 """
 
 import asyncio
@@ -110,6 +109,12 @@ class ChainlinkMonitor:
         self._round_history: Dict[str, deque] = {c: deque(maxlen=self.VOL_HISTORY_SIZE) for c in self.coins}
         self._vol_calibrated: Dict[str, float] = {c: 0.001 for c in self.coins}
         self._vol_last_calc:  Dict[str, float] = {c: 0.0   for c in self.coins}
+        
+        # === Fitur Baru: Round boundary tracking ===
+        self._round_event_ts:  Dict[str, float] = {c: 0.0  for c in self.coins}
+        self._round_direction: Dict[str, str]   = {c: ""   for c in self.coins}
+        self._consecutive_dir: Dict[str, int]   = {c: 0    for c in self.coins}
+        self._round_delta:     Dict[str, float] = {c: 0.0  for c in self.coins}
 
     def _init_web3(self) -> bool:
         try:
@@ -185,11 +190,31 @@ class ChainlinkMonitor:
             updated_at=updated_at, fetched_at=time.time(),
         )
         prev = self.prices.get(coin)
+        
+        # Mengecek apakah ada ronde (round) harga baru dari Chainlink
         if prev and prev.round_id != round_id:
             self.new_round[coin] = True
             delta = price - prev.price
+            
+            # === Fitur Baru: Update data Round Boundary ===
+            direction = "UP" if delta > 0 else ("DOWN" if delta < 0 else "")
+            
+            if direction:
+                # Jika arahnya sama dengan sebelumnya, tambah streak berturut-turut
+                if direction == self._round_direction.get(coin, ""):
+                    self._consecutive_dir[coin] = self._consecutive_dir.get(coin, 0) + 1
+                else:
+                    self._consecutive_dir[coin] = 1 # Reset ke 1 jika arah berubah
+                
+                # Simpan arah, perubahan harga, dan waktu saat ini
+                self._round_direction[coin] = direction
+                self._round_delta[coin]     = delta
+                self._round_event_ts[coin]  = time.time()
+            # ===============================================
+
             logger.info(f"[ChainlinkMonitor] NEW ROUND {coin}: ${prev.price:,.2f} → ${price:,.2f} (Δ{delta:+.2f})")
             self._round_history[coin].append((price, time.time()))
+            
             if len(self._round_history[coin]) >= 10:
                 self._recalculate_volatility(coin)
         else:
@@ -227,8 +252,9 @@ class ChainlinkMonitor:
             logger.info(f"[ChainlinkMonitor] Vol calibrated {coin}: {std:.6f}/min from {len(returns)} samples")
 
     def get_calibrated_vol(self, coin: str) -> float:
+        """Ambil volatility terkalibrasi dengan floor dan ceiling."""
         vol = self._vol_calibrated.get(coin, 0.001)
-        return max(0.0002, min(0.01, vol))
+        return max(0.0008, min(0.01, vol)) 
 
     # ── IMPROVE 2: Momentum filter ────────────────────────────
 
@@ -257,15 +283,15 @@ class ChainlinkMonitor:
     def get_dynamic_min_edge(self, remaining: float, base_min_edge: float = 0.10) -> float:
         """Edge minimum dinamis berdasarkan sisa waktu."""
         if remaining > 240:
-            return base_min_edge * 1.5    # awal window, uncertainty tinggi
+            return base_min_edge * 1.5
         elif remaining > 120:
             return base_min_edge * 1.2
         elif remaining > 60:
-            return base_min_edge          # standard
+            return base_min_edge
         elif remaining > 30:
-            return base_min_edge * 1.3    # zona snipe
+            return base_min_edge * 1.3
         else:
-            return base_min_edge * 1.6    # last seconds
+            return base_min_edge * 1.6
 
     # ── Fair odds calculation ─────────────────────────────────
 
@@ -322,13 +348,7 @@ class ChainlinkMonitor:
         use_time_decay:  bool  = True,
         min_odds_spread: float = 0.04,
     ) -> Optional[MispricingSignal]:
-        """
-        Detect mispricing dengan 4 filter aktif:
-        1. Auto-calibrated volatility
-        2. Momentum check
-        3. Time decay edge requirement
-        4. Odds spread filter
-        """
+        
         snap = self.prices.get(coin)
         if not snap:
             return None
@@ -344,7 +364,6 @@ class ChainlinkMonitor:
             if use_time_decay else min_edge
         )
 
-        # Calculate fair odds
         fair_odds = self.calc_fair_odds(coin, direction, beat_price, remaining, vol_per_min)
         edge      = fair_odds - current_odds
 
@@ -385,6 +404,54 @@ class ChainlinkMonitor:
             confidence=confidence, reason=reason,
             momentum_ok=momentum_ok, vol_calibrated=vol_cal,
         )
+
+    # ── METODE BARU DARI PATCH: Round Boundary Info ───────────
+
+    def get_round_age(self, coin: str) -> float:
+        """Berapa detik sejak round baru terdeteksi. 999 jika belum ada."""
+        ts = self._round_event_ts.get(coin, 0.0)
+        if ts == 0:
+            return 999.0
+        return time.time() - ts
+
+    def is_round_fresh(self, coin: str, max_age_secs: float = 15.0) -> bool:
+        """True jika round baru terdeteksi kurang dari max_age_secs yang lalu."""
+        return self.get_round_age(coin) <= max_age_secs
+
+    def get_round_direction(self, coin: str) -> str:
+        """Arah delta round terakhir: 'UP', 'DOWN', atau '' jika belum ada."""
+        return self._round_direction.get(coin, "")
+
+    def get_round_delta(self, coin: str) -> float:
+        """Delta harga dari round terakhir dalam USD."""
+        return self._round_delta.get(coin, 0.0)
+
+    def get_consecutive_direction(self, coin: str) -> int:
+        """Berapa round berturut-turut bergerak arah yang sama."""
+        return self._consecutive_dir.get(coin, 0)
+
+    def get_round_strength(self, coin: str) -> str:
+        """
+        Klasifikasi kekuatan round baru:
+          STRONG  : |delta| > $200, consecutive >= 2
+          MODERATE: |delta| > $100
+          WEAK    : |delta| < $50
+          NONE    : belum ada round baru
+        """
+        delta  = abs(self._round_delta.get(coin, 0))
+        consec = self._consecutive_dir.get(coin, 0)
+        
+        if delta == 0:
+            return "NONE"
+        if delta > 200 and consec >= 2:
+            return "STRONG"
+        if delta > 100:
+            return "MODERATE"
+        if delta < 50:
+            return "WEAK"
+        return "MODERATE"
+
+    # ── INFO & STATUS ─────────────────────────────────────────
 
     def get_price(self, coin: str) -> Optional[float]:
         snap = self.prices.get(coin)

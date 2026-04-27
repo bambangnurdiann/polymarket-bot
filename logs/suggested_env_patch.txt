@@ -1,0 +1,2 @@
+# === Suggested .env patch — 2026-04-26 10:08 ===
+# Overall WR: 79.1% | Bets: 67

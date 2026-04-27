@@ -1,0 +1,1540 @@
+10:30:33 [INFO] [Executor] CLOB client initialized (sig_type=1 POLY_PROXY)
+10:30:35 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+10:30:35 [INFO] [TelegramCtrl] Controller aktif — chat_id=8790667203
+10:30:35 [INFO] [ResultTracker] Loaded 67 records dari logs/late_bot_results.csv
+10:30:35 [INFO] [Window] Baru: 20260426-0230
+10:30:35 [INFO] [LateBot] Chainlink monitor ENABLED
+10:30:35 [INFO] [MultiWS] Connected — coins: ['BTC']
+10:30:38 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:30PM-10:35PM ET
+10:30:38 [WARNING] [BTC] Strike price tidak ditemukan di market response
+10:30:38 [INFO] [LateBot] Saldo: $5.32
+10:30:38 [INFO] [LateBot] Start — coins: ['BTC']
+10:30:38 [INFO] [LateBot] Entry zone: remaining 7.0-30.0s
+10:30:38 [INFO] [LateBot] Beat distance min: $25.0
+10:30:38 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+10:30:38 [INFO] [ChainlinkMonitor] Connected via https://rpc-mainnet.matic.quiknode.pro — coins: ['BTC']
+10:30:53 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,577.47 → $77,577.53 (Δ+0.06)
+10:30:53 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:30PM-10:35PM ET
+10:31:09 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+10:31:09 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:30PM-10:35PM ET
+10:31:24 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:30PM-10:35PM ET
+10:31:27 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,577.53 → $77,577.52 (Δ-0.01)
+10:31:39 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+10:31:39 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:30PM-10:35PM ET
+10:31:55 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:30PM-10:35PM ET
+10:31:57 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,577.52 → $77,577.52 (Δ+0.00)
+10:32:10 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+10:32:10 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:30PM-10:35PM ET
+10:32:25 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:30PM-10:35PM ET
+10:32:31 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,577.52 → $77,587.05 (Δ+9.53)
+10:32:40 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+10:32:40 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:30PM-10:35PM ET
+10:32:56 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:30PM-10:35PM ET
+10:33:05 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,587.05 → $77,595.76 (Δ+8.71)
+10:33:11 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+10:33:11 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:30PM-10:35PM ET
+10:33:26 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:30PM-10:35PM ET
+10:33:38 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,595.76 → $77,589.73 (Δ-6.03)
+10:33:41 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+10:33:41 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:30PM-10:35PM ET
+10:33:57 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:30PM-10:35PM ET
+10:34:12 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,589.73 → $77,582.12 (Δ-7.60)
+10:34:12 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+10:34:12 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:30PM-10:35PM ET
+10:34:27 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:30PM-10:35PM ET
+10:36:57 [INFO] [Executor] CLOB client initialized (sig_type=1 POLY_PROXY)
+10:36:59 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+10:36:59 [INFO] [TelegramCtrl] Controller aktif — chat_id=8790667203
+10:36:59 [INFO] [ResultTracker] Loaded 67 records dari logs/late_bot_results.csv
+10:36:59 [INFO] [Window] Baru: 20260426-0235
+10:36:59 [INFO] [LateBot] Chainlink monitor ENABLED
+10:37:00 [INFO] [MultiWS] Connected — coins: ['BTC']
+10:37:01 [INFO] [ChainlinkMonitor] Connected via https://rpc-mainnet.matic.quiknode.pro — coins: ['BTC']
+10:37:02 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:35PM-10:40PM ET
+10:37:02 [WARNING] [BTC] Strike price tidak ditemukan di market response
+10:37:02 [INFO] [LateBot] Saldo: $5.32
+10:37:02 [INFO] [LateBot] Start — coins: ['BTC']
+10:37:02 [INFO] [LateBot] Entry zone: remaining 7.0-30.0s
+10:37:02 [INFO] [LateBot] Beat distance min: $25.0
+10:37:02 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+10:37:18 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:35PM-10:40PM ET
+10:37:30 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,571.88 → $77,573.37 (Δ+1.49)
+10:37:33 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+10:37:33 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:35PM-10:40PM ET
+10:37:48 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:35PM-10:40PM ET
+10:38:03 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,573.37 → $77,572.69 (Δ-0.68)
+10:38:03 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+10:38:03 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:35PM-10:40PM ET
+10:38:19 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:35PM-10:40PM ET
+10:38:34 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+10:38:34 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:35PM-10:40PM ET
+10:38:37 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,572.69 → $77,572.20 (Δ-0.49)
+10:38:49 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:35PM-10:40PM ET
+10:39:04 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+10:39:05 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:35PM-10:40PM ET
+10:39:10 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,572.20 → $77,572.41 (Δ+0.21)
+10:39:14 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,572.41 → $77,572.20 (Δ-0.21)
+10:39:17 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,572.20 → $77,572.41 (Δ+0.21)
+10:39:20 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:35PM-10:40PM ET
+10:39:35 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+10:39:35 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:35PM-10:40PM ET
+10:39:44 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,572.41 → $77,572.40 (Δ-0.01)
+10:39:50 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:35PM-10:40PM ET
+10:40:00 [INFO] [Window] Baru: 20260426-0240
+10:40:05 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:40PM-10:45PM ET
+10:40:06 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+10:40:14 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,572.40 → $77,569.08 (Δ-3.32)
+10:40:21 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:40PM-10:45PM ET
+10:40:36 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:40PM-10:45PM ET
+10:40:36 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+10:40:47 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,569.08 → $77,569.27 (Δ+0.19)
+10:40:51 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:40PM-10:45PM ET
+10:41:06 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:40PM-10:45PM ET
+10:41:07 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+10:41:21 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,569.27 → $77,562.16 (Δ-7.11)
+10:41:21 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000041/min from 9 samples
+10:41:21 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:40PM-10:45PM ET
+10:41:37 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:40PM-10:45PM ET
+10:41:37 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+10:41:52 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,562.16 → $77,552.17 (Δ-9.99)
+10:41:52 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000061/min from 10 samples
+10:41:52 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:40PM-10:45PM ET
+10:42:08 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:40PM-10:45PM ET
+10:42:09 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+10:42:23 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:40PM-10:45PM ET
+10:42:26 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,552.17 → $77,540.01 (Δ-12.16)
+10:42:26 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000076/min from 11 samples
+10:42:38 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:40PM-10:45PM ET
+10:42:40 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+10:42:53 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:40PM-10:45PM ET
+10:43:03 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,540.01 → $77,545.37 (Δ+5.36)
+10:43:03 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000083/min from 12 samples
+10:43:09 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:40PM-10:45PM ET
+10:43:10 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+10:43:24 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:40PM-10:45PM ET
+10:43:33 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,545.37 → $77,544.33 (Δ-1.04)
+10:43:33 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000080/min from 13 samples
+10:43:39 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:40PM-10:45PM ET
+10:43:41 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+10:43:54 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:40PM-10:45PM ET
+10:44:08 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,544.33 → $77,544.10 (Δ-0.23)
+10:44:08 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000077/min from 14 samples
+10:44:09 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:40PM-10:45PM ET
+10:44:11 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+10:44:25 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:40PM-10:45PM ET
+10:44:38 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,544.10 → $77,544.34 (Δ+0.24)
+10:44:38 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000075/min from 15 samples
+10:44:40 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:40PM-10:45PM ET
+10:44:41 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+10:44:55 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:40PM-10:45PM ET
+10:45:00 [INFO] [Window] Baru: 20260426-0245
+10:45:10 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:45PM-10:50PM ET
+10:45:12 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+10:45:22 [INFO] [Executor] CLOB client initialized (sig_type=1 POLY_PROXY)
+10:45:22 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+10:45:22 [INFO] [TelegramCtrl] Controller aktif — chat_id=8790667203
+10:45:22 [INFO] [ResultTracker] Loaded 67 records dari logs/late_bot_results.csv
+10:45:22 [INFO] [Window] Baru: 20260426-0245
+10:45:22 [INFO] [LateBot] Chainlink monitor ENABLED
+10:45:24 [INFO] [MultiWS] Connected — coins: ['BTC']
+10:45:25 [INFO] [ChainlinkMonitor] Connected via https://rpc-mainnet.matic.quiknode.pro — coins: ['BTC']
+10:45:25 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:45PM-10:50PM ET
+10:45:25 [WARNING] [BTC] Strike price tidak ada di market response — akan pakai Chainlink sebagai fallback
+10:45:25 [INFO] [BTC] Market fields: {'coin': 'BTC', 'market_id': '0xbbf6ca3bc72b37cd8779c65e36be363a06f0a127319ca032724f9429bf', 'question': 'Bitcoin Up or Down - April 25, 10:45PM-10:50PM ET', 'token_id_up': '212325018823074390889344464525062595199393258153335630506596', 'token_id_down': '319538982201554225215919482438204679679355013517894657830550', 'end_date': '2026-04-26T02:50:00Z', 'strike_price': 'None'}
+10:45:25 [INFO] [LateBot] Saldo: $5.32
+10:45:25 [INFO] [LateBot] Start — coins: ['BTC']
+10:45:25 [INFO] [LateBot] Entry zone: remaining 7.0-30.0s
+10:45:25 [INFO] [LateBot] Beat distance min: $25.0
+10:45:26 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+10:45:26 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:45PM-10:50PM ET
+10:45:31 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:45PM-10:50PM ET
+10:45:36 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:45PM-10:50PM ET
+10:45:41 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:45PM-10:50PM ET
+10:45:47 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:45PM-10:50PM ET
+10:45:52 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:45PM-10:50PM ET
+10:45:56 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+10:45:57 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:45PM-10:50PM ET
+10:45:57 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,537.34 → $77,532.01 (Δ-5.33)
+10:46:02 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:45PM-10:50PM ET
+10:46:07 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:45PM-10:50PM ET
+10:46:12 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:45PM-10:50PM ET
+10:46:18 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:45PM-10:50PM ET
+10:46:23 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:45PM-10:50PM ET
+10:46:34 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:45PM-10:50PM ET
+10:46:35 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,532.01 → $77,524.46 (Δ-7.55)
+10:46:39 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:45PM-10:50PM ET
+10:46:45 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:45PM-10:50PM ET
+10:46:50 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:45PM-10:50PM ET
+10:46:55 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:45PM-10:50PM ET
+10:46:58 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+10:47:00 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:45PM-10:50PM ET
+10:47:02 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,524.46 → $77,510.96 (Δ-13.49)
+10:47:05 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:45PM-10:50PM ET
+10:47:11 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:45PM-10:50PM ET
+10:47:17 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:45PM-10:50PM ET
+10:47:22 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:45PM-10:50PM ET
+10:47:27 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:45PM-10:50PM ET
+10:47:30 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+10:47:32 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:45PM-10:50PM ET
+10:47:36 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,510.96 → $77,501.78 (Δ-9.18)
+10:47:37 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:45PM-10:50PM ET
+10:47:42 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:45PM-10:50PM ET
+10:47:48 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:45PM-10:50PM ET
+10:47:53 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:45PM-10:50PM ET
+10:47:58 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:45PM-10:50PM ET
+10:48:00 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+10:48:03 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:45PM-10:50PM ET
+10:48:08 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:45PM-10:50PM ET
+10:48:10 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,501.78 → $77,514.83 (Δ+13.05)
+10:48:13 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:45PM-10:50PM ET
+10:48:19 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:45PM-10:50PM ET
+10:48:24 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:45PM-10:50PM ET
+10:48:29 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:45PM-10:50PM ET
+10:48:31 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+10:48:34 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:45PM-10:50PM ET
+10:48:39 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:45PM-10:50PM ET
+10:48:40 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,514.83 → $77,518.80 (Δ+3.97)
+10:48:45 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:45PM-10:50PM ET
+10:48:50 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:45PM-10:50PM ET
+10:48:55 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:45PM-10:50PM ET
+10:49:00 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:45PM-10:50PM ET
+10:49:02 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+10:49:05 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:45PM-10:50PM ET
+10:49:11 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:45PM-10:50PM ET
+10:49:14 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,518.80 → $77,528.09 (Δ+9.30)
+10:49:16 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:45PM-10:50PM ET
+10:49:21 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:45PM-10:50PM ET
+10:49:26 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:45PM-10:50PM ET
+10:49:31 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:45PM-10:50PM ET
+10:49:32 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+10:49:36 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:45PM-10:50PM ET
+10:49:42 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:45PM-10:50PM ET
+10:49:47 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:45PM-10:50PM ET
+10:49:48 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,528.09 → $77,516.24 (Δ-11.86)
+10:49:52 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:45PM-10:50PM ET
+10:49:57 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:45PM-10:50PM ET
+10:50:00 [INFO] [Window] Baru: 20260426-0250
+10:50:02 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+10:50:02 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:50PM-10:55PM ET
+10:50:02 [WARNING] [BTC] ⚠️ Beat snapshot Chainlink: $77,516.24 t=3s (API tidak punya strike_price)
+10:50:08 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:50PM-10:55PM ET
+10:50:13 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:50PM-10:55PM ET
+10:50:18 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:50PM-10:55PM ET
+10:50:23 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:50PM-10:55PM ET
+10:50:28 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:50PM-10:55PM ET
+10:50:33 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,516.24 → $77,514.97 (Δ-1.27)
+10:50:33 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+10:50:34 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:50PM-10:55PM ET
+10:50:39 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:50PM-10:55PM ET
+10:50:40 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,514.97 → $77,521.08 (Δ+6.11)
+10:50:40 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000177/min from 9 samples
+10:50:44 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:50PM-10:55PM ET
+10:50:49 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:50PM-10:55PM ET
+10:50:54 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:50PM-10:55PM ET
+10:50:59 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:50PM-10:55PM ET
+10:51:03 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+10:51:05 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:50PM-10:55PM ET
+10:51:10 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:50PM-10:55PM ET
+10:51:13 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,521.08 → $77,527.09 (Δ+6.01)
+10:51:13 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000171/min from 10 samples
+10:51:15 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:50PM-10:55PM ET
+10:51:20 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:50PM-10:55PM ET
+10:51:25 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:50PM-10:55PM ET
+10:51:30 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:50PM-10:55PM ET
+10:51:34 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+10:51:36 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:50PM-10:55PM ET
+10:51:41 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:50PM-10:55PM ET
+10:51:46 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:50PM-10:55PM ET
+10:51:51 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,527.09 → $77,536.88 (Δ+9.79)
+10:51:51 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000169/min from 11 samples
+10:51:51 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:50PM-10:55PM ET
+10:51:56 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:50PM-10:55PM ET
+10:52:01 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:50PM-10:55PM ET
+10:52:04 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+10:52:07 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:50PM-10:55PM ET
+10:52:13 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:50PM-10:55PM ET
+10:52:18 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:50PM-10:55PM ET
+10:52:21 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,536.88 → $77,542.27 (Δ+5.39)
+10:52:21 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000164/min from 12 samples
+10:52:23 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:50PM-10:55PM ET
+10:52:28 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:50PM-10:55PM ET
+10:52:33 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:50PM-10:55PM ET
+10:52:36 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+10:52:38 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:50PM-10:55PM ET
+10:52:44 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:50PM-10:55PM ET
+10:52:49 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:50PM-10:55PM ET
+10:52:54 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:50PM-10:55PM ET
+10:52:55 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,542.27 → $77,543.47 (Δ+1.20)
+10:52:55 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000157/min from 13 samples
+10:52:59 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:50PM-10:55PM ET
+10:53:04 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:50PM-10:55PM ET
+10:53:06 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+10:53:10 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:50PM-10:55PM ET
+10:53:15 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:50PM-10:55PM ET
+10:53:20 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:50PM-10:55PM ET
+10:53:25 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:50PM-10:55PM ET
+10:53:26 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,543.47 → $77,541.92 (Δ-1.55)
+10:53:26 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000152/min from 14 samples
+10:53:30 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:50PM-10:55PM ET
+10:53:35 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:50PM-10:55PM ET
+10:53:37 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+10:53:41 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:50PM-10:55PM ET
+10:53:46 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:50PM-10:55PM ET
+10:53:51 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:50PM-10:55PM ET
+10:53:56 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:50PM-10:55PM ET
+10:54:01 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:50PM-10:55PM ET
+10:54:03 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,541.92 → $77,534.14 (Δ-7.78)
+10:54:03 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000152/min from 15 samples
+10:54:07 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:50PM-10:55PM ET
+10:54:07 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+10:54:12 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:50PM-10:55PM ET
+10:54:17 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:50PM-10:55PM ET
+10:54:22 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:50PM-10:55PM ET
+10:54:27 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:50PM-10:55PM ET
+10:54:33 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:50PM-10:55PM ET
+10:54:34 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,534.14 → $77,535.60 (Δ+1.46)
+10:54:34 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000147/min from 16 samples
+10:54:38 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+10:54:38 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:50PM-10:55PM ET
+10:54:43 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:50PM-10:55PM ET
+10:54:48 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:50PM-10:55PM ET
+10:54:54 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:50PM-10:55PM ET
+10:54:59 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:50PM-10:55PM ET
+10:55:00 [INFO] [Window] Baru: 20260426-0255
+10:55:04 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:55PM-11:00PM ET
+10:55:04 [WARNING] [BTC] ⚠️ Beat snapshot Chainlink: $77,535.60 t=4s (API tidak punya strike_price)
+10:55:08 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+10:55:09 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:55PM-11:00PM ET
+10:55:14 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:55PM-11:00PM ET
+10:55:19 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:55PM-11:00PM ET
+10:55:21 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,535.60 → $77,535.05 (Δ-0.54)
+10:55:21 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000142/min from 17 samples
+10:55:25 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:55PM-11:00PM ET
+10:55:30 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:55PM-11:00PM ET
+10:55:35 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:55PM-11:00PM ET
+10:55:39 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+10:55:40 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:55PM-11:00PM ET
+10:55:45 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:55PM-11:00PM ET
+10:55:51 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:55PM-11:00PM ET
+10:55:52 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,535.05 → $77,513.63 (Δ-21.42)
+10:55:52 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000166/min from 18 samples
+10:55:56 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:55PM-11:00PM ET
+10:56:01 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:55PM-11:00PM ET
+10:56:06 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:55PM-11:00PM ET
+10:56:10 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+10:56:12 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:55PM-11:00PM ET
+10:56:17 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:55PM-11:00PM ET
+10:56:22 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:55PM-11:00PM ET
+10:56:22 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,513.63 → $77,520.19 (Δ+6.56)
+10:56:22 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000164/min from 19 samples
+10:56:27 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:55PM-11:00PM ET
+10:56:32 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:55PM-11:00PM ET
+10:56:37 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:55PM-11:00PM ET
+10:56:46 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+10:56:46 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:55PM-11:00PM ET
+10:56:51 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:55PM-11:00PM ET
+10:56:56 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:55PM-11:00PM ET
+10:56:57 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,520.19 → $77,525.02 (Δ+4.83)
+10:56:57 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000161/min from 20 samples
+10:57:01 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:55PM-11:00PM ET
+10:57:06 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:55PM-11:00PM ET
+10:57:12 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:55PM-11:00PM ET
+10:57:12 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+10:57:18 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:55PM-11:00PM ET
+10:57:23 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:55PM-11:00PM ET
+10:57:28 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:55PM-11:00PM ET
+10:57:31 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,525.02 → $77,517.46 (Δ-7.56)
+10:57:31 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000159/min from 21 samples
+10:57:33 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:55PM-11:00PM ET
+10:57:38 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:55PM-11:00PM ET
+10:57:44 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+10:57:44 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:55PM-11:00PM ET
+10:57:50 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:55PM-11:00PM ET
+10:57:55 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:55PM-11:00PM ET
+10:58:00 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:55PM-11:00PM ET
+10:58:02 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,517.46 → $77,518.41 (Δ+0.95)
+10:58:02 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000156/min from 22 samples
+10:58:06 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:55PM-11:00PM ET
+10:58:11 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:55PM-11:00PM ET
+10:58:15 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+10:58:16 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:55PM-11:00PM ET
+10:58:21 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:55PM-11:00PM ET
+10:58:26 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:55PM-11:00PM ET
+10:58:31 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:55PM-11:00PM ET
+10:58:36 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,518.41 → $77,518.22 (Δ-0.19)
+10:58:36 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000152/min from 23 samples
+10:58:37 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:55PM-11:00PM ET
+10:58:42 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:55PM-11:00PM ET
+10:58:45 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+10:58:47 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:55PM-11:00PM ET
+10:58:52 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:55PM-11:00PM ET
+10:58:57 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:55PM-11:00PM ET
+10:59:03 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:55PM-11:00PM ET
+10:59:08 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:55PM-11:00PM ET
+10:59:10 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,518.22 → $77,516.64 (Δ-1.57)
+10:59:10 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000149/min from 24 samples
+10:59:13 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:55PM-11:00PM ET
+10:59:16 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+10:59:18 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:55PM-11:00PM ET
+10:59:23 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:55PM-11:00PM ET
+10:59:28 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:55PM-11:00PM ET
+10:59:34 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:55PM-11:00PM ET
+10:59:39 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:55PM-11:00PM ET
+10:59:44 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,516.64 → $77,517.47 (Δ+0.83)
+10:59:44 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000146/min from 25 samples
+10:59:44 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:55PM-11:00PM ET
+10:59:46 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+10:59:49 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:55PM-11:00PM ET
+10:59:54 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:55PM-11:00PM ET
+11:00:00 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 10:55PM-11:00PM ET
+11:00:00 [INFO] [Window] Baru: 20260426-0300
+11:00:05 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:00PM-11:05PM ET
+11:00:05 [WARNING] [BTC] ⚠️ Beat snapshot Chainlink: $77,517.47 t=5s (API tidak punya strike_price)
+11:00:10 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:00PM-11:05PM ET
+11:00:15 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:00PM-11:05PM ET
+11:00:16 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:00:20 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:00PM-11:05PM ET
+11:00:26 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:00PM-11:05PM ET
+11:00:28 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,517.47 → $77,527.76 (Δ+10.29)
+11:00:28 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000147/min from 26 samples
+11:00:31 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:00PM-11:05PM ET
+11:00:36 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:00PM-11:05PM ET
+11:00:41 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:00PM-11:05PM ET
+11:00:46 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:00PM-11:05PM ET
+11:00:47 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:00:51 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:00PM-11:05PM ET
+11:00:57 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:00PM-11:05PM ET
+11:00:59 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,527.76 → $77,518.99 (Δ-8.77)
+11:00:59 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000147/min from 27 samples
+11:01:02 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:00PM-11:05PM ET
+11:01:07 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:00PM-11:05PM ET
+11:01:12 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:00PM-11:05PM ET
+11:01:17 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:00PM-11:05PM ET
+11:01:19 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:01:22 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:00PM-11:05PM ET
+11:01:28 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:00PM-11:05PM ET
+11:01:30 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,518.99 → $77,516.01 (Δ-2.98)
+11:01:30 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000145/min from 28 samples
+11:01:33 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:00PM-11:05PM ET
+11:01:38 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:00PM-11:05PM ET
+11:01:43 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:00PM-11:05PM ET
+11:01:48 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:00PM-11:05PM ET
+11:01:49 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:01:53 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:00PM-11:05PM ET
+11:01:59 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:00PM-11:05PM ET
+11:02:04 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:00PM-11:05PM ET
+11:02:07 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,516.01 → $77,514.09 (Δ-1.91)
+11:02:07 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000142/min from 29 samples
+11:02:09 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:00PM-11:05PM ET
+11:02:14 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:00PM-11:05PM ET
+11:02:19 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:00PM-11:05PM ET
+11:02:20 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:02:25 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:00PM-11:05PM ET
+11:02:30 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:00PM-11:05PM ET
+11:02:35 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:00PM-11:05PM ET
+11:02:37 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,514.09 → $77,514.45 (Δ+0.36)
+11:02:37 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000140/min from 30 samples
+11:02:40 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:00PM-11:05PM ET
+11:02:45 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:00PM-11:05PM ET
+11:02:50 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:02:51 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:00PM-11:05PM ET
+11:02:56 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:00PM-11:05PM ET
+11:03:01 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:00PM-11:05PM ET
+11:03:06 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:00PM-11:05PM ET
+11:03:11 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:00PM-11:05PM ET
+11:03:11 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,514.45 → $77,509.97 (Δ-4.48)
+11:03:11 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000138/min from 31 samples
+11:03:16 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:00PM-11:05PM ET
+11:03:21 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:03:22 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:00PM-11:05PM ET
+11:03:27 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:00PM-11:05PM ET
+11:03:32 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:00PM-11:05PM ET
+11:03:37 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:00PM-11:05PM ET
+11:03:42 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:00PM-11:05PM ET
+11:03:45 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,509.97 → $77,512.02 (Δ+2.05)
+11:03:45 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000136/min from 32 samples
+11:03:47 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:00PM-11:05PM ET
+11:03:51 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:03:53 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:00PM-11:05PM ET
+11:03:58 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:00PM-11:05PM ET
+11:04:03 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:00PM-11:05PM ET
+11:04:08 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:00PM-11:05PM ET
+11:04:13 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:00PM-11:05PM ET
+11:04:16 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,512.02 → $77,513.58 (Δ+1.56)
+11:04:16 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000134/min from 33 samples
+11:04:18 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:00PM-11:05PM ET
+11:04:22 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:04:24 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:00PM-11:05PM ET
+11:04:29 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:00PM-11:05PM ET
+11:04:34 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:00PM-11:05PM ET
+11:04:39 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:00PM-11:05PM ET
+11:04:44 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:00PM-11:05PM ET
+11:04:49 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:00PM-11:05PM ET
+11:04:50 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,513.58 → $77,514.05 (Δ+0.47)
+11:04:50 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000132/min from 34 samples
+11:04:52 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:04:55 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:00PM-11:05PM ET
+11:05:00 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:05PM-11:10PM ET
+11:05:00 [INFO] [Window] Baru: 20260426-0305
+11:05:05 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:05PM-11:10PM ET
+11:05:05 [WARNING] [BTC] ⚠️ Beat snapshot Chainlink: $77,514.05 t=5s (API tidak punya strike_price)
+11:05:10 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:05PM-11:10PM ET
+11:05:15 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:05PM-11:10PM ET
+11:05:20 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:05PM-11:10PM ET
+11:05:22 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:05:24 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,514.05 → $77,514.18 (Δ+0.13)
+11:05:24 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000130/min from 35 samples
+11:05:26 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:05PM-11:10PM ET
+11:05:31 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:05PM-11:10PM ET
+11:05:36 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:05PM-11:10PM ET
+11:05:41 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:05PM-11:10PM ET
+11:05:46 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:05PM-11:10PM ET
+11:05:52 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:05PM-11:10PM ET
+11:05:53 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:05:57 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:05PM-11:10PM ET
+11:05:58 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,514.18 → $77,512.74 (Δ-1.44)
+11:05:58 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000128/min from 36 samples
+11:06:02 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:05PM-11:10PM ET
+11:06:07 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:05PM-11:10PM ET
+11:06:12 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:05PM-11:10PM ET
+11:06:18 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:05PM-11:10PM ET
+11:06:23 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:05PM-11:10PM ET
+11:06:24 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:06:28 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:05PM-11:10PM ET
+11:06:32 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,512.74 → $77,512.22 (Δ-0.52)
+11:06:32 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000127/min from 37 samples
+11:06:33 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:05PM-11:10PM ET
+11:06:38 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:05PM-11:10PM ET
+11:06:44 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:05PM-11:10PM ET
+11:06:49 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:05PM-11:10PM ET
+11:06:54 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:05PM-11:10PM ET
+11:06:54 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:06:59 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:05PM-11:10PM ET
+11:07:02 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,512.22 → $77,510.36 (Δ-1.86)
+11:07:02 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000125/min from 38 samples
+11:07:04 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:05PM-11:10PM ET
+11:07:09 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:05PM-11:10PM ET
+11:07:15 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:05PM-11:10PM ET
+11:07:21 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:05PM-11:10PM ET
+11:07:25 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:07:26 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:05PM-11:10PM ET
+11:07:31 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:05PM-11:10PM ET
+11:07:36 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,510.36 → $77,507.46 (Δ-2.89)
+11:07:36 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000124/min from 39 samples
+11:07:36 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:05PM-11:10PM ET
+11:07:42 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:05PM-11:10PM ET
+11:07:47 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:05PM-11:10PM ET
+11:07:52 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:05PM-11:10PM ET
+11:07:56 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:07:57 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:05PM-11:10PM ET
+11:08:02 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:05PM-11:10PM ET
+11:08:14 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,507.46 → $77,504.45 (Δ-3.01)
+11:08:14 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000122/min from 40 samples
+11:08:18 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:05PM-11:10PM ET
+11:08:24 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:05PM-11:10PM ET
+11:08:28 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:08:29 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:05PM-11:10PM ET
+11:08:34 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:05PM-11:10PM ET
+11:08:39 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:05PM-11:10PM ET
+11:08:41 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,504.45 → $77,505.58 (Δ+1.13)
+11:08:41 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000121/min from 41 samples
+11:08:44 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:05PM-11:10PM ET
+11:08:50 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:05PM-11:10PM ET
+11:08:55 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:05PM-11:10PM ET
+11:08:58 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:09:00 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:05PM-11:10PM ET
+11:09:05 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:05PM-11:10PM ET
+11:09:10 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:05PM-11:10PM ET
+11:09:15 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,505.58 → $77,501.52 (Δ-4.06)
+11:09:15 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000120/min from 42 samples
+11:09:15 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:05PM-11:10PM ET
+11:09:21 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:05PM-11:10PM ET
+11:09:26 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:05PM-11:10PM ET
+11:09:28 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:09:31 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:05PM-11:10PM ET
+11:09:36 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:05PM-11:10PM ET
+11:09:41 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:05PM-11:10PM ET
+11:09:46 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:05PM-11:10PM ET
+11:09:49 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,501.52 → $77,503.00 (Δ+1.48)
+11:09:49 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000119/min from 43 samples
+11:09:52 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:05PM-11:10PM ET
+11:09:57 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:05PM-11:10PM ET
+11:10:00 [INFO] [Window] Baru: 20260426-0310
+11:10:00 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:10:02 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:10PM-11:15PM ET
+11:10:02 [WARNING] [BTC] ⚠️ Beat snapshot Chainlink: $77,503.00 t=2s (API tidak punya strike_price)
+11:10:07 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:10PM-11:15PM ET
+11:10:12 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:10PM-11:15PM ET
+11:10:17 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:10PM-11:15PM ET
+11:10:22 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:10PM-11:15PM ET
+11:10:23 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,503.00 → $77,517.37 (Δ+14.37)
+11:10:23 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000123/min from 44 samples
+11:10:28 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:10PM-11:15PM ET
+11:10:30 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:10:33 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:10PM-11:15PM ET
+11:10:38 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:10PM-11:15PM ET
+11:10:43 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:10PM-11:15PM ET
+11:10:48 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:10PM-11:15PM ET
+11:10:53 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:10PM-11:15PM ET
+11:10:53 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,517.37 → $77,515.22 (Δ-2.15)
+11:10:53 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000122/min from 45 samples
+11:10:59 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:10PM-11:15PM ET
+11:11:01 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:11:04 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:10PM-11:15PM ET
+11:11:09 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:10PM-11:15PM ET
+11:11:14 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:10PM-11:15PM ET
+11:11:19 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:10PM-11:15PM ET
+11:11:25 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:10PM-11:15PM ET
+11:11:27 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,515.22 → $77,517.02 (Δ+1.80)
+11:11:27 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000121/min from 46 samples
+11:11:30 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:10PM-11:15PM ET
+11:11:31 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:11:35 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:10PM-11:15PM ET
+11:11:40 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:10PM-11:15PM ET
+11:11:45 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:10PM-11:15PM ET
+11:11:51 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:10PM-11:15PM ET
+11:11:56 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:10PM-11:15PM ET
+11:11:58 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,517.02 → $77,516.59 (Δ-0.43)
+11:11:58 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000119/min from 47 samples
+11:12:01 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:10PM-11:15PM ET
+11:12:02 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:12:06 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:10PM-11:15PM ET
+11:12:11 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:10PM-11:15PM ET
+11:12:17 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:10PM-11:15PM ET
+11:12:22 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:10PM-11:15PM ET
+11:12:27 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:10PM-11:15PM ET
+11:12:32 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,516.59 → $77,518.63 (Δ+2.04)
+11:12:32 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000118/min from 48 samples
+11:12:32 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:10PM-11:15PM ET
+11:12:33 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:12:37 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:10PM-11:15PM ET
+11:12:43 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:10PM-11:15PM ET
+11:12:48 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:10PM-11:15PM ET
+11:12:53 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:10PM-11:15PM ET
+11:12:58 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:10PM-11:15PM ET
+11:13:04 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:13:04 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:10PM-11:15PM ET
+11:13:06 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,518.63 → $77,516.18 (Δ-2.45)
+11:13:06 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000117/min from 49 samples
+11:13:09 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:10PM-11:15PM ET
+11:13:14 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:10PM-11:15PM ET
+11:13:19 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:10PM-11:15PM ET
+11:13:24 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:10PM-11:15PM ET
+11:13:30 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:10PM-11:15PM ET
+11:13:34 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:13:35 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:10PM-11:15PM ET
+11:13:40 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,516.18 → $77,536.87 (Δ+20.70)
+11:13:40 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000127/min from 49 samples
+11:13:40 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:10PM-11:15PM ET
+11:13:45 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:10PM-11:15PM ET
+11:13:50 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:10PM-11:15PM ET
+11:13:56 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:10PM-11:15PM ET
+11:14:01 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:10PM-11:15PM ET
+11:14:05 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:14:06 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:10PM-11:15PM ET
+11:14:11 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:10PM-11:15PM ET
+11:14:14 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,536.87 → $77,537.72 (Δ+0.84)
+11:14:14 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000121/min from 49 samples
+11:14:16 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:10PM-11:15PM ET
+11:14:21 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:10PM-11:15PM ET
+11:14:27 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:10PM-11:15PM ET
+11:14:30 [INFO] [BTC] SIGNAL: UP | price=$77,537.72 beat=$77,503.00 Δ$35 | rem=30s | odds=0.5250
+11:14:30 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:10PM-11:15PM ET
+11:14:30 [INFO] [Bet] BTC UP $1.00 @ 0.5250 | price=$77,537.72 beat=$77,503.00 Δ$35 | rem=30s
+11:14:30 [INFO] [Executor] place_order UP: amount=1.0 @ price=0.53
+11:14:31 [INFO] HTTP Request: GET https://clob.polymarket.com/tick-size?token_id=94331615100739664625370966732291191608370848827926244138330035892536965449404 "HTTP/2 200 OK"
+11:14:31 [INFO] HTTP Request: GET https://clob.polymarket.com/neg-risk?token_id=94331615100739664625370966732291191608370848827926244138330035892536965449404 "HTTP/2 200 OK"
+11:14:31 [INFO] HTTP Request: GET https://clob.polymarket.com/fee-rate?token_id=94331615100739664625370966732291191608370848827926244138330035892536965449404 "HTTP/2 200 OK"
+11:14:31 [INFO] [Executor] Submitting FOK UP @ 0.53 | maker=1000000 taker=1886700
+11:14:31 [INFO] HTTP Request: POST https://clob.polymarket.com/order "HTTP/2 200 OK"
+11:14:31 [INFO] [Executor] ✓ FILLED UP $1.00 @ 0.53
+11:14:31 [INFO] [ResultTracker] Bet recorded: UP $1.00 @ 0.53 | beat=77503.00 [POLYMARKET_API✓]
+11:14:31 [INFO] [Bet] ✓ BTC UP
+11:14:32 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:10PM-11:15PM ET
+11:14:35 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:14:37 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:10PM-11:15PM ET
+11:14:42 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:10PM-11:15PM ET
+11:14:46 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,537.72 → $77,538.05 (Δ+0.33)
+11:14:46 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000118/min from 49 samples
+11:14:47 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:10PM-11:15PM ET
+11:14:53 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:10PM-11:15PM ET
+11:14:58 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:10PM-11:15PM ET
+11:15:00 [INFO] [Window] Baru: 20260426-0315
+11:15:03 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:15PM-11:20PM ET
+11:15:03 [WARNING] [BTC] ⚠️ Beat snapshot Chainlink: $77,538.05 t=3s (API tidak punya strike_price)
+11:15:06 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:15:08 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:15PM-11:20PM ET
+11:15:10 [WARNING] [ResultTracker] Polymarket API belum resolve → fallback hitung sendiri (UP: close=77538.05 vs beat=77503.00)
+11:15:10 [INFO] [ResultTracker] Resolved [CHAINLINK_CALC]: UP → WIN | close=77538.05 beat=77503.00 [POLYMARKET_API] | PnL=$+0.90 | Total=$+59.61
+11:15:13 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:15PM-11:20PM ET
+11:15:18 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:15PM-11:20PM ET
+11:15:20 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,538.05 → $77,547.81 (Δ+9.76)
+11:15:20 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000116/min from 49 samples
+11:15:24 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:15PM-11:20PM ET
+11:15:29 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:15PM-11:20PM ET
+11:15:34 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:15PM-11:20PM ET
+11:15:37 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:15:39 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:15PM-11:20PM ET
+11:15:44 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:15PM-11:20PM ET
+11:15:50 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:15PM-11:20PM ET
+11:15:50 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,547.81 → $77,548.46 (Δ+0.65)
+11:15:50 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000116/min from 49 samples
+11:15:55 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:15PM-11:20PM ET
+11:16:00 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:15PM-11:20PM ET
+11:16:05 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:15PM-11:20PM ET
+11:16:07 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:16:10 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:15PM-11:20PM ET
+11:16:15 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:15PM-11:20PM ET
+11:16:21 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:15PM-11:20PM ET
+11:16:24 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,548.46 → $77,558.13 (Δ+9.67)
+11:16:24 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000116/min from 49 samples
+11:16:26 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:15PM-11:20PM ET
+11:16:31 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:15PM-11:20PM ET
+11:16:36 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:15PM-11:20PM ET
+11:16:38 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:16:42 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:15PM-11:20PM ET
+11:16:47 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:15PM-11:20PM ET
+11:16:52 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:15PM-11:20PM ET
+11:16:58 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:15PM-11:20PM ET
+11:16:59 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,558.13 → $77,558.85 (Δ+0.72)
+11:16:59 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000112/min from 49 samples
+11:17:03 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:15PM-11:20PM ET
+11:17:09 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:17:09 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:15PM-11:20PM ET
+11:17:14 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:15PM-11:20PM ET
+11:17:19 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:15PM-11:20PM ET
+11:17:25 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:15PM-11:20PM ET
+11:17:30 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:15PM-11:20PM ET
+11:17:30 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,558.85 → $77,560.95 (Δ+2.10)
+11:17:30 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000112/min from 49 samples
+11:17:35 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:15PM-11:20PM ET
+11:17:39 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:17:40 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:15PM-11:20PM ET
+11:17:45 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:15PM-11:20PM ET
+11:17:51 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:15PM-11:20PM ET
+11:17:56 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:15PM-11:20PM ET
+11:18:01 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:15PM-11:20PM ET
+11:18:04 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,560.95 → $77,562.19 (Δ+1.24)
+11:18:04 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000108/min from 49 samples
+11:18:06 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:15PM-11:20PM ET
+11:18:11 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:18:11 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:15PM-11:20PM ET
+11:18:17 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:15PM-11:20PM ET
+11:18:22 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:15PM-11:20PM ET
+11:18:27 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:15PM-11:20PM ET
+11:18:32 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:15PM-11:20PM ET
+11:18:36 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,562.19 → $77,562.57 (Δ+0.38)
+11:18:36 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000107/min from 49 samples
+11:18:37 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:15PM-11:20PM ET
+11:18:42 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:18:42 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:15PM-11:20PM ET
+11:18:48 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:15PM-11:20PM ET
+11:18:53 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:15PM-11:20PM ET
+11:18:58 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:15PM-11:20PM ET
+11:19:03 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:15PM-11:20PM ET
+11:19:08 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:15PM-11:20PM ET
+11:19:10 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,562.57 → $77,563.20 (Δ+0.63)
+11:19:10 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000105/min from 49 samples
+11:19:12 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:19:14 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:15PM-11:20PM ET
+11:19:19 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:15PM-11:20PM ET
+11:19:24 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:15PM-11:20PM ET
+11:19:29 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:15PM-11:20PM ET
+11:19:30 [INFO] [BTC] SIGNAL: UP | price=$77,563.20 beat=$77,538.05 Δ$25 | rem=30s | odds=0.5250
+11:19:30 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:15PM-11:20PM ET
+11:19:30 [INFO] [Bet] BTC UP $1.00 @ 0.5250 | price=$77,563.20 beat=$77,538.05 Δ$25 | rem=30s
+11:19:30 [INFO] [Executor] place_order UP: amount=1.0 @ price=0.53
+11:19:31 [INFO] HTTP Request: GET https://clob.polymarket.com/tick-size?token_id=64284696241764168978372499869314088035105596395976962121938959430302085241158 "HTTP/2 200 OK"
+11:19:31 [INFO] HTTP Request: GET https://clob.polymarket.com/neg-risk?token_id=64284696241764168978372499869314088035105596395976962121938959430302085241158 "HTTP/2 200 OK"
+11:19:31 [INFO] HTTP Request: GET https://clob.polymarket.com/fee-rate?token_id=64284696241764168978372499869314088035105596395976962121938959430302085241158 "HTTP/2 200 OK"
+11:19:31 [INFO] [Executor] Submitting FOK UP @ 0.53 | maker=1000000 taker=1886700
+11:19:31 [INFO] HTTP Request: POST https://clob.polymarket.com/order "HTTP/2 200 OK"
+11:19:31 [INFO] [Executor] ✓ FILLED UP $1.00 @ 0.53
+11:19:31 [INFO] [ResultTracker] Bet recorded: UP $1.00 @ 0.53 | beat=77538.05 [POLYMARKET_API✓]
+11:19:31 [INFO] [Bet] ✓ BTC UP
+11:19:34 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:15PM-11:20PM ET
+11:19:39 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:15PM-11:20PM ET
+11:19:42 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:19:45 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:15PM-11:20PM ET
+11:19:45 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,563.20 → $77,549.32 (Δ-13.88)
+11:19:45 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000109/min from 49 samples
+11:19:50 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:15PM-11:20PM ET
+11:19:55 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:15PM-11:20PM ET
+11:20:00 [INFO] [Window] Baru: 20260426-0320
+11:20:00 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:20PM-11:25PM ET
+11:20:00 [WARNING] [BTC] ⚠️ Beat snapshot Chainlink: $77,549.32 t=1s (API tidak punya strike_price)
+11:20:05 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:20PM-11:25PM ET
+11:20:10 [WARNING] [ResultTracker] Polymarket API belum resolve → fallback hitung sendiri (UP: close=77549.32 vs beat=77538.05)
+11:20:10 [INFO] [ResultTracker] Resolved [CHAINLINK_CALC]: UP → WIN | close=77549.32 beat=77538.05 [POLYMARKET_API] | PnL=$+0.90 | Total=$+60.52
+11:20:11 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:20PM-11:25PM ET
+11:20:14 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:20:15 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,549.32 → $77,545.99 (Δ-3.33)
+11:20:15 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000110/min from 49 samples
+11:20:16 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:20PM-11:25PM ET
+11:20:21 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:20PM-11:25PM ET
+11:20:26 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:20PM-11:25PM ET
+11:20:31 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:20PM-11:25PM ET
+11:20:36 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:20PM-11:25PM ET
+11:20:42 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:20PM-11:25PM ET
+11:20:45 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:20:47 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:20PM-11:25PM ET
+11:20:49 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,545.99 → $77,546.95 (Δ+0.95)
+11:20:49 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000110/min from 49 samples
+11:20:52 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:20PM-11:25PM ET
+11:20:57 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:20PM-11:25PM ET
+11:21:02 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:20PM-11:25PM ET
+11:21:08 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:20PM-11:25PM ET
+11:21:13 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:20PM-11:25PM ET
+11:21:15 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:21:18 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:20PM-11:25PM ET
+11:21:20 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,546.95 → $77,547.98 (Δ+1.03)
+11:21:20 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000108/min from 49 samples
+11:21:23 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:20PM-11:25PM ET
+11:21:28 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:20PM-11:25PM ET
+11:21:34 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:20PM-11:25PM ET
+11:21:39 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:20PM-11:25PM ET
+11:21:44 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:20PM-11:25PM ET
+11:21:47 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:21:49 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:20PM-11:25PM ET
+11:21:54 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,547.98 → $77,548.34 (Δ+0.36)
+11:21:54 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000108/min from 49 samples
+11:21:55 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:20PM-11:25PM ET
+11:22:00 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:20PM-11:25PM ET
+11:22:05 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:20PM-11:25PM ET
+11:22:10 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:20PM-11:25PM ET
+11:22:15 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:20PM-11:25PM ET
+11:22:17 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:22:20 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:20PM-11:25PM ET
+11:22:26 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:20PM-11:25PM ET
+11:22:28 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,548.34 → $77,545.58 (Δ-2.75)
+11:22:28 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000108/min from 49 samples
+11:22:31 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:20PM-11:25PM ET
+11:22:36 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:20PM-11:25PM ET
+11:22:41 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:20PM-11:25PM ET
+11:22:46 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:20PM-11:25PM ET
+11:22:48 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:22:52 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:20PM-11:25PM ET
+11:22:57 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:20PM-11:25PM ET
+11:23:02 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:20PM-11:25PM ET
+11:23:02 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,545.58 → $77,533.66 (Δ-11.92)
+11:23:02 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000097/min from 49 samples
+11:23:07 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:20PM-11:25PM ET
+11:23:12 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:20PM-11:25PM ET
+11:23:17 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:20PM-11:25PM ET
+11:23:19 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:23:23 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:20PM-11:25PM ET
+11:23:28 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:20PM-11:25PM ET
+11:23:33 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:20PM-11:25PM ET
+11:23:34 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,533.66 → $77,533.52 (Δ-0.14)
+11:23:34 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000096/min from 49 samples
+11:23:38 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:20PM-11:25PM ET
+11:23:43 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:20PM-11:25PM ET
+11:23:49 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:20PM-11:25PM ET
+11:23:50 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:23:54 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:20PM-11:25PM ET
+11:23:59 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:20PM-11:25PM ET
+11:24:04 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:20PM-11:25PM ET
+11:24:08 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,533.52 → $77,533.24 (Δ-0.28)
+11:24:08 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000095/min from 49 samples
+11:24:09 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:20PM-11:25PM ET
+11:24:14 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:20PM-11:25PM ET
+11:24:20 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:20PM-11:25PM ET
+11:24:21 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:24:25 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:20PM-11:25PM ET
+11:24:30 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:20PM-11:25PM ET
+11:24:35 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:20PM-11:25PM ET
+11:24:40 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:20PM-11:25PM ET
+11:24:42 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,533.24 → $77,533.18 (Δ-0.06)
+11:24:42 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000093/min from 49 samples
+11:24:46 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:20PM-11:25PM ET
+11:24:51 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:24:52 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:20PM-11:25PM ET
+11:24:57 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:20PM-11:25PM ET
+11:25:00 [INFO] [Window] Baru: 20260426-0325
+11:25:02 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:25PM-11:30PM ET
+11:25:02 [WARNING] [BTC] ⚠️ Beat snapshot Chainlink: $77,533.18 t=3s (API tidak punya strike_price)
+11:25:07 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:25PM-11:30PM ET
+11:25:13 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:25PM-11:30PM ET
+11:25:16 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,533.18 → $77,538.06 (Δ+4.88)
+11:25:16 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000094/min from 49 samples
+11:25:18 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:25PM-11:30PM ET
+11:25:22 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:25:23 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:25PM-11:30PM ET
+11:25:28 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:25PM-11:30PM ET
+11:25:33 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:25PM-11:30PM ET
+11:25:38 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:25PM-11:30PM ET
+11:25:44 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:25PM-11:30PM ET
+11:25:47 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,538.06 → $77,517.80 (Δ-20.26)
+11:25:47 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000108/min from 49 samples
+11:25:49 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:25PM-11:30PM ET
+11:25:54 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:25:54 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:25PM-11:30PM ET
+11:25:59 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:25PM-11:30PM ET
+11:26:04 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:25PM-11:30PM ET
+11:26:10 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:25PM-11:30PM ET
+11:26:15 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:25PM-11:30PM ET
+11:26:18 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,517.80 → $77,512.08 (Δ-5.72)
+11:26:18 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000109/min from 49 samples
+11:26:20 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:25PM-11:30PM ET
+11:26:24 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:26:25 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:25PM-11:30PM ET
+11:26:30 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:25PM-11:30PM ET
+11:26:36 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:25PM-11:30PM ET
+11:26:41 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:25PM-11:30PM ET
+11:26:46 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:25PM-11:30PM ET
+11:26:51 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:25PM-11:30PM ET
+11:26:52 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,512.08 → $77,509.95 (Δ-2.13)
+11:26:52 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000109/min from 49 samples
+11:26:56 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:26:56 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:25PM-11:30PM ET
+11:27:02 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:25PM-11:30PM ET
+11:27:07 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:25PM-11:30PM ET
+11:27:12 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:25PM-11:30PM ET
+11:27:17 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:25PM-11:30PM ET
+11:27:22 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:25PM-11:30PM ET
+11:27:24 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,509.95 → $77,512.52 (Δ+2.57)
+11:27:24 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000107/min from 49 samples
+11:27:26 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:27:28 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:25PM-11:30PM ET
+11:27:33 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:25PM-11:30PM ET
+11:27:38 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:25PM-11:30PM ET
+11:27:43 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:25PM-11:30PM ET
+11:27:48 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:25PM-11:30PM ET
+11:27:54 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:25PM-11:30PM ET
+11:27:57 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:27:58 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,512.52 → $77,509.56 (Δ-2.96)
+11:27:58 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000104/min from 49 samples
+11:27:59 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:25PM-11:30PM ET
+11:28:04 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:25PM-11:30PM ET
+11:28:09 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:25PM-11:30PM ET
+11:28:14 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:25PM-11:30PM ET
+11:28:19 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:25PM-11:30PM ET
+11:28:25 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:25PM-11:30PM ET
+11:28:28 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:28:33 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:25PM-11:30PM ET
+11:28:34 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,509.56 → $77,506.61 (Δ-2.95)
+11:28:34 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000104/min from 49 samples
+11:28:38 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:25PM-11:30PM ET
+11:28:43 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:25PM-11:30PM ET
+11:28:48 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:25PM-11:30PM ET
+11:28:54 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:25PM-11:30PM ET
+11:28:59 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:25PM-11:30PM ET
+11:28:59 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:29:04 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:25PM-11:30PM ET
+11:29:04 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,506.61 → $77,503.43 (Δ-3.18)
+11:29:04 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000105/min from 49 samples
+11:29:09 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:25PM-11:30PM ET
+11:29:14 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:25PM-11:30PM ET
+11:29:19 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:25PM-11:30PM ET
+11:29:25 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:25PM-11:30PM ET
+11:29:29 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:29:30 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:25PM-11:30PM ET
+11:29:30 [INFO] [BTC] SIGNAL: DOWN | price=$77,503.43 beat=$77,533.18 Δ$30 | rem=30s | odds=0.4750
+11:29:30 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:25PM-11:30PM ET
+11:29:30 [INFO] [Bet] BTC DOWN $1.00 @ 0.4750 | price=$77,503.43 beat=$77,533.18 Δ$30 | rem=30s
+11:29:30 [INFO] [Executor] place_order DOWN: amount=1.0 @ price=0.48
+11:29:31 [INFO] HTTP Request: GET https://clob.polymarket.com/tick-size?token_id=114662543933178461257709125786899992500690139976867873410297014957033666358419 "HTTP/2 200 OK"
+11:29:31 [INFO] HTTP Request: GET https://clob.polymarket.com/neg-risk?token_id=114662543933178461257709125786899992500690139976867873410297014957033666358419 "HTTP/2 200 OK"
+11:29:31 [INFO] HTTP Request: GET https://clob.polymarket.com/fee-rate?token_id=114662543933178461257709125786899992500690139976867873410297014957033666358419 "HTTP/2 200 OK"
+11:29:31 [INFO] [Executor] Submitting FOK DOWN @ 0.48 | maker=1000000 taker=2083300
+11:29:31 [INFO] HTTP Request: POST https://clob.polymarket.com/order "HTTP/2 400 Bad Request"
+11:29:31 [WARNING] [Executor] FOK exception @ 0.48: PolyApiException[status_code=400, error_message={'error': "order couldn't be ful
+11:29:31 [INFO] [Executor] FOK retry 1/2 @ 0.49
+11:29:31 [INFO] [Executor] Submitting FOK DOWN @ 0.49 | maker=1000000 taker=2040800
+11:29:32 [INFO] HTTP Request: POST https://clob.polymarket.com/order "HTTP/2 400 Bad Request"
+11:29:32 [WARNING] [Executor] FOK exception @ 0.49: PolyApiException[status_code=400, error_message={'error': "order couldn't be ful
+11:29:32 [INFO] [Executor] FOK retry 2/2 @ 0.50
+11:29:32 [INFO] [Executor] Submitting FOK DOWN @ 0.50 | maker=1000000 taker=2000000
+11:29:32 [INFO] HTTP Request: POST https://clob.polymarket.com/order "HTTP/2 400 Bad Request"
+11:29:32 [WARNING] [Executor] FOK exception @ 0.50: PolyApiException[status_code=400, error_message={'error': "order couldn't be ful
+11:29:32 [WARNING] [Executor] Semua FOK gagal, fallback ke GTC @ 0.48
+11:29:32 [WARNING] [Executor] LimitOrderArgs tidak tersedia, coba GTC legacy
+11:29:32 [ERROR] [Executor] GTC legacy error: 'dict' object has no attribute 'token_id'
+11:29:32 [WARNING] [Bet] ✗ BTC DOWN — order gagal
+11:29:35 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:25PM-11:30PM ET
+11:29:36 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $77,503.43 → $77,472.69 (Δ-30.74)
+11:29:36 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000129/min from 49 samples
+11:29:40 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:25PM-11:30PM ET
+11:29:45 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:25PM-11:30PM ET
+11:29:50 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:25PM-11:30PM ET
+11:29:56 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:25PM-11:30PM ET
+11:30:00 [INFO] [Window] Baru: 20260426-0330
+11:30:00 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:30:01 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 25, 11:30PM-11:35PM ET
+11:30:01 [WARNING] [BTC] ⚠️ Beat snapshot Chainlink: $77,472.69 t=1s (API tidak punya strike_price)
+11:38:50 [INFO] [Executor] CLOB client initialized (sig_type=1 POLY_PROXY)
+11:38:51 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:38:51 [INFO] [TelegramCtrl] Controller aktif — chat_id=8790667203
+11:38:51 [INFO] [ResultTracker] Loaded 69 records dari logs/late_bot_results.csv
+11:38:51 [INFO] [Window] Baru: 20260427-0335
+11:38:51 [INFO] [LateBot] Chainlink monitor ENABLED
+11:38:51 [INFO] [MultiWS] Connected — coins: ['BTC']
+11:38:53 [INFO] [ChainlinkMonitor] Connected via https://rpc-mainnet.matic.quiknode.pro — coins: ['BTC']
+11:38:54 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:35PM-11:40PM ET
+11:38:54 [WARNING] [BTC] Strike price tidak ada di market response — akan pakai Chainlink sebagai fallback
+11:38:54 [INFO] [BTC] Market fields: {'coin': 'BTC', 'market_id': '0x5b78975a471b5d1533ef91450e66c542086189a8b5b1b946160ccdc544', 'question': 'Bitcoin Up or Down - April 26, 11:35PM-11:40PM ET', 'token_id_up': '103823907944179326705141061684830505092005928194514913431903', 'token_id_down': '268208479477123943156349918651269744134228425549518668980290', 'end_date': '2026-04-27T03:40:00Z', 'strike_price': 'None'}
+11:38:54 [INFO] [LateBot] Saldo: $5.46
+11:38:54 [INFO] [LateBot] Start — coins: ['BTC']
+11:38:54 [INFO] [LateBot] Entry zone: remaining 7.0-30.0s
+11:38:54 [INFO] [LateBot] Beat distance min: $25.0
+11:38:54 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:38:55 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:35PM-11:40PM ET
+11:39:00 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:35PM-11:40PM ET
+11:39:05 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:35PM-11:40PM ET
+11:39:11 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:35PM-11:40PM ET
+11:39:16 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:35PM-11:40PM ET
+11:39:21 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:35PM-11:40PM ET
+11:39:25 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $79,210.26 → $79,222.52 (Δ+12.26)
+11:39:25 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:39:27 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:35PM-11:40PM ET
+11:39:32 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:35PM-11:40PM ET
+11:39:37 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:35PM-11:40PM ET
+11:39:42 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:35PM-11:40PM ET
+11:39:48 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:35PM-11:40PM ET
+11:39:53 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:35PM-11:40PM ET
+11:39:55 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:39:56 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $79,222.52 → $79,221.09 (Δ-1.43)
+11:39:58 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:35PM-11:40PM ET
+11:40:00 [INFO] [Window] Baru: 20260427-0340
+11:40:04 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:40PM-11:45PM ET
+11:40:04 [WARNING] [BTC] ⚠️ Beat snapshot Chainlink: $79,221.09 t=4s (API tidak punya strike_price)
+11:40:09 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:40PM-11:45PM ET
+11:40:15 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:40PM-11:45PM ET
+11:40:20 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:40PM-11:45PM ET
+11:40:26 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:40PM-11:45PM ET
+11:40:27 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:40:30 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $79,221.09 → $79,208.94 (Δ-12.15)
+11:40:31 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:40PM-11:45PM ET
+11:40:36 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:40PM-11:45PM ET
+11:40:42 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:40PM-11:45PM ET
+11:40:47 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:40PM-11:45PM ET
+11:40:52 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:40PM-11:45PM ET
+11:40:57 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:40:58 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:40PM-11:45PM ET
+11:41:03 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:40PM-11:45PM ET
+11:41:04 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $79,208.94 → $79,221.40 (Δ+12.46)
+11:41:08 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:40PM-11:45PM ET
+11:41:14 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:40PM-11:45PM ET
+11:41:19 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:40PM-11:45PM ET
+11:41:24 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:40PM-11:45PM ET
+11:41:28 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:41:30 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:40PM-11:45PM ET
+11:41:35 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:40PM-11:45PM ET
+11:41:39 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $79,221.40 → $79,225.99 (Δ+4.60)
+11:41:40 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:40PM-11:45PM ET
+11:41:46 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:40PM-11:45PM ET
+11:41:51 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:40PM-11:45PM ET
+11:41:56 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:40PM-11:45PM ET
+11:41:59 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:42:01 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:40PM-11:45PM ET
+11:42:07 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:40PM-11:45PM ET
+11:42:10 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $79,225.99 → $79,237.42 (Δ+11.43)
+11:42:12 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:40PM-11:45PM ET
+11:42:17 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:40PM-11:45PM ET
+11:42:28 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:40PM-11:45PM ET
+11:42:29 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:42:32 [WARNING] [MultiWS] Reconnect dalam 2s: no close frame received or sent
+11:42:34 [WARNING] [MultiWS] Reconnect dalam 4s: [Errno 11001] getaddrinfo failed
+11:42:39 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:40PM-11:45PM ET
+11:42:39 [INFO] [MultiWS] Connected — coins: ['BTC']
+11:42:44 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $79,237.42 → $79,241.02 (Δ+3.59)
+11:42:44 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:40PM-11:45PM ET
+11:42:50 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:40PM-11:45PM ET
+11:42:54 [WARNING] [MultiWS] Reconnect dalam 8s: no close frame received or sent
+11:43:02 [WARNING] [MultiWS] Reconnect dalam 16s: [Errno 11001] getaddrinfo failed
+11:43:05 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:40PM-11:45PM ET
+11:43:10 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:40PM-11:45PM ET
+11:43:14 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $79,241.02 → $79,231.92 (Δ-9.09)
+11:43:16 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:40PM-11:45PM ET
+11:43:18 [INFO] [MultiWS] Connected — coins: ['BTC']
+11:43:21 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:40PM-11:45PM ET
+11:43:26 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:40PM-11:45PM ET
+11:43:30 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:43:31 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:40PM-11:45PM ET
+11:43:37 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:40PM-11:45PM ET
+11:43:42 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:40PM-11:45PM ET
+11:43:47 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:40PM-11:45PM ET
+11:43:48 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $79,231.92 → $79,228.94 (Δ-2.98)
+11:43:53 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:40PM-11:45PM ET
+11:43:58 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:40PM-11:45PM ET
+11:44:01 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:44:03 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:40PM-11:45PM ET
+11:44:09 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:40PM-11:45PM ET
+11:44:14 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:40PM-11:45PM ET
+11:44:19 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:40PM-11:45PM ET
+11:44:23 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $79,228.94 → $79,254.12 (Δ+25.17)
+11:44:23 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000185/min from 9 samples
+11:44:24 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:40PM-11:45PM ET
+11:44:30 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:40PM-11:45PM ET
+11:44:30 [INFO] [BTC] SIGNAL: UP | price=$79,254.12 beat=$79,221.09 Δ$33 | rem=30s | odds=0.5350
+11:44:30 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:40PM-11:45PM ET
+11:44:30 [INFO] [Bet] BTC UP $2.00 @ 0.5350 | price=$79,254.12 beat=$79,221.09 Δ$33 | rem=30s
+11:44:30 [INFO] [Executor] DRY_RUN: UP $2.00 @ 0.5350
+11:44:30 [INFO] [ResultTracker] Bet recorded: UP $2.00 @ 0.54 | beat=79221.09 [POLYMARKET_API✓]
+11:44:30 [INFO] [Bet] ✓ BTC UP
+11:44:31 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:44:35 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:40PM-11:45PM ET
+11:44:40 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:40PM-11:45PM ET
+11:44:46 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:40PM-11:45PM ET
+11:44:51 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:40PM-11:45PM ET
+11:44:56 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:40PM-11:45PM ET
+11:44:57 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $79,254.12 → $79,246.99 (Δ-7.12)
+11:44:57 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000184/min from 10 samples
+11:45:00 [INFO] [Window] Baru: 20260427-0345
+11:45:01 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:45PM-11:50PM ET
+11:45:01 [WARNING] [BTC] ⚠️ Beat snapshot Chainlink: $79,246.99 t=2s (API tidak punya strike_price)
+11:45:02 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:45:07 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:45PM-11:50PM ET
+11:45:10 [WARNING] [ResultTracker] Polymarket API belum resolve → fallback hitung sendiri (UP: close=79246.99 vs beat=79221.09)
+11:45:10 [INFO] [ResultTracker] Resolved [CHAINLINK_CALC]: UP → WIN | close=79246.99 beat=79221.09 [POLYMARKET_API] | PnL=$+1.74 | Total=$+62.26
+11:45:12 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:45PM-11:50PM ET
+11:45:17 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:45PM-11:50PM ET
+11:45:23 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:45PM-11:50PM ET
+11:45:28 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $79,246.99 → $79,262.14 (Δ+15.15)
+11:45:28 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000187/min from 11 samples
+11:45:28 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:45PM-11:50PM ET
+11:45:33 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:45:33 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:45PM-11:50PM ET
+11:45:39 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:45PM-11:50PM ET
+11:45:44 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:45PM-11:50PM ET
+11:45:49 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:45PM-11:50PM ET
+11:45:55 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:45PM-11:50PM ET
+11:46:00 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:45PM-11:50PM ET
+11:46:02 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $79,262.14 → $79,251.60 (Δ-10.54)
+11:46:02 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000191/min from 12 samples
+11:46:04 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:46:05 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:45PM-11:50PM ET
+11:46:11 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:45PM-11:50PM ET
+11:46:16 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:45PM-11:50PM ET
+11:46:21 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:45PM-11:50PM ET
+11:46:27 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:45PM-11:50PM ET
+11:46:32 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:45PM-11:50PM ET
+11:46:32 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $79,251.60 → $79,221.68 (Δ-29.92)
+11:46:32 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000238/min from 13 samples
+11:46:35 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:46:37 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:45PM-11:50PM ET
+11:46:42 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:45PM-11:50PM ET
+11:46:48 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:45PM-11:50PM ET
+11:46:53 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:45PM-11:50PM ET
+11:46:58 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:45PM-11:50PM ET
+11:47:04 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:45PM-11:50PM ET
+11:47:05 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:47:07 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $79,221.68 → $79,208.87 (Δ-12.82)
+11:47:07 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000235/min from 14 samples
+11:47:09 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:45PM-11:50PM ET
+11:47:14 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:45PM-11:50PM ET
+11:47:20 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:45PM-11:50PM ET
+11:47:25 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:45PM-11:50PM ET
+11:47:30 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:45PM-11:50PM ET
+11:47:36 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:45PM-11:50PM ET
+11:47:36 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:47:41 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:45PM-11:50PM ET
+11:47:41 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $79,208.87 → $79,211.06 (Δ+2.19)
+11:47:41 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000228/min from 15 samples
+11:47:46 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:45PM-11:50PM ET
+11:47:52 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:45PM-11:50PM ET
+11:47:57 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:45PM-11:50PM ET
+11:48:02 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:45PM-11:50PM ET
+11:48:07 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:48:07 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:45PM-11:50PM ET
+11:48:13 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:45PM-11:50PM ET
+11:48:15 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $79,211.06 → $79,188.44 (Δ-22.62)
+11:48:15 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000238/min from 16 samples
+11:48:18 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:45PM-11:50PM ET
+11:48:23 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:45PM-11:50PM ET
+11:48:29 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:45PM-11:50PM ET
+11:48:34 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:45PM-11:50PM ET
+11:48:37 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:48:39 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:45PM-11:50PM ET
+11:48:45 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:45PM-11:50PM ET
+11:48:46 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $79,188.44 → $79,196.26 (Δ+7.82)
+11:48:46 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000234/min from 17 samples
+11:48:50 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:45PM-11:50PM ET
+11:48:55 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:45PM-11:50PM ET
+11:49:00 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:45PM-11:50PM ET
+11:49:06 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:45PM-11:50PM ET
+11:49:08 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:49:11 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:45PM-11:50PM ET
+11:49:17 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:45PM-11:50PM ET
+11:49:21 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $79,196.26 → $79,224.98 (Δ+28.72)
+11:49:21 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000255/min from 18 samples
+11:49:22 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:45PM-11:50PM ET
+11:49:27 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:45PM-11:50PM ET
+11:49:33 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:45PM-11:50PM ET
+11:49:38 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:45PM-11:50PM ET
+11:49:39 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:49:44 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:45PM-11:50PM ET
+11:49:49 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:45PM-11:50PM ET
+11:49:52 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $79,224.98 → $79,229.45 (Δ+4.47)
+11:49:52 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000249/min from 19 samples
+11:49:55 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:45PM-11:50PM ET
+11:50:00 [INFO] [Window] Baru: 20260427-0350
+11:50:00 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:50PM-11:55PM ET
+11:50:00 [WARNING] [BTC] ⚠️ Beat snapshot Chainlink: $79,229.45 t=1s (API tidak punya strike_price)
+11:50:06 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:50PM-11:55PM ET
+11:50:10 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:50:11 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:50PM-11:55PM ET
+11:50:17 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:50PM-11:55PM ET
+11:50:22 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:50PM-11:55PM ET
+11:50:27 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $79,229.45 → $79,226.08 (Δ-3.37)
+11:50:27 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000243/min from 20 samples
+11:50:28 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:50PM-11:55PM ET
+11:50:33 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:50PM-11:55PM ET
+11:50:39 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:50PM-11:55PM ET
+11:50:41 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:50:44 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:50PM-11:55PM ET
+11:50:49 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:50PM-11:55PM ET
+11:50:55 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:50PM-11:55PM ET
+11:50:58 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $79,226.08 → $79,211.14 (Δ-14.94)
+11:50:58 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000244/min from 21 samples
+11:51:12 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:50PM-11:55PM ET
+11:51:13 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:51:17 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:50PM-11:55PM ET
+11:51:23 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:50PM-11:55PM ET
+11:51:28 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:50PM-11:55PM ET
+11:51:32 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $79,211.14 → $79,182.93 (Δ-28.21)
+11:51:32 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000257/min from 22 samples
+11:51:34 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:50PM-11:55PM ET
+11:51:39 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:50PM-11:55PM ET
+11:51:44 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:51:44 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:50PM-11:55PM ET
+11:51:50 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:50PM-11:55PM ET
+11:51:55 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:50PM-11:55PM ET
+11:52:01 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:50PM-11:55PM ET
+11:52:06 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:50PM-11:55PM ET
+11:52:06 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $79,182.93 → $79,167.46 (Δ-15.47)
+11:52:06 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000255/min from 23 samples
+11:52:12 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:50PM-11:55PM ET
+11:52:15 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:52:17 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:50PM-11:55PM ET
+11:52:22 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:50PM-11:55PM ET
+11:52:28 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:50PM-11:55PM ET
+11:52:33 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:50PM-11:55PM ET
+11:52:38 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $79,167.46 → $79,169.89 (Δ+2.43)
+11:52:38 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000250/min from 24 samples
+11:52:39 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:50PM-11:55PM ET
+11:52:44 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:50PM-11:55PM ET
+11:52:46 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:52:50 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:50PM-11:55PM ET
+11:52:55 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:50PM-11:55PM ET
+11:53:00 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:50PM-11:55PM ET
+11:53:06 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:50PM-11:55PM ET
+11:53:09 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $79,169.89 → $79,171.20 (Δ+1.32)
+11:53:09 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000246/min from 25 samples
+11:53:11 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:50PM-11:55PM ET
+11:53:17 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:53:17 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:50PM-11:55PM ET
+11:53:22 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:50PM-11:55PM ET
+11:53:28 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:50PM-11:55PM ET
+11:53:33 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:50PM-11:55PM ET
+11:53:39 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:50PM-11:55PM ET
+11:53:43 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $79,171.20 → $79,156.80 (Δ-14.40)
+11:53:43 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000244/min from 26 samples
+11:53:44 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:50PM-11:55PM ET
+11:53:47 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:53:50 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:50PM-11:55PM ET
+11:53:55 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:50PM-11:55PM ET
+11:54:01 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:50PM-11:55PM ET
+11:54:06 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:50PM-11:55PM ET
+11:54:11 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:50PM-11:55PM ET
+11:54:17 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:50PM-11:55PM ET
+11:54:18 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $79,156.80 → $79,177.33 (Δ+20.53)
+11:54:18 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000250/min from 27 samples
+11:54:19 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:54:22 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:50PM-11:55PM ET
+11:54:28 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:50PM-11:55PM ET
+11:54:30 [INFO] [BTC] SIGNAL: DOWN | price=$79,177.33 beat=$79,229.45 Δ$52 | rem=30s | odds=0.4650
+11:54:31 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:50PM-11:55PM ET
+11:54:31 [INFO] [Bet] BTC DOWN $2.00 @ 0.4650 | price=$79,177.33 beat=$79,229.45 Δ$52 | rem=30s
+11:54:31 [INFO] [Executor] DRY_RUN: DOWN $2.00 @ 0.4650
+11:54:31 [INFO] [ResultTracker] Bet recorded: DOWN $2.00 @ 0.47 | beat=79229.45 [POLYMARKET_API✓]
+11:54:31 [INFO] [Bet] ✓ BTC DOWN
+11:54:33 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:50PM-11:55PM ET
+11:54:38 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:50PM-11:55PM ET
+11:54:44 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:50PM-11:55PM ET
+11:54:49 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:54:49 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $79,177.33 → $79,171.54 (Δ-5.79)
+11:54:49 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000246/min from 28 samples
+11:54:49 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:50PM-11:55PM ET
+11:54:55 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:50PM-11:55PM ET
+11:55:00 [INFO] [Window] Baru: 20260427-0355
+11:55:00 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:55PM-12:00AM ET
+11:55:00 [WARNING] [BTC] ⚠️ Beat snapshot Chainlink: $79,171.54 t=1s (API tidak punya strike_price)
+11:55:06 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:55PM-12:00AM ET
+11:55:10 [WARNING] [ResultTracker] Polymarket API belum resolve → fallback hitung sendiri (DOWN: close=79171.54 vs beat=79229.45)
+11:55:10 [INFO] [ResultTracker] Resolved [CHAINLINK_CALC]: DOWN → WIN | close=79171.54 beat=79229.45 [POLYMARKET_API] | PnL=$+2.30 | Total=$+64.56
+11:55:11 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:55PM-12:00AM ET
+11:55:17 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:55PM-12:00AM ET
+11:55:19 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:55:22 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:55PM-12:00AM ET
+11:55:24 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $79,171.54 → $79,158.23 (Δ-13.31)
+11:55:24 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000244/min from 29 samples
+11:55:28 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:55PM-12:00AM ET
+11:55:33 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:55PM-12:00AM ET
+11:55:38 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:55PM-12:00AM ET
+11:55:44 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:55PM-12:00AM ET
+11:55:50 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:55PM-12:00AM ET
+11:55:51 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:55:55 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:55PM-12:00AM ET
+11:55:55 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $79,158.23 → $79,146.68 (Δ-11.55)
+11:55:55 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000242/min from 30 samples
+11:56:04 [INFO] [Executor] CLOB client initialized (sig_type=1 POLY_PROXY)
+11:56:04 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:56:04 [INFO] [TelegramCtrl] Controller aktif — chat_id=8790667203
+11:56:04 [INFO] [ResultTracker] Loaded 71 records dari logs/late_bot_results.csv
+11:56:04 [INFO] [Window] Baru: 20260427-0355
+11:56:04 [INFO] [LateBot] Chainlink monitor ENABLED
+11:56:05 [INFO] [MultiWS] Connected — coins: ['BTC']
+11:56:07 [INFO] [ChainlinkMonitor] Connected via https://rpc-mainnet.matic.quiknode.pro — coins: ['BTC']
+11:56:08 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:55PM-12:00AM ET
+11:56:08 [WARNING] [BTC] Strike price tidak ada di market response — akan pakai Chainlink sebagai fallback
+11:56:08 [INFO] [BTC] Market fields: {'coin': 'BTC', 'market_id': '0x3c78aec620b59ea24c9bea836fdc7dc43fcfd40c39fde10066e0245814', 'question': 'Bitcoin Up or Down - April 26, 11:55PM-12:00AM ET', 'token_id_up': '502225535227942449675266674701133105324131585397793373893982', 'token_id_down': '367467542043800085241979435527754853235646428732973626123102', 'end_date': '2026-04-27T04:00:00Z', 'strike_price': 'None'}
+11:56:08 [INFO] [LateBot] Saldo: $5.46
+11:56:08 [INFO] [LateBot] Start — coins: ['BTC']
+11:56:08 [INFO] [LateBot] Entry zone: remaining 7.0-30.0s
+11:56:08 [INFO] [LateBot] Beat distance min: $25.0
+11:56:08 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:56:08 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:55PM-12:00AM ET
+11:56:14 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:55PM-12:00AM ET
+11:56:19 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:55PM-12:00AM ET
+11:56:25 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:55PM-12:00AM ET
+11:56:30 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:55PM-12:00AM ET
+11:56:31 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $79,146.68 → $79,142.46 (Δ-4.22)
+11:56:36 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:55PM-12:00AM ET
+11:56:39 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:56:41 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:55PM-12:00AM ET
+11:56:47 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:55PM-12:00AM ET
+11:56:52 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:55PM-12:00AM ET
+11:56:58 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:55PM-12:00AM ET
+11:57:01 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $79,142.46 → $79,139.38 (Δ-3.08)
+11:57:04 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:55PM-12:00AM ET
+11:57:09 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:55PM-12:00AM ET
+11:57:10 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:57:15 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:55PM-12:00AM ET
+11:57:20 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:55PM-12:00AM ET
+11:57:26 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:55PM-12:00AM ET
+11:57:31 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:55PM-12:00AM ET
+11:57:36 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $79,139.38 → $79,121.68 (Δ-17.70)
+11:57:37 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:55PM-12:00AM ET
+11:57:41 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:57:42 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:55PM-12:00AM ET
+11:57:48 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:55PM-12:00AM ET
+11:57:53 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:55PM-12:00AM ET
+11:57:58 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:55PM-12:00AM ET
+11:58:04 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:55PM-12:00AM ET
+11:58:07 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $79,121.68 → $79,121.54 (Δ-0.14)
+11:58:09 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:55PM-12:00AM ET
+11:58:12 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:58:15 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:55PM-12:00AM ET
+11:58:21 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:55PM-12:00AM ET
+11:58:26 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:55PM-12:00AM ET
+11:58:32 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:55PM-12:00AM ET
+11:58:37 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:55PM-12:00AM ET
+11:58:40 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $79,121.54 → $79,102.85 (Δ-18.69)
+11:58:43 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:55PM-12:00AM ET
+11:58:44 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:58:48 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:55PM-12:00AM ET
+11:58:54 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:55PM-12:00AM ET
+11:58:59 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:55PM-12:00AM ET
+11:59:04 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:55PM-12:00AM ET
+11:59:10 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:55PM-12:00AM ET
+11:59:15 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:59:15 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $79,102.85 → $79,096.35 (Δ-6.50)
+11:59:15 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:55PM-12:00AM ET
+11:59:21 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:55PM-12:00AM ET
+11:59:26 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:55PM-12:00AM ET
+11:59:32 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:55PM-12:00AM ET
+11:59:37 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:55PM-12:00AM ET
+11:59:43 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:55PM-12:00AM ET
+11:59:45 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+11:59:46 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $79,096.35 → $79,119.36 (Δ+23.00)
+11:59:48 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:55PM-12:00AM ET
+11:59:54 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:55PM-12:00AM ET
+12:00:00 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 26, 11:55PM-12:00AM ET
+12:00:00 [INFO] [Window] Baru: 20260427-0400
+12:00:06 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:00AM-12:05AM ET
+12:00:06 [WARNING] [BTC] ⚠️ Beat snapshot Chainlink: $79,119.36 t=6s (API tidak punya strike_price)
+12:00:11 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:00AM-12:05AM ET
+12:00:16 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:00AM-12:05AM ET
+12:00:17 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+12:00:19 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $79,119.36 → $79,112.86 (Δ-6.50)
+12:00:22 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:00AM-12:05AM ET
+12:00:27 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:00AM-12:05AM ET
+12:00:32 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:00AM-12:05AM ET
+12:00:38 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:00AM-12:05AM ET
+12:00:43 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:00AM-12:05AM ET
+12:00:48 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+12:00:48 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:00AM-12:05AM ET
+12:00:54 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:00AM-12:05AM ET
+12:00:55 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $79,112.86 → $79,121.40 (Δ+8.54)
+12:00:59 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:00AM-12:05AM ET
+12:01:04 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:00AM-12:05AM ET
+12:01:10 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:00AM-12:05AM ET
+12:01:15 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:00AM-12:05AM ET
+12:01:19 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+12:01:21 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:00AM-12:05AM ET
+12:01:26 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:00AM-12:05AM ET
+12:01:28 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $79,121.40 → $79,127.08 (Δ+5.68)
+12:01:28 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000210/min from 9 samples
+12:01:32 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:00AM-12:05AM ET
+12:01:38 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:00AM-12:05AM ET
+12:01:44 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:00AM-12:05AM ET
+12:01:50 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:00AM-12:05AM ET
+12:01:50 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+12:01:56 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:00AM-12:05AM ET
+12:02:01 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $79,127.08 → $79,147.66 (Δ+20.58)
+12:02:01 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000229/min from 10 samples
+12:02:02 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:00AM-12:05AM ET
+12:02:07 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:00AM-12:05AM ET
+12:02:13 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:00AM-12:05AM ET
+12:02:20 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:00AM-12:05AM ET
+12:02:20 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+12:02:25 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:00AM-12:05AM ET
+12:02:30 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $79,147.66 → $79,141.11 (Δ-6.54)
+12:02:30 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000222/min from 11 samples
+12:02:31 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:00AM-12:05AM ET
+12:02:36 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:00AM-12:05AM ET
+12:02:42 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:00AM-12:05AM ET
+12:02:49 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:00AM-12:05AM ET
+12:14:45 [INFO] [Window] Baru: 20260427-0410
+12:14:45 [WARNING] [MultiWS] Reconnect dalam 2s: no close frame received or sent
+12:14:47 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+12:14:49 [INFO] [MultiWS] Connected — coins: ['BTC']
+12:14:50 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $79,141.11 → $79,067.12 (Δ-73.99)
+12:14:50 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000225/min from 12 samples
+12:14:51 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:10AM-12:15AM ET
+12:14:56 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:10AM-12:15AM ET
+12:15:00 [INFO] [Window] Baru: 20260427-0415
+12:15:01 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:15AM-12:20AM ET
+12:15:01 [WARNING] [BTC] ⚠️ Beat snapshot Chainlink: $79,067.12 t=2s (API tidak punya strike_price)
+12:15:06 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:15AM-12:20AM ET
+12:15:12 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $79,067.12 → $79,067.68 (Δ+0.56)
+12:15:12 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000216/min from 13 samples
+12:15:12 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:15AM-12:20AM ET
+12:15:17 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:15AM-12:20AM ET
+12:15:18 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+12:15:22 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:15AM-12:20AM ET
+12:15:27 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:15AM-12:20AM ET
+12:15:32 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:15AM-12:20AM ET
+12:15:37 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:15AM-12:20AM ET
+12:15:43 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:15AM-12:20AM ET
+12:15:45 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $79,067.68 → $79,074.21 (Δ+6.53)
+12:15:45 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000211/min from 14 samples
+12:15:48 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:15AM-12:20AM ET
+12:15:48 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+12:15:53 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:15AM-12:20AM ET
+12:15:58 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:15AM-12:20AM ET
+12:16:03 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:15AM-12:20AM ET
+12:16:08 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:15AM-12:20AM ET
+12:16:14 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:15AM-12:20AM ET
+12:16:15 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $79,074.21 → $79,079.46 (Δ+5.25)
+12:16:15 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000205/min from 15 samples
+12:16:19 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:15AM-12:20AM ET
+12:16:19 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+12:16:24 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:15AM-12:20AM ET
+12:16:29 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:15AM-12:20AM ET
+12:16:34 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:15AM-12:20AM ET
+12:16:40 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:15AM-12:20AM ET
+12:16:45 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:15AM-12:20AM ET
+12:16:50 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+12:16:50 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:15AM-12:20AM ET
+12:16:51 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $79,079.46 → $79,071.39 (Δ-8.07)
+12:16:51 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000201/min from 16 samples
+12:16:55 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:15AM-12:20AM ET
+12:17:00 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:15AM-12:20AM ET
+12:17:05 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:15AM-12:20AM ET
+12:17:11 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:15AM-12:20AM ET
+12:17:16 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:15AM-12:20AM ET
+12:17:20 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+12:17:21 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:15AM-12:20AM ET
+12:17:21 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $79,071.39 → $79,062.68 (Δ-8.71)
+12:17:21 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000198/min from 17 samples
+12:17:26 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:15AM-12:20AM ET
+12:17:31 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:15AM-12:20AM ET
+12:17:37 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:15AM-12:20AM ET
+12:17:42 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:15AM-12:20AM ET
+12:17:47 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:15AM-12:20AM ET
+12:17:51 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+12:17:52 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:15AM-12:20AM ET
+12:17:57 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:15AM-12:20AM ET
+12:17:58 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $79,062.68 → $79,052.82 (Δ-9.86)
+12:17:58 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000195/min from 18 samples
+12:18:02 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:15AM-12:20AM ET
+12:18:08 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:15AM-12:20AM ET
+12:18:13 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:15AM-12:20AM ET
+12:18:18 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:15AM-12:20AM ET
+12:18:21 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+12:18:23 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:15AM-12:20AM ET
+12:18:28 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $79,052.82 → $79,027.53 (Δ-25.30)
+12:18:28 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000212/min from 19 samples
+12:18:28 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:15AM-12:20AM ET
+12:18:33 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:15AM-12:20AM ET
+12:18:39 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:15AM-12:20AM ET
+12:18:44 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:15AM-12:20AM ET
+12:18:49 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:15AM-12:20AM ET
+12:18:52 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+12:18:54 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:15AM-12:20AM ET
+12:18:59 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:15AM-12:20AM ET
+12:19:01 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $79,027.53 → $79,049.21 (Δ+21.69)
+12:19:01 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000226/min from 20 samples
+12:19:04 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:15AM-12:20AM ET
+12:19:10 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:15AM-12:20AM ET
+12:19:15 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:15AM-12:20AM ET
+12:19:20 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:15AM-12:20AM ET
+12:19:22 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+12:19:25 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:15AM-12:20AM ET
+12:19:30 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:15AM-12:20AM ET
+12:19:35 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:15AM-12:20AM ET
+12:19:37 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $79,049.21 → $79,040.82 (Δ-8.39)
+12:19:37 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000222/min from 21 samples
+12:19:38 [INFO] [BTC] SIGNAL: DOWN | price=$79,040.82 beat=$79,067.12 Δ$26 | rem=22s | odds=0.4650
+12:19:38 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:15AM-12:20AM ET
+12:19:38 [INFO] [Bet] BTC DOWN $2.00 @ 0.4650 | price=$79,040.82 beat=$79,067.12 Δ$26 | rem=22s
+12:19:38 [INFO] [Executor] DRY_RUN: DOWN $2.00 @ 0.4650
+12:19:38 [INFO] [ResultTracker] Bet recorded: DOWN $2.00 @ 0.47 | beat=79067.12 [POLYMARKET_API✓]
+12:19:38 [INFO] [Bet] ✓ BTC DOWN
+12:19:41 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:15AM-12:20AM ET
+12:19:46 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:15AM-12:20AM ET
+12:19:51 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:15AM-12:20AM ET
+12:19:53 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+12:19:56 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:15AM-12:20AM ET
+12:20:00 [INFO] [Window] Baru: 20260427-0420
+12:20:01 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:20AM-12:25AM ET
+12:20:01 [WARNING] [BTC] ⚠️ Beat snapshot Chainlink: $79,040.82 t=2s (API tidak punya strike_price)
+12:20:07 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:20AM-12:25AM ET
+12:20:07 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $79,040.82 → $79,055.89 (Δ+15.07)
+12:20:07 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000226/min from 22 samples
+12:20:10 [WARNING] [ResultTracker] Polymarket API belum resolve → fallback hitung sendiri (DOWN: close=79055.89 vs beat=79067.12)
+12:20:10 [INFO] [ResultTracker] Resolved [CHAINLINK_CALC]: DOWN → WIN | close=79055.89 beat=79067.12 [POLYMARKET_API] | PnL=$+2.30 | Total=$+66.86
+12:20:12 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:20AM-12:25AM ET
+12:20:17 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:20AM-12:25AM ET
+12:20:22 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:20AM-12:25AM ET
+12:20:24 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+12:20:27 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:20AM-12:25AM ET
+12:20:33 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:20AM-12:25AM ET
+12:20:38 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:20AM-12:25AM ET
+12:20:41 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $79,055.89 → $79,056.92 (Δ+1.03)
+12:20:41 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000221/min from 23 samples
+12:20:43 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:20AM-12:25AM ET
+12:20:48 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:20AM-12:25AM ET
+12:20:53 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:20AM-12:25AM ET
+12:20:55 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+12:20:58 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:20AM-12:25AM ET
+12:21:04 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:20AM-12:25AM ET
+12:21:09 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:20AM-12:25AM ET
+12:21:14 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:20AM-12:25AM ET
+12:21:14 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $79,056.92 → $79,061.91 (Δ+4.99)
+12:21:14 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000217/min from 24 samples
+12:21:19 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:20AM-12:25AM ET
+12:21:24 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:20AM-12:25AM ET
+12:21:25 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+12:21:30 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:20AM-12:25AM ET
+12:21:35 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:20AM-12:25AM ET
+12:21:40 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:20AM-12:25AM ET
+12:21:45 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:20AM-12:25AM ET
+12:21:47 [INFO] [ChainlinkMonitor] NEW ROUND BTC: $79,061.91 → $79,053.49 (Δ-8.42)
+12:21:47 [INFO] [ChainlinkMonitor] Vol calibrated BTC: 0.000215/min from 25 samples
+12:21:50 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:20AM-12:25AM ET
+12:21:56 [INFO] HTTP Request: GET https://clob.polymarket.com/balance-allowance?asset_type=COLLATERAL&signature_type=1 "HTTP/2 200 OK"
+12:21:56 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:20AM-12:25AM ET
+12:22:01 [INFO] [Executor] Market BTC refreshed: strike=$None q=Bitcoin Up or Down - April 27, 12:20AM-12:25AM ET

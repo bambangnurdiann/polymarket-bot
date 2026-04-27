@@ -1,69 +1,55 @@
 """
 executor/polymarket.py
 ======================
-Eksekutor order ke Polymarket via CLOB (Central Limit Order Book) API.
+Eksekutor order ke Polymarket via CLOB API.
 
-Tanggung jawab:
-  1. Autentikasi ke Polymarket API
-  2. Fetch market aktif BTC 5-menit
-  3. Fetch odds (harga token) UP/DOWN
-  4. Submit order FOK (Fill-or-Kill)
-  5. Claim posisi yang sudah menang (via relayer)
-  6. Cek saldo akun
-
-Changelog:
-  - signature_type=1 (POLY_PROXY) — fix utama untuk balance $0
-  - Balance parsing fix: dibagi 1_000_000 (USDC Polygon = 6 desimal)
-  - Balance fallback via on-chain web3 jika CLOB API gagal
-  - Error logging lebih detail (tidak silent lagi)
-  - FIX tick_size error: ganti create_and_post_order → create_order + post_order
-    dengan tick_size eksplisit "0.01" di PartialCreateOrderOptions.
-    Ini bypass get_tick_size() internal di py-clob-client yang mengembalikan
-    str bukan TickSize object → AttributeError: 'str' object has no attribute 'tick_size'
+PATCH v2:
+  - _extract_strike_price: hanya parse angka dengan $ sign, range BTC 5k-500k
+  - _extract_strike_price_from_text: method baru, safe patterns only
+  - _fetch_market_via_events: handle ET timezone (UTC-4/5)
+  - get_odds: per-market cache timestamp
+  - get_active_market: cache TTL 15s (dari 30s)
+  - _odds_cache_ts: dict baru untuk per-market cache
 """
 
 import logging
 import os
 import time
+import re
+import json as _json
 from decimal import Decimal, ROUND_DOWN, ROUND_HALF_UP
 from typing import Optional
+from datetime import datetime, timezone
 
 import requests
 
 logger = logging.getLogger(__name__)
 
-# Polymarket API endpoints
 CLOB_BASE_URL  = "https://clob.polymarket.com"
 GAMMA_BASE_URL = "https://gamma-api.polymarket.com"
 DATA_BASE_URL  = "https://data-api.polymarket.com"
 
-# USDC contract di Polygon (untuk on-chain fallback)
 USDC_POLYGON   = "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174"
 USDC_DECIMALS  = 6
 
-# Polygon RPC untuk fallback on-chain balance
 POLYGON_RPCS = [
     "https://polygon-rpc.com",
     "https://rpc.ankr.com/polygon",
     "https://matic-mainnet.chainstacklabs.com",
 ]
 
-# Tick size Polymarket
 POLYMARKET_TICK     = Decimal("0.01")
 POLYMARKET_TICK_STR = "0.01"
 
 
 class PolymarketRelayer:
-    """Handle gasless transactions via Polymarket Relayer."""
-
     RELAYER_URL = "https://relayer.polymarket.com"
 
     def __init__(self, api_key: str, api_key_address: str, private_key: str, funder: str):
-        self._api_key = api_key
+        self._api_key         = api_key
         self._api_key_address = api_key_address
-        self._funder = funder
-        self._account = None
-
+        self._funder          = funder
+        self._account         = None
         try:
             from eth_account import Account
             self._account = Account.from_key(private_key)
@@ -75,9 +61,9 @@ class PolymarketRelayer:
 
     def _get_headers(self) -> dict:
         return {
-            "POLY_ADDRESS":    self._api_key_address,
-            "POLY_API_KEY":    self._api_key,
-            "Content-Type":    "application/json",
+            "POLY_ADDRESS": self._api_key_address,
+            "POLY_API_KEY": self._api_key,
+            "Content-Type": "application/json",
         }
 
     def redeem_positions(self, condition_id: str) -> bool:
@@ -103,7 +89,6 @@ class PolymarketRelayer:
 
 
 class PolymarketExecutor:
-    """Eksekutor utama untuk semua operasi Polymarket."""
 
     def __init__(self, dry_run: bool = False):
         self.dry_run = dry_run
@@ -113,10 +98,9 @@ class PolymarketExecutor:
         self._initialized = False
         self._market_cache:    dict = {}
         self._market_cache_ts: dict = {}
-        self._odds_cache: dict = {}
-        self._odds_cache_time: float = 0.0
+        self._odds_cache:      dict = {}
+        self._odds_cache_ts:   dict = {}   # PATCH: per-market timestamp
 
-        # Deteksi versi py-clob-client saat init
         self._has_partial_options = False
         self._has_create_order    = False
 
@@ -134,7 +118,6 @@ class PolymarketExecutor:
         if not self._private_key:
             logger.warning("[Executor] POLYMARKET_PRIVATE_KEY tidak ditemukan di .env")
             return
-
         try:
             from py_clob_client.client import ClobClient
             from py_clob_client.clob_types import ApiCreds
@@ -144,7 +127,6 @@ class PolymarketExecutor:
                 api_secret=self._api_secret,
                 api_passphrase=self._api_pass,
             )
-
             self._client = ClobClient(
                 host=CLOB_BASE_URL,
                 key=self._private_key,
@@ -153,16 +135,12 @@ class PolymarketExecutor:
                 funder=self._funder,
                 signature_type=1,
             )
-
-            # Probe versi API yang tersedia
             try:
                 from py_clob_client.clob_types import PartialCreateOrderOptions
                 self._has_partial_options = True
             except ImportError:
                 self._has_partial_options = False
-                logger.warning("[Executor] PartialCreateOrderOptions tidak tersedia — versi py-clob-client lama")
 
-            # (flags _has_partial_options/_has_create_order tidak dipakai di place_order baru)
             self._has_create_order = callable(getattr(self._client, "create_order", None))
 
             if self._relayer_key and self._relayer_addr:
@@ -172,17 +150,133 @@ class PolymarketExecutor:
                     private_key=self._private_key,
                     funder=self._funder,
                 )
-
             self._initialized = True
-            logger.info(
-                f"[Executor] CLOB client initialized (sig_type=1 POLY_PROXY) | "
-                f"create_order={self._has_create_order}"
-            )
-
+            logger.info("[Executor] CLOB client initialized (sig_type=1 POLY_PROXY)")
         except ImportError:
-            logger.error("[Executor] py-clob-client tidak terinstall. Run: pip install py-clob-client")
+            logger.error("[Executor] py-clob-client tidak terinstall.")
         except Exception as e:
             logger.error(f"[Executor] Init error: {e}")
+
+    # ── Validator ─────────────────────────────────────────────
+
+    def _is_target_window(self, end_date_str: str) -> bool:
+        if not end_date_str:
+            return True
+        try:
+            clean_date = end_date_str.replace("Z", "+00:00")
+            dt = datetime.fromisoformat(clean_date)
+            if dt.tzinfo is None:
+                dt = dt.replace(tzinfo=timezone.utc)
+            remaining = dt.timestamp() - time.time()
+            if remaining > 7200:
+                return False
+            return True
+        except Exception:
+            return True
+
+    def _is_valid_5m_market(self, question: str, slug: str) -> bool:
+        q = question.lower()
+        s = slug.lower()
+        has_5m      = ("5 min" in q or "5-min" in q or "5m" in s)
+        has_forbidden = ("15" in q or "15m" in s or "30" in q
+                         or "day" in q or "daily" in q)
+        return has_5m and not has_forbidden
+
+    # ── Strike price extraction ───────────────────────────────
+
+    def _extract_strike_price_from_text(self, text: str) -> Optional[float]:
+        """
+        Extract strike price dari plain text.
+
+        SAFE patterns — hanya angka dengan tanda $ di depan:
+          "$77,302.05"  → 77302.05   ✅
+          "$77,302"     → 77302.0    ✅
+          "2026-04-26"  → None       ✅ tidak false positive
+          "2:05PM"      → None       ✅ tidak false positive
+
+        Range valid BTC: 5,000 – 500,000
+        """
+        if not text:
+            return None
+
+        # Pattern 1: $XX,XXX.XX (dengan koma dan desimal) — paling reliable
+        matches = re.findall(r'\$([0-9]{1,3}(?:,[0-9]{3})+\.[0-9]+)', text)
+        for m in matches:
+            try:
+                val = float(m.replace(',', ''))
+                if 5_000 < val < 500_000:
+                    return val
+            except Exception:
+                pass
+
+        # Pattern 2: $XX,XXX (dengan koma, tanpa desimal)
+        matches = re.findall(r'\$([0-9]{1,3}(?:,[0-9]{3})+)', text)
+        for m in matches:
+            try:
+                val = float(m.replace(',', ''))
+                if 5_000 < val < 500_000:
+                    return val
+            except Exception:
+                pass
+
+        # Pattern 3: $XXXXX.XX (tanpa koma, dengan desimal, harus 5+ digit)
+        matches = re.findall(r'\$([0-9]{5,6}\.[0-9]+)', text)
+        for m in matches:
+            try:
+                val = float(m)
+                if 5_000 < val < 500_000:
+                    return val
+            except Exception:
+                pass
+
+        # TIDAK ada pattern tanpa $ — terlalu berbahaya (false positive tahun/jam)
+        return None
+
+    def _extract_strike_price(self, m: dict) -> Optional[float]:
+        """
+        Extract strike price dari dict response Polymarket API.
+
+        Priority:
+          1. groupItemThreshold — field resmi Polymarket
+          2. outcomes array — cari string dengan $ sign
+          3. question / title — cari string dengan $ sign
+
+        TIDAK parse plain number tanpa $ — cegah false positive dari
+        tahun (2026), jam (2:05), conditionId, dsb.
+        """
+        # 1. groupItemThreshold — field resmi, paling reliable
+        try:
+            val = float(m.get("groupItemThreshold", 0) or 0)
+            if 5_000 < val < 500_000:
+                return val
+        except Exception:
+            pass
+
+        def parse_field(val):
+            if isinstance(val, list):
+                return val
+            if isinstance(val, str):
+                try:
+                    return _json.loads(val)
+                except Exception:
+                    return [val]
+            return []
+
+        # 2. Dari outcomes array
+        for outcome in parse_field(m.get("outcomes", [])):
+            strike = self._extract_strike_price_from_text(str(outcome))
+            if strike:
+                return strike
+
+        # 3. Dari question / title / description
+        for field in ["question", "title", "description"]:
+            text = m.get(field, "")
+            if text:
+                strike = self._extract_strike_price_from_text(str(text))
+                if strike:
+                    return strike
+
+        return None
 
     # ── Balance ───────────────────────────────────────────────
 
@@ -190,10 +284,8 @@ class PolymarketExecutor:
         if self._initialized and self._client:
             try:
                 from py_clob_client.clob_types import BalanceAllowanceParams, AssetType
-
                 params = BalanceAllowanceParams(asset_type=AssetType.COLLATERAL)
                 resp   = self._client.get_balance_allowance(params)
-
                 raw_balance = None
                 if isinstance(resp, dict):
                     raw_balance = resp.get("balance")
@@ -203,26 +295,12 @@ class PolymarketExecutor:
                             or raw_balance.get("value")
                             or raw_balance.get("balance")
                         )
-
                 if raw_balance is not None:
                     raw_float = float(raw_balance)
                     self.balance = raw_float / 1_000_000 if raw_float > 1_000 else raw_float
-                    logger.debug(f"[Executor] Balance CLOB: raw={raw_float} → ${self.balance:.2f}")
                     return self.balance
-
-                logger.warning(f"[Executor] Balance response tidak terduga: {resp}")
-
-            except Exception as e:
-                err_str = str(e).lower()
-                if "401" in err_str or "unauthorized" in err_str:
-                    logger.error(
-                        "[Executor] ⚠️  AUTH ERROR saat get_balance — API key invalid atau expired.\n"
-                        "           Jalankan: python regen_creds.py"
-                    )
-                else:
-                    logger.warning(f"[Executor] get_balance CLOB error: {type(e).__name__}: {e}")
-
-        # Fallback: on-chain USDC balance di Polygon
+            except Exception:
+                pass
         if self._funder:
             try:
                 from web3 import Web3
@@ -230,7 +308,6 @@ class PolymarketExecutor:
                              "name": "balanceOf",
                              "outputs": [{"name": "", "type": "uint256"}],
                              "stateMutability": "view", "type": "function"}]
-
                 for rpc in POLYGON_RPCS:
                     try:
                         w3 = Web3(Web3.HTTPProvider(rpc, request_kwargs={"timeout": 5}))
@@ -244,24 +321,14 @@ class PolymarketExecutor:
                             Web3.to_checksum_address(self._funder)
                         ).call()
                         self.balance = raw / (10 ** USDC_DECIMALS)
-                        logger.info(f"[Executor] Balance (on-chain fallback): ${self.balance:.2f}")
                         return self.balance
                     except Exception:
                         continue
-            except Exception as e:
-                logger.debug(f"[Executor] on-chain balance error: {e}")
-
+            except Exception:
+                pass
         return self.balance
 
     # ── Market fetching ───────────────────────────────────────
-
-    COIN_SLUG_PREFIX = {
-        "BTC":  ["btc-updown-5m", "btc-up-or-down", "bitcoin-updown-5m"],
-        "ETH":  ["eth-updown-5m", "eth-up-or-down", "ethereum-updown-5m"],
-        "SOL":  ["sol-updown-5m", "sol-up-or-down", "solana-updown-5m"],
-        "DOGE": ["doge-updown-5m", "doge-up-or-down", "dogecoin-updown-5m"],
-        "XRP":  ["xrp-updown-5m", "xrp-up-or-down"],
-    }
 
     COIN_QUESTION_KW = {
         "BTC":  ["bitcoin", "btc"],
@@ -278,9 +345,12 @@ class PolymarketExecutor:
         coin = coin.upper()
         now  = time.time()
 
+        # PATCH: cache TTL 15s (dari 30s) agar lebih responsif saat window baru
+        CACHE_TTL = 15
+
         if (not force_refresh
                 and coin in self._market_cache
-                and (now - self._market_cache_ts.get(coin, 0)) < 30):
+                and (now - self._market_cache_ts.get(coin, 0)) < CACHE_TTL):
             return self._market_cache[coin]
 
         result = (
@@ -292,27 +362,54 @@ class PolymarketExecutor:
         if result:
             self._market_cache[coin]    = result
             self._market_cache_ts[coin] = now
-            logger.info(f"[Executor] Market {coin} found: {result.get('question','')[:60]}")
+            logger.info(
+                f"[Executor] Market {coin} refreshed: "
+                f"strike=${result.get('strike_price', 'N/A')} "
+                f"q={result.get('question', '')[:60]}"
+            )
 
         return result or self._market_cache.get(coin)
 
     def _fetch_market_via_events(self, coin: str) -> Optional[dict]:
-        slug_prefix = f"{coin.lower()}-updown-5m"
+        """
+        PATCH: Coba lebih banyak slug variants untuk handle ET timezone.
+        Polymarket buat slug berdasarkan jam ET (UTC-4 summer / UTC-5 winter),
+        bukan UTC.
+        """
+        now = time.time()
+
+        # Generate timestamp candidates
+        ts_utc  = int(now // 300) * 300
+        ts_et4  = int((now - 14_400) // 300) * 300   # ET summer (UTC-4)
+        ts_et5  = int((now - 18_000) // 300) * 300   # ET winter (UTC-5)
+
+        slugs_to_try = []
+        for base_ts in [ts_utc, ts_et4, ts_et5]:
+            slugs_to_try.append(f"{coin.lower()}-updown-5m-{base_ts}")
+            slugs_to_try.append(f"{coin.lower()}-updown-5m-{base_ts + 300}")
+            slugs_to_try.append(f"{coin.lower()}-updown-5m-{base_ts - 300}")
+
+        # Deduplicate, pertahankan urutan
+        seen = set()
+        deduped = []
+        for s in slugs_to_try:
+            if s not in seen:
+                seen.add(s)
+                deduped.append(s)
+
         try:
-            resp = requests.get(
-                f"{GAMMA_BASE_URL}/events",
-                params={"active": "true", "limit": "50", "order": "createdAt", "ascending": "false"},
-                timeout=8,
-            )
-            if resp.status_code != 200:
-                return None
-            events = resp.json()
-            if not isinstance(events, list):
-                return None
-            for ev in events:
-                ev_slug = ev.get("slug", "").lower()
-                if not ev_slug.startswith(slug_prefix):
+            for slug in deduped:
+                resp = requests.get(
+                    f"{GAMMA_BASE_URL}/events",
+                    params={"slug": slug, "active": "true"},
+                    timeout=5,
+                )
+                if resp.status_code != 200:
                     continue
+                events = resp.json()
+                if not isinstance(events, list) or len(events) == 0:
+                    continue
+                ev = events[0]
                 markets = ev.get("markets", [])
                 if not markets:
                     continue
@@ -320,8 +417,18 @@ class PolymarketExecutor:
                 if not m.get("acceptingOrders", False):
                     continue
                 result = self._parse_market_dict(m, coin)
-                if result:
-                    result["question"] = ev.get("title", result["question"])
+                if result and self._is_target_window(result.get("end_date", "")):
+                    result["question"] = ev.get("title", result.get("question", ""))
+                    # Extra: coba extract dari event title kalau belum dapat
+                    if not result.get("strike_price"):
+                        strike = self._extract_strike_price_from_text(
+                            ev.get("title", "")
+                        )
+                        if strike:
+                            result["strike_price"] = strike
+                            logger.info(
+                                f"[Executor] Strike from event title: ${strike:,.2f}"
+                            )
                     return result
         except Exception as e:
             logger.debug(f"[Executor] _fetch_market_via_events({coin}): {e}")
@@ -343,25 +450,27 @@ class PolymarketExecutor:
                 q    = m.get("question", "").lower()
                 slug = m.get("market_slug", "").lower()
                 coin_match = any(k in q or k in slug for k in kw_list)
-                time_match = ("5 min" in q or "5-min" in q or "updown" in slug or "5m" in slug)
                 dir_match  = "up" in q and "down" in q
-                if coin_match and time_match and dir_match:
+                if coin_match and dir_match and self._is_valid_5m_market(q, slug):
                     token_up = token_down = None
                     for t in m.get("tokens", []):
                         out = t.get("outcome", "").upper()
                         if out == "UP":
-                            token_up   = t.get("token_id")
+                            token_up = t.get("token_id")
                         elif out == "DOWN":
                             token_down = t.get("token_id")
                     if token_up and token_down:
-                        return {
-                            "coin":          coin,
-                            "market_id":     m.get("condition_id") or m.get("conditionId"),
-                            "question":      m.get("question", ""),
-                            "token_id_up":   token_up,
-                            "token_id_down": token_down,
-                            "end_date":      m.get("end_date_iso", ""),
-                        }
+                        end_date = m.get("end_date_iso", "")
+                        if self._is_target_window(end_date):
+                            return {
+                                "coin":          coin,
+                                "market_id":     m.get("condition_id") or m.get("conditionId"),
+                                "question":      m.get("question", ""),
+                                "token_id_up":   token_up,
+                                "token_id_down": token_down,
+                                "end_date":      end_date,
+                                "strike_price":  None,
+                            }
         except Exception as e:
             logger.debug(f"[Executor] _fetch_market_via_clob({coin}): {e}")
         return None
@@ -382,10 +491,9 @@ class PolymarketExecutor:
                     slug     = m.get("slug", "").lower()
                     coin_ok  = any(k in question or k in slug for k in kw_list)
                     dir_ok   = "up" in question and "down" in question
-                    time_ok  = "5" in question or "5m" in slug
-                    if coin_ok and dir_ok and time_ok:
+                    if coin_ok and dir_ok and self._is_valid_5m_market(question, slug):
                         result = self._parse_market_dict(m, coin)
-                        if result:
+                        if result and self._is_target_window(result.get("end_date", "")):
                             return result
         except Exception as e:
             logger.debug(f"[Executor] _fetch_market_via_search({coin}): {e}")
@@ -399,7 +507,6 @@ class PolymarketExecutor:
                 return val
             if isinstance(val, str):
                 try:
-                    import json as _json
                     return _json.loads(val)
                 except Exception:
                     return []
@@ -411,27 +518,27 @@ class PolymarketExecutor:
         if len(clob_ids) >= 2 and len(outcomes) >= 2:
             for i, out in enumerate(outcomes):
                 out_str = str(out).strip().upper()
-                if out_str in ("UP", "HIGHER", "YES") and i < len(clob_ids):
-                    token_up   = clob_ids[i]
-                elif out_str in ("DOWN", "LOWER", "NO") and i < len(clob_ids):
+                if any(kw in out_str for kw in ("UP", "HIGHER", "YES", "ABOVE")) and i < len(clob_ids):
+                    token_up = clob_ids[i]
+                elif any(kw in out_str for kw in ("DOWN", "LOWER", "NO", "BELOW")) and i < len(clob_ids):
                     token_down = clob_ids[i]
         elif len(clob_ids) >= 2:
-            token_up   = clob_ids[0]
-            token_down = clob_ids[1]
+            token_up, token_down = clob_ids[0], clob_ids[1]
 
         if not (token_up and token_down):
-            tokens = parse_field(m.get("tokens", []))
-            for t in tokens:
+            for t in parse_field(m.get("tokens", [])):
                 if not isinstance(t, dict):
                     continue
-                out = t.get("outcome", "").upper()
-                if out in ("UP", "HIGHER", "YES"):
-                    token_up   = t.get("token_id") or t.get("tokenId")
-                elif out in ("DOWN", "LOWER", "NO"):
+                out = str(t.get("outcome", "")).upper()
+                if any(kw in out for kw in ("UP", "HIGHER", "YES", "ABOVE")):
+                    token_up = t.get("token_id") or t.get("tokenId")
+                elif any(kw in out for kw in ("DOWN", "LOWER", "NO", "BELOW")):
                     token_down = t.get("token_id") or t.get("tokenId")
 
         if not (token_up and token_down):
             return None
+
+        strike_price = self._extract_strike_price(m)
 
         return {
             "coin":          coin,
@@ -440,19 +547,25 @@ class PolymarketExecutor:
             "token_id_up":   token_up,
             "token_id_down": token_down,
             "end_date":      m.get("endDate") or m.get("endDateIso") or m.get("end_date_iso", ""),
+            "strike_price":  strike_price,
         }
 
     # ── Odds ──────────────────────────────────────────────────
 
     def get_odds(self, market: dict) -> tuple:
+        """
+        PATCH: Per-market cache timestamp (bukan global single timestamp).
+        """
         now       = time.time()
         cache_key = market.get("market_id", "")
-        if cache_key and (now - self._odds_cache_time) < 3:
-            cached = self._odds_cache.get(cache_key)
-            if cached:
+
+        # Per-market cache check
+        if cache_key:
+            cached     = self._odds_cache.get(cache_key)
+            cached_ts  = self._odds_cache_ts.get(cache_key, 0)
+            if cached and (now - cached_ts) < 3:
                 return cached
 
-        # Cara 1: Gamma outcomePrices
         try:
             cond_id = market.get("market_id", "")
             resp    = requests.get(
@@ -460,15 +573,26 @@ class PolymarketExecutor:
                 params={"conditionId": cond_id},
                 timeout=4,
             )
+
             if resp.status_code == 200:
-                import json as _json
                 data    = resp.json()
                 markets = data if isinstance(data, list) else [data]
-                target  = next((m for m in markets if m.get("conditionId") == cond_id), None)
+                target  = next(
+                    (m for m in markets if m.get("conditionId") == cond_id), None
+                )
                 if not target and markets:
                     target = markets[0]
 
                 if target:
+                    # Auto-sync strike price kalau belum ada
+                    if not market.get("strike_price"):
+                        strike = self._extract_strike_price(target)
+                        if strike:
+                            market["strike_price"] = strike
+                            logger.info(
+                                f"[Executor] Strike synced via get_odds: ${strike:,.2f}"
+                            )
+
                     raw      = target.get("outcomePrices", "[]")
                     prices   = _json.loads(raw) if isinstance(raw, str) else raw
                     out_raw  = target.get("outcomes", "[]")
@@ -479,27 +603,25 @@ class PolymarketExecutor:
                         if len(outcomes) >= 2:
                             for i, out in enumerate(outcomes):
                                 out_u = str(out).upper()
-                                if out_u in ("UP", "HIGHER", "YES") and i < len(prices):
-                                    odds_up   = float(prices[i])
-                                elif out_u in ("DOWN", "LOWER", "NO") and i < len(prices):
+                                if any(kw in out_u for kw in ("UP", "HIGHER", "YES", "ABOVE")) and i < len(prices):
+                                    odds_up = float(prices[i])
+                                elif any(kw in out_u for kw in ("DOWN", "LOWER", "NO", "BELOW")) and i < len(prices):
                                     odds_down = float(prices[i])
                         else:
-                            odds_up   = float(prices[0])
-                            odds_down = float(prices[1])
+                            odds_up, odds_down = float(prices[0]), float(prices[1])
 
                         if 0.01 < odds_up < 0.99 and 0.01 < odds_down < 0.99:
                             result = (odds_up, odds_down)
                             if cache_key:
-                                self._odds_cache[cache_key] = result
-                                self._odds_cache_time = now
+                                self._odds_cache[cache_key]    = result
+                                self._odds_cache_ts[cache_key] = now
                             return result
-        except Exception as e:
-            logger.debug(f"[Executor] get_odds gamma error: {e}")
+        except Exception:
+            pass
 
-        # Cara 2: CLOB midpoints
+        # Fallback CLOB midpoints
         try:
-            token_up   = market["token_id_up"]
-            token_down = market["token_id_down"]
+            token_up, token_down = market["token_id_up"], market["token_id_down"]
             r1 = requests.get(
                 f"{CLOB_BASE_URL}/midpoints",
                 params={"token_ids": f"{token_up},{token_down}"},
@@ -512,167 +634,213 @@ class PolymarketExecutor:
                 if 0.01 < up < 0.99 and 0.01 < down < 0.99:
                     result = (up, down)
                     if cache_key:
-                        self._odds_cache[cache_key] = result
-                        self._odds_cache_time = now
+                        self._odds_cache[cache_key]    = result
+                        self._odds_cache_ts[cache_key] = now
                     return result
-        except Exception as e:
-            logger.debug(f"[Executor] get_odds midpoints error: {e}")
-
-        # Cara 3: CLOB order book
-        try:
-            token_up   = market["token_id_up"]
-            token_down = market["token_id_down"]
-
-            def best_ask(token_id: str) -> float:
-                r = requests.get(
-                    f"{CLOB_BASE_URL}/book",
-                    params={"token_id": token_id},
-                    timeout=3,
-                )
-                if r.status_code == 200:
-                    book = r.json()
-                    asks = book.get("asks", [])
-                    if asks:
-                        p = float(asks[0].get("price", 0))
-                        if 0.01 < p < 0.99:
-                            return p
-                return 0.5
-
-            result = (best_ask(token_up), best_ask(token_down))
-            if cache_key:
-                self._odds_cache[cache_key] = result
-                self._odds_cache_time = now
-            return result
-        except Exception as e:
-            logger.debug(f"[Executor] get_odds book error: {e}")
+        except Exception:
+            pass
 
         return (0.5, 0.5)
 
     # ── Order placement ───────────────────────────────────────
 
-    def _round_amounts(self, amount: float, price: float):
-        """
-        Hitung (price_dec, size_dec, maker_dec) dengan presisi Polymarket API.
-        Return tuple atau None jika invalid.
-        """
-        TICK_2 = Decimal("0.01")
-        TICK_4 = Decimal("0.0001")
-        price_d = Decimal(str(price)).quantize(TICK_2, rounding=ROUND_HALF_UP)
-        if price_d <= 0 or price_d >= 1:
-            return None
-        size_d  = (Decimal(str(amount)) / price_d).quantize(TICK_4, rounding=ROUND_DOWN)
-        maker_d = (size_d * price_d).quantize(TICK_2, rounding=ROUND_DOWN)
-        if size_d <= 0 or maker_d <= 0:
-            return None
-        return float(price_d), float(size_d), float(maker_d)
+    def _get_best_ask_live(self, token_id: str) -> Optional[float]:
+        try:
+            r = requests.get(
+                f"{CLOB_BASE_URL}/book",
+                params={"token_id": token_id},
+                timeout=3,
+            )
+            if r.status_code != 200:
+                return None
+            book = r.json()
+            asks = book.get("asks", [])
+            if not asks:
+                return None
+            best = float(asks[0].get("price", 0))
+            if 0.01 < best < 0.99:
+                return best
+        except Exception as e:
+            logger.debug(f"[Executor] _get_best_ask_live error: {e}")
+        return None
 
-    def place_order(
-        self,
-        token_id:   str,
-        amount:     float,
-        side:       str,
-        price:      float,
-        direction:  str,
-    ) -> bool:
-        """
-        Submit order FOK ke Polymarket.
+    def _submit_fok(self, token_id: str, amount_dec: float, price_dec: float,
+                    side: str, direction: str) -> bool:
+        from py_clob_client.clob_types import MarketOrderArgs, OrderType, PartialCreateOrderOptions
 
-        Root cause error 'invalid amounts' (analisa final):
-          create_order() pakai get_order_amounts():
-            maker = round(size * price, ...)  → presisi error, misal 1.994655
-          to_token_decimals(1.994655) = 1994655 → API baca 1994655/1e6=1.994655 → >2 desimal
+        market_args = MarketOrderArgs(
+            token_id=token_id,
+            price=price_dec,
+            amount=amount_dec,
+            side=side,
+        )
+        options = PartialCreateOrderOptions(tick_size=POLYMARKET_TICK_STR, neg_risk=False)
+        signed  = self._client.create_market_order(market_args, options)
+        if signed is None:
+            logger.error("[Executor] create_market_order returned None")
+            return False
 
-          create_market_order() pakai get_market_order_amounts() untuk BUY:
-            maker = round_down(amount, 2)  → selalu tepat 2 desimal (misal 2.00)
-            taker = round(maker / price, 4)
-          to_token_decimals(2.00) = 2000000 → API baca 2.00 ✓
+        order_dict = signed.dict() if callable(getattr(signed, "dict", None)) else {}
+        logger.info(
+            f"[Executor] Submitting FOK {direction} @ {price_dec:.2f} | "
+            f"maker={order_dict.get('makerAmount')} taker={order_dict.get('takerAmount')}"
+        )
 
-        Solusi: gunakan create_market_order() + MarketOrderArgs, bukan create_order.
-        """
+        resp = self._client.post_order(signed, OrderType.FOK)
+        if resp and resp.get("status") in ("matched", "filled", "MATCHED"):
+            logger.info(f"[Executor] ✓ FILLED {direction} ${amount_dec:.2f} @ {price_dec:.2f}")
+            return True
+
+        status  = resp.get("status", "unknown") if resp else "no_response"
+        err_msg = resp.get("error", "") if resp else ""
+        is_fok_kill = (
+            "fok" in err_msg.lower()
+            or "fully filled" in err_msg.lower()
+            or status in ("killed", "KILLED", "unmatched")
+        )
+        if is_fok_kill:
+            logger.warning(f"[Executor] FOK killed @ {price_dec:.2f}")
+            return False
+
+        logger.warning(f"[Executor] Order not filled: status={status} err={err_msg[:100]}")
+        return False
+
+    def place_order(self, token_id: str, amount: float, side: str,
+                    price: float, direction: str) -> bool:
         if self.dry_run:
             logger.info(f"[Executor] DRY_RUN: {direction} ${amount:.2f} @ {price:.4f}")
             return True
 
         if not self._initialized or not self._client:
-            logger.error("[Executor] Client belum initialized")
             return False
 
-        # Round price & amount ke 2 desimal
         TICK_2     = Decimal("0.01")
-        price_d    = Decimal(str(price)).quantize(TICK_2, rounding=ROUND_HALF_UP)
         amount_d   = Decimal(str(amount)).quantize(TICK_2, rounding=ROUND_DOWN)
-        price_dec  = float(price_d)
         amount_dec = float(amount_d)
+        if amount_d <= 0:
+            return False
+
+        live_ask = self._get_best_ask_live(token_id)
+        if live_ask:
+            logger.info(f"[Executor] Live best ask: {live_ask:.2f} | signal price: {price:.4f}")
+            effective_price = max(price, live_ask)
+        else:
+            effective_price = price
+            logger.debug(f"[Executor] No live ask, using signal price: {price:.4f}")
+
+        price_d   = Decimal(str(effective_price)).quantize(TICK_2, rounding=ROUND_HALF_UP)
+        price_dec = float(price_d)
 
         if price_d <= 0 or price_d >= 1:
             logger.warning(f"[Executor] Price out of range: {price_d}")
             return False
-        if amount_d <= 0:
-            logger.warning(f"[Executor] Amount <= 0")
-            return False
 
         logger.info(f"[Executor] place_order {direction}: amount={amount_dec} @ price={price_dec}")
+
+        MAX_FOK_RETRIES = 3
+        MAX_PRICE       = 0.97
 
         try:
             from py_clob_client.clob_types import MarketOrderArgs, OrderType, PartialCreateOrderOptions
 
-            # Gunakan create_market_order() — ini satu-satunya cara yang menghasilkan
-            # maker tepat 2 desimal karena get_market_order_amounts BUY melakukan:
-            #   maker = round_down(amount, 2)  → tepat 2 desimal
-            #   taker = round(maker / price, 4) → tepat 4 desimal
-            market_args = MarketOrderArgs(
-                token_id=token_id,
-                price=price_dec,
-                amount=amount_dec,
-                side=side,
-            )
+            for attempt in range(MAX_FOK_RETRIES):
+                current_price_d   = price_d + Decimal("0.01") * attempt
+                current_price_dec = float(current_price_d)
 
-            options = PartialCreateOrderOptions(
-                tick_size=POLYMARKET_TICK_STR,
-                neg_risk=False,
-            )
+                if current_price_dec > MAX_PRICE:
+                    logger.warning(f"[Executor] Price {current_price_dec} > MAX {MAX_PRICE}, berhenti")
+                    break
 
-            signed = self._client.create_market_order(market_args, options)
+                if attempt > 0:
+                    logger.info(f"[Executor] FOK retry {attempt}/{MAX_FOK_RETRIES-1} @ {current_price_dec:.2f}")
 
-            if signed is None:
-                logger.error("[Executor] create_market_order mengembalikan None")
-                return False
+                try:
+                    filled = self._submit_fok(token_id, amount_dec, current_price_dec, side, direction)
+                    if filled:
+                        return True
+                except Exception as e:
+                    err = str(e).lower()
+                    if "fok" in err or "fully filled" in err or "couldn't be" in err:
+                        logger.warning(f"[Executor] FOK exception @ {current_price_dec:.2f}: {str(e)[:80]}")
+                        continue
+                    self._log_order_err(e, direction)
+                    return False
 
-            # Log amount yang akan dikirim (dari signed.dict())
-            order_dict = signed.dict() if (hasattr(signed, "dict") and callable(signed.dict)) else {}
-            logger.info(
-                f"[Executor] Signed: maker={order_dict.get('makerAmount')} "
-                f"taker={order_dict.get('takerAmount')}"
-            )
+            logger.warning(f"[Executor] Semua FOK gagal, fallback ke GTC @ {price_dec:.2f}")
+            return self._place_gtc(token_id, amount_dec, price_dec, side, direction)
 
-            # POST via post_order — amount sudah benar dari create_market_order
-            resp = self._client.post_order(signed, OrderType.FOK)
-            return self._eval_resp(resp, direction, amount_dec, price_dec)
-
+        except ImportError as e:
+            logger.error(f"[Executor] Import error: {e}")
+            return False
         except Exception as e:
             self._log_order_err(e, direction)
             return False
 
+    def _place_gtc(self, token_id: str, amount_dec: float, price_dec: float,
+                   side: str, direction: str) -> bool:
+        try:
+            from py_clob_client.clob_types import CreateOrderOptions, OrderType, LimitOrderArgs
 
-    def _eval_resp(self, resp, direction: str, amount: float, price_dec: float) -> bool:
-        if resp and resp.get("status") in ("matched", "filled", "MATCHED"):
-            logger.info(f"[Executor] Order FILLED: {direction} ${amount:.2f} @ {price_dec:.4f}")
-            return True
-        status = resp.get("status", "unknown") if resp else "no response"
-        logger.warning(f"[Executor] Order NOT filled: status={status} | {direction}")
-        return False
+            order_args = LimitOrderArgs(
+                token_id=token_id,
+                price=price_dec,
+                size=amount_dec,
+                side=side,
+            )
+            options = CreateOrderOptions(tick_size=POLYMARKET_TICK_STR, neg_risk=False)
+            signed  = self._client.create_order(order_args, options)
+
+            if signed is None:
+                logger.error("[Executor] GTC create_order returned None")
+                return False
+
+            resp = self._client.post_order(signed, OrderType.GTC)
+            if resp and resp.get("status") in ("live", "matched", "LIVE", "MATCHED"):
+                order_id = resp.get("orderID", resp.get("id", "?"))
+                logger.info(
+                    f"[Executor] ✓ GTC order LIVE {direction} @ {price_dec:.2f} "
+                    f"id={order_id[:12]}..."
+                )
+                return True
+
+            logger.warning(f"[Executor] GTC not accepted: {resp}")
+            return False
+
+        except ImportError:
+            logger.warning("[Executor] LimitOrderArgs tidak tersedia, coba GTC legacy")
+            return self._place_gtc_legacy(token_id, amount_dec, price_dec, side, direction)
+        except Exception as e:
+            logger.error(f"[Executor] GTC fallback error: {e}")
+            return False
+
+    def _place_gtc_legacy(self, token_id: str, amount_dec: float, price_dec: float,
+                          side: str, direction: str) -> bool:
+        try:
+            from py_clob_client.clob_types import CreateOrderOptions, OrderType
+            options = CreateOrderOptions(tick_size=POLYMARKET_TICK_STR, neg_risk=False)
+            signed  = self._client.create_order(
+                {"token_id": token_id, "price": price_dec, "size": amount_dec, "side": side},
+                options,
+            )
+            if signed is None:
+                return False
+            resp = self._client.post_order(signed, OrderType.GTC)
+            if resp and resp.get("status") in ("live", "matched", "LIVE", "MATCHED"):
+                logger.info(f"[Executor] ✓ GTC legacy LIVE {direction} @ {price_dec:.2f}")
+                return True
+            return False
+        except Exception as e:
+            logger.error(f"[Executor] GTC legacy error: {e}")
+            return False
 
     def _log_order_err(self, e: Exception, direction: str) -> None:
         err = str(e).lower()
         if "no match" in err:
             logger.warning(f"[Executor] No counterparty untuk {direction}")
         elif "401" in err or "unauthorized" in err:
-            logger.error(f"[Executor] Auth error saat place_order: {e}")
+            logger.error(f"[Executor] Auth error: {e}")
         elif "tick_size" in err:
-            logger.error(
-                f"[Executor] tick_size error masih terjadi: {e}\n"
-                f"           Coba: pip install py-clob-client --upgrade"
-            )
+            logger.error(f"[Executor] tick_size error → pip install py-clob-client --upgrade")
         else:
             logger.error(f"[Executor] Order error [{direction}]: {type(e).__name__}: {e}")
 
@@ -690,12 +858,10 @@ class PolymarketExecutor:
             resp.raise_for_status()
             data = resp.json()
             return data if isinstance(data, list) else data.get("positions", [])
-        except Exception as e:
-            logger.debug(f"[Executor] get_redeemable_positions error: {e}")
+        except Exception:
             return []
 
     def claim_position(self, condition_id: str) -> bool:
         if not self._relayer:
-            logger.warning("[Executor] Relayer tidak tersedia untuk claim")
             return False
         return self._relayer.redeem_positions(condition_id)

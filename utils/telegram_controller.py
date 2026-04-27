@@ -36,6 +36,10 @@ import requests
 
 logger = logging.getLogger(__name__)
 
+# Cooldown antar notifikasi error yang identik (detik)
+# Mencegah spam Telegram saat bot loop terus error di window yang sama
+ERROR_NOTIFY_COOLDOWN = 60
+
 
 class BotCommand:
     """Satu command dari Telegram yang perlu diproses main loop."""
@@ -51,6 +55,9 @@ class TelegramController:
     Two-way Telegram controller.
     - Kirim notifikasi (seperti TelegramNotifier)
     - Terima command dan forward ke main loop via queue
+
+    FIX: notify_error() sekarang punya cooldown 60 detik per pesan unik
+         untuk mencegah spam saat bot loop terus gagal (misal order error berulang).
     """
 
     SEND_URL    = "https://api.telegram.org/bot{token}/sendMessage"
@@ -67,6 +74,12 @@ class TelegramController:
         self._running        = False
         self._last_daily     = 0.0
         self._daily_stats    = {"bets": 0, "wins": 0, "losses": 0, "pnl": 0.0}
+
+        # ── Error cooldown state ───────────────────────────────
+        # Mencegah notify_error() spam saat error berulang dalam window pendek
+        self._last_error_msg:  str   = ""
+        self._last_error_time: float = 0.0
+        self._suppressed_error_count: int = 0
 
         # Callback yang akan dipanggil saat ada command
         self._command_callback: Optional[Callable] = None
@@ -182,7 +195,7 @@ class TelegramController:
         except Empty:
             return None
 
-    # ── Notification methods (sama dengan TelegramNotifier) ───
+    # ── Notification methods ───────────────────────────────────
 
     def notify_start(self, bot_name: str, bet_amount: float, coins: list, dry_run: bool) -> None:
         mode = "🔴 DRY RUN" if dry_run else "🟢 LIVE"
@@ -207,8 +220,17 @@ class TelegramController:
         )
 
     def notify_bet(self, coin: str, direction: str, amount: float,
-                   odds: float, beat: float, price: float, window_id: str) -> None:
+                   odds: float, beat: float, price: float, window_id: str,
+                   beat_source: str = "UNKNOWN", beat_reliable: bool = True) -> None:
         arrow = "⬆️" if direction == "UP" else "⬇️"
+        
+        # Warning jika beat tidak reliable
+        beat_warn = ""
+        if not beat_reliable:
+            beat_warn = f"\n⚠️ <i>Beat dari {beat_source} — mungkin ≠ Polymarket!</i>"
+            
+        beat_src_icon = "🔗" if beat_source == "CHAINLINK" else "⚠️"
+        
         self.send(
             f"{arrow} <b>BET {direction} — {coin}</b>\n"
             f"━━━━━━━━━━━━━━━\n"
@@ -216,20 +238,31 @@ class TelegramController:
             f"Amount : <b>${amount:.2f} USDC</b>\n"
             f"Odds   : {odds:.4f}\n"
             f"Price  : ${price:,.2f}\n"
-            f"Beat   : ${beat:,.2f} ({price-beat:+.2f})"
+            f"Beat   : {beat_src_icon} ${beat:,.2f} ({price-beat:+.2f}) [{beat_source}]"
+            f"{beat_warn}"
         )
 
     def notify_result(self, coin: str, direction: str, result: str,
                       pnl: float, running_pnl: float, beat: float,
-                      close_price: float, win_rate: float) -> None:
+                      close_price: float, win_rate: float,
+                      bet_amount: float = 0.0, payout: float = 0.0,
+                      odds: float = 0.0,
+                      extra_note: str = "") -> None:
         emoji = "✅" if result == "WIN" else "❌"
+        payout_line = (
+            f"Payout    : <b>${payout:.2f}</b> (x{payout/bet_amount:.2f})\n"
+            if result == "WIN" and bet_amount > 0 else ""
+        )
         self.send(
             f"{emoji} <b>{result} — {coin} {direction}</b>\n"
             f"━━━━━━━━━━━━━━━\n"
+            f"Bet       : ${bet_amount:.2f} @ {odds:.4f}\n"
+            f"{payout_line}"
             f"PnL trade : <b>${pnl:+.2f}</b>\n"
             f"Beat      : ${beat:,.2f} → ${close_price:,.2f}\n"
             f"{'📈' if running_pnl >= 0 else '📉'} Total PnL: <b>${running_pnl:+.2f}</b>\n"
             f"Win rate  : {win_rate:.1f}%"
+            f"{extra_note}"
         )
         self._daily_stats["bets"]   += 1
         self._daily_stats["pnl"]    += pnl
@@ -239,7 +272,54 @@ class TelegramController:
             self._daily_stats["losses"] += 1
 
     def notify_error(self, message: str) -> None:
-        self.send(f"⚠️ <b>Bot Error</b>\n━━━━━━━━━━━━━━━\n{message}")
+        """
+        Kirim notifikasi error ke Telegram.
+
+        FIX: Pesan yang identik di-suppress selama ERROR_NOTIFY_COOLDOWN detik
+             (default 60s) untuk mencegah banjir notifikasi saat bot loop
+             gagal berulang kali dalam satu window (misal order error terus).
+
+        Setelah cooldown habis, jika ada pesan yang di-suppress, jumlahnya
+        dilaporkan sekalian agar tidak ada info yang benar-benar hilang.
+        """
+        now = time.time()
+
+        if message == self._last_error_msg:
+            elapsed = now - self._last_error_time
+            if elapsed < ERROR_NOTIFY_COOLDOWN:
+                # Masih dalam cooldown — suppress tapi catat di log
+                self._suppressed_error_count += 1
+                logger.debug(
+                    f"[TelegramCtrl] Error suppressed (cooldown {elapsed:.0f}s/"
+                    f"{ERROR_NOTIFY_COOLDOWN}s, "
+                    f"suppressed={self._suppressed_error_count}): {message[:60]}"
+                )
+                return
+            else:
+                # Cooldown habis — kirim ulang + lapor jumlah yang di-suppress
+                suppressed = self._suppressed_error_count
+                self._suppressed_error_count = 0
+                suffix = (
+                    f"\n<i>(+{suppressed}x error serupa disuppress selama {elapsed:.0f}s)</i>"
+                    if suppressed > 0 else ""
+                )
+                self._last_error_time = now
+                self.send(
+                    f"⚠️ <b>Bot Error</b>\n"
+                    f"━━━━━━━━━━━━━━━\n"
+                    f"{message}{suffix}"
+                )
+                return
+
+        # Pesan baru (berbeda dari sebelumnya) — selalu kirim
+        self._last_error_msg          = message
+        self._last_error_time         = now
+        self._suppressed_error_count  = 0
+        self.send(
+            f"⚠️ <b>Bot Error</b>\n"
+            f"━━━━━━━━━━━━━━━\n"
+            f"{message}"
+        )
 
     def notify_low_balance(self, balance: float, bet_amount: float) -> None:
         self.send(
