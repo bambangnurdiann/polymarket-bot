@@ -1,32 +1,22 @@
 """
 bot_late.py
 ===========
-Late Bot Polymarket — Strategi dengan Beat Price dari Window Sebelumnya
+Late Bot Polymarket — Beat Price HANYA dari Scraper (Selenium UI)
 
-PERUBAHAN UTAMA: PrevWindowResolver
-=====================================
-Beat price sekarang diambil dari FINAL PRICE window sebelumnya:
-
-  Window 12:05-12:10 → final price $79,119.94
-  → Beat price window 12:10-12:15 = $79,119.94
-
-Alur di setiap window baru:
-  t=0s    : Window baru mulai, catat prev window ID
-  t=35s   : Mulai fetch resolved price prev window dari Polymarket API
-  t=35-90s: Retry setiap 15 detik sampai resolved
-  t=7-30s : Entry zone (dari ujung) — sudah punya beat price akurat
-            sisa: bet dengan beat price yang sudah valid
-
-Priority beat price:
-  1. PrevWindowResolver (final price dari Polymarket — paling akurat)
-  2. Polymarket Gamma API strike_price (backup)
-  3. Chainlink (fallback terakhir)
-
-STRATEGI ASLI (tetap sama):
+STRATEGI:
   - Entry window: 7-30 detik TERAKHIR sebelum close
   - F1 Time Check : 7s <= remaining <= 30s
   - F2 Beat Distance: |price - beat| >= threshold, arah dari selisih
   - 1 bet per window, no re-entry
+  - Beat price 100% dari UI Polymarket via Selenium scraper
+
+PERUBAHAN dari versi sebelumnya:
+  - Hapus PrevWindowResolver (tidak dipakai)
+  - Hapus Chainlink monitor untuk beat price
+  - Hapus semua fallback Gamma API / PREV_WINDOW untuk beat
+  - Fix freeze: semua blocking call pakai asyncio.wait_for + run_in_executor
+  - Fix freeze: maybe_claim dijalankan di executor, bukan blocking di loop
+  - Harga live (bukan beat) tetap diambil dari MultiWS (WebSocket)
 """
 
 import asyncio
@@ -55,8 +45,7 @@ logger = logging.getLogger(__name__)
 from utils.colors import green, red, yellow, cyan, bold, dim, clear_screen
 from utils.telegram_controller import TelegramController, CommandHandler
 from fetcher.multi_ws import MultiWS
-from fetcher.chainlink_monitor import ChainlinkMonitor
-from fetcher.prev_window_resolver import PrevWindowResolver
+from fetcher.polymarket_scraper import ScraperBeatSource
 from engine.result_tracker import ResultTracker
 from engine.circuit_breaker import CircuitBreaker
 from executor.polymarket import PolymarketExecutor
@@ -73,16 +62,9 @@ ENTRY_MAX_REM  = float(os.getenv("LATE_ENTRY_MAX", os.getenv("ENTRY_MAX_REM", "3
 BEAT_DISTANCE  = float(os.getenv("LATE_BEAT_DISTANCE", os.getenv("BEAT_DISTANCE", "25")))
 MIN_ODDS       = float(os.getenv("MIN_ODDS", "0.45"))
 
-# ── PrevWindowResolver config ─────────────────────────────────
-# Berapa detik tunggu sebelum fetch (beri waktu Polymarket finalize)
-PREV_WINDOW_WAIT   = float(os.getenv("PREV_WINDOW_WAIT", "35"))
-# Max retry fetch per window
-PREV_WINDOW_TRIES  = int(os.getenv("PREV_WINDOW_TRIES", "5"))
-# Interval antar retry (detik)
-PREV_WINDOW_RETRY  = float(os.getenv("PREV_WINDOW_RETRY", "15"))
-
-# ── Chainlink config ──────────────────────────────────────────
-CL_ENABLED = os.getenv("CHAINLINK_ARB_ENABLED", "true").lower() == "true"
+# ── Scraper config ────────────────────────────────────────────
+SCRAPER_RETRY_INTERVAL = float(os.getenv("SCRAPER_RETRY_INTERVAL", "45"))
+SCRAPER_TIMEOUT        = float(os.getenv("SCRAPER_TIMEOUT", "30"))   # timeout per scrape call
 
 # ── Circuit breaker ───────────────────────────────────────────
 CB_MAX_STREAK    = int(os.getenv("CB_MAX_STREAK", "5"))
@@ -161,10 +143,6 @@ class WindowState:
         self.window_end   = window_end
 
     @property
-    def is_new(self) -> bool:
-        return self._prev_id != self.window_id and self._prev_id != ""
-
-    @property
     def remaining(self) -> float:
         return max(0.0, self.window_end - time.time())
 
@@ -172,20 +150,14 @@ class WindowState:
     def elapsed(self) -> float:
         return max(0.0, time.time() - self.window_start)
 
-    def set_beat(self, price: float, source: str) -> bool:
-        """Set beat price. Priority: PREV_WINDOW > GAMMA_API > CHAINLINK"""
-        PRIORITY = {"PREV_WINDOW": 3, "GAMMA_API": 2, "CHAINLINK": 1, "HYPERLIQUID": 0, "UNKNOWN": -1}
-        cur_prio  = PRIORITY.get(self.beat_source, -1)
-        new_prio  = PRIORITY.get(source, -1)
-
-        if new_prio > cur_prio:
-            old_beat  = self.beat_price
+    def set_beat(self, price: float) -> bool:
+        """Set beat price dari scraper. Returns True jika berubah."""
+        if price and price != self.beat_price:
+            old = self.beat_price
             self.beat_price  = price
-            self.beat_source = source
-            if old_beat and abs(price - old_beat) > 1:
-                logger.info(
-                    f"[Window] Beat updated [{source}]: ${old_beat:,.2f} → ${price:,.2f}"
-                )
+            self.beat_source = "SCRAPER"
+            if old and abs(price - old) > 1:
+                logger.info(f"[Window] Beat updated: ${old:,.2f} → ${price:,.2f}")
             return True
         return False
 
@@ -201,7 +173,6 @@ class BotState:
         self.stop_requested   = False
         self.manual_bet: Optional[tuple] = None
         self._last_low_balance_warn = 0.0
-
         self.tg = TelegramController()
         self.circuit_breaker = CircuitBreaker(
             max_streak=CB_MAX_STREAK,
@@ -215,13 +186,12 @@ class BotState:
 
 # ── Dashboard ─────────────────────────────────────────────────
 def render_dashboard(
-    state:    BotState,
-    windows:  Dict[str, WindowState],
-    mws:      MultiWS,
-    results:  ResultTracker,
-    executor: PolymarketExecutor,
-    cl_monitor,
-    resolver: PrevWindowResolver,
+    state:          BotState,
+    windows:        Dict[str, WindowState],
+    mws:            MultiWS,
+    results:        ResultTracker,
+    executor:       PolymarketExecutor,
+    scraper_source: ScraperBeatSource,
 ) -> None:
     clear_screen()
     now_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -240,40 +210,34 @@ def render_dashboard(
               else red(f"CB:⛔{cb.state.consecutive_losses}L")
 
     blocked, blk_reason = is_session_blocked()
-    sess_str = red("BLOCKED") if blocked else green("OK")
+    sess_str   = red("BLOCKED") if blocked else green("OK")
+    s_status   = scraper_source.status
+    scraper_str = f"  Scraper:{green(s_status) if 'OK' in s_status else yellow(s_status)}"
 
     print()
     print(f"  +{'─'*W}+")
     row(f"{bold('LATE BOT')} {mode_c('LIVE' if not DRY_RUN else 'DRY-RUN')}  "
         f"|  {now_str}  |  ⏱{up_str}")
     row(f"WS:{ws_c(mws.status)}  Auto:{'ON' if state.auto_bet else yellow('OFF')}  "
-        f"{cb_str}  Session:{sess_str}  Coins:{bold(' '.join(ACTIVE_COINS))}")
+        f"{cb_str}  Session:{sess_str}  Coins:{bold(' '.join(ACTIVE_COINS))}"
+        f"{scraper_str}")
     print(f"  +{'─'*W}+")
 
     for coin in ACTIVE_COINS:
-        win   = windows.get(coin)
-        data  = mws.coins.get(coin)
+        win  = windows.get(coin)
+        data = mws.coins.get(coin)
         if not win or not data:
             continue
 
         win.update()
 
-        # Harga current: prioritas Chainlink → Hyperliquid
-        cl_price = cl_monitor.get_price(coin) if cl_monitor else None
-        hl_price = data.get_price() if data else None
-        price    = cl_price or hl_price or 0.0
-        beat     = win.beat_price
-        rem      = win.remaining
+        price = data.get_price() or 0.0
+        beat  = win.beat_price
+        rem   = win.remaining
 
-        price_src = "CL" if cl_price else ("HL" if hl_price else "N/A")
-        price_c   = green if cl_price else (yellow if hl_price else red)
+        price_c    = green if price else red
         price_disp = f"${price:>11,.2f}" if price else "       N/A   "
-
-        # Beat info
-        src_icons = {"PREV_WINDOW": "🎯", "GAMMA_API": "📡", "CHAINLINK": "🔗", "HYPERLIQUID": "⚡", "UNKNOWN": "❓"}
-        beat_icon = src_icons.get(win.beat_source, "❓")
-        beat_str  = f"{beat_icon}${beat:,.2f}" if beat else dim("N/A (fetching...)")
-        rev_status = resolver.get_status(coin)
+        beat_str   = f"🌐${beat:,.2f}" if beat else dim("N/A (fetching...)")
 
         if beat and price:
             diff      = price - beat
@@ -284,12 +248,10 @@ def render_dashboard(
         else:
             dist_str = dim("Δ N/A")
 
-        # Zone check
-        in_zone   = ENTRY_MIN_REM <= rem <= ENTRY_MAX_REM
-        zone_c    = green if in_zone else (cyan if rem > ENTRY_MAX_REM else red)
-        zone_lbl  = zone_c(f"rem={rem:.0f}s")
+        in_zone  = ENTRY_MIN_REM <= rem <= ENTRY_MAX_REM
+        zone_c   = green if in_zone else (cyan if rem > ENTRY_MAX_REM else red)
+        zone_lbl = zone_c(f"rem={rem:.0f}s")
 
-        # Progress bar
         bar_width = 38
         pos       = int((1 - rem / 300) * bar_width)
         zone_lo   = int((1 - ENTRY_MAX_REM / 300) * bar_width)
@@ -314,7 +276,7 @@ def render_dashboard(
         elif blocked:
             signal_lbl = red(f"⛔ {blk_reason[:40]}")
         elif not beat:
-            signal_lbl = yellow(f"⏳ Beat fetching... [{rev_status}]")
+            signal_lbl = yellow("⏳ Beat fetching via scraper...")
         elif f1_ok and f2_ok:
             d = "UP" if (price - beat) > 0 else "DOWN"
             signal_lbl = green(bold(f"▶ READY BET {d}"))
@@ -323,10 +285,9 @@ def render_dashboard(
         else:
             signal_lbl = dim(f"F2: jarak ${abs(price - beat):.0f} < ${BEAT_DISTANCE:.0f}") if beat else dim("F2: tunggu beat")
 
-        row(f"{bold(f'[{coin}]')} {price_c(price_disp)} [{price_src}]  "
+        row(f"{bold(f'[{coin}]')} {price_c(price_disp)} [WS]  "
             f"Beat:{yellow(beat_str)}  {dist_str}")
         row(f"  {bar} {zone_lbl}  {signal_lbl}")
-        row(f"  {dim('Beat source:')} {win.beat_source}  {dim('Resolver:')} {rev_status}")
         sep()
 
     # Results
@@ -353,21 +314,15 @@ def render_dashboard(
     print(f"  +{'─'*W}+\n")
 
 
-# ── Beat sync ─────────────────────────────────────────────────
+# ── Beat sync loop ────────────────────────────────────────────
 async def beat_sync_loop(
-    windows:  Dict[str, WindowState],
-    executor: PolymarketExecutor,
-    mws:      MultiWS,
-    cl_monitor,
-    resolver: PrevWindowResolver,
+    windows:        Dict[str, WindowState],
+    scraper_source: ScraperBeatSource,
 ) -> None:
     """
-    Loop sync beat price — sekarang prioritas PrevWindowResolver.
-
-    Priority:
-      1. PrevWindowResolver (final price window sebelumnya) — paling akurat
-      2. Gamma API strike_price — backup
-      3. Chainlink snapshot awal window — fallback
+    Loop yang hanya menggunakan scraper sebagai sumber beat price.
+    Berjalan setiap 5 detik. Setiap scrape call diberi timeout
+    SCRAPER_TIMEOUT detik agar tidak bisa freeze event loop.
     """
     while True:
         for coin in ACTIVE_COINS:
@@ -376,48 +331,23 @@ async def beat_sync_loop(
                 if not win:
                     continue
 
-                # ── PRIORITY 1: PrevWindowResolver ────────────
-                # Cek apakah perlu fetch resolved price window sebelumnya
-                if resolver.should_fetch(coin):
-                    price = await asyncio.get_event_loop().run_in_executor(
-                        None, resolver.try_fetch, coin
+                # Beri timeout agar tidak bisa nge-hang selamanya
+                try:
+                    price = await asyncio.wait_for(
+                        scraper_source.try_get_beat(coin),
+                        timeout=SCRAPER_TIMEOUT,
                     )
-                    if price:
-                        win.set_beat(price, "PREV_WINDOW")
+                except asyncio.TimeoutError:
+                    logger.warning(f"[BeatSync] {coin} scraper timeout ({SCRAPER_TIMEOUT}s) — skip")
+                    continue
+
+                if price:
+                    updated = win.set_beat(price)
+                    if updated:
                         logger.info(
-                            f"[BeatSync] ✅ {coin} beat dari PREV_WINDOW: "
-                            f"${price:,.2f} (window {win.window_id})"
+                            f"[BeatSync] 🌐 {coin} beat = ${price:,.2f} "
+                            f"(window {win.window_id})"
                         )
-
-                # Inject beat dari resolver jika sudah resolved
-                if resolver.is_resolved(coin):
-                    beat = resolver.get_beat(coin)
-                    if beat:
-                        win.set_beat(beat, "PREV_WINDOW")
-
-                # ── PRIORITY 2: Gamma API strike_price ────────
-                if win.beat_source not in ("PREV_WINDOW",):
-                    market = executor.get_active_market(coin, force_refresh=True)
-                    if market:
-                        strike = market.get("strike_price")
-                        if strike and strike > 0:
-                            win.set_beat(strike, "GAMMA_API")
-
-                # ── PRIORITY 3: Chainlink snapshot (awal window) ──
-                if win.beat_source == "UNKNOWN" and cl_monitor:
-                    cl_price = cl_monitor.get_price(coin)
-                    if cl_price and cl_price > 0 and win.elapsed <= 30:
-                        win.set_beat(cl_price, "CHAINLINK")
-                        logger.debug(
-                            f"[BeatSync] {coin} beat fallback Chainlink: "
-                            f"${cl_price:,.2f} (t={win.elapsed:.0f}s)"
-                        )
-
-                # Inject Chainlink price ke MultiWS untuk display
-                if cl_monitor and mws:
-                    cl_price = cl_monitor.get_price(coin)
-                    if cl_price and cl_price > 0:
-                        mws.inject_chainlink_price(coin, cl_price)
 
             except Exception as e:
                 logger.debug(f"[BeatSync] {coin}: {e}")
@@ -426,7 +356,15 @@ async def beat_sync_loop(
 
 
 # ── Claim ─────────────────────────────────────────────────────
-def maybe_claim(state: BotState, executor: PolymarketExecutor) -> None:
+async def maybe_claim_async(
+    state:    BotState,
+    executor: PolymarketExecutor,
+    loop:     asyncio.AbstractEventLoop,
+) -> None:
+    """
+    Versi async dari maybe_claim — blocking I/O dijalankan
+    di executor sehingga event loop tidak freeze.
+    """
     if not AUTO_REDEEM:
         return
     now = time.time()
@@ -434,29 +372,50 @@ def maybe_claim(state: BotState, executor: PolymarketExecutor) -> None:
         return
     state.last_claim_check = now
 
-    positions = executor.get_redeemable_positions()
-    if not positions:
+    def _do_claim():
+        positions = executor.get_redeemable_positions()
+        if not positions:
+            return 0, 0.0
+
+        logger.info(f"[Claim] {len(positions)} posisi redeemable")
+        claimed_count  = 0
+        claimed_amount = 0.0
+
+        for pos in positions:
+            cid = pos.get("conditionId", "")
+            if not cid:
+                continue
+            size = float(pos.get("size", pos.get("currentValue", 0)) or 0)
+            ok   = executor.claim_position(cid)
+            if ok:
+                state.total_claimed += 1
+                claimed_count       += 1
+                claimed_amount      += size
+            time.sleep(1)
+
+        return claimed_count, claimed_amount
+
+    try:
+        claimed_count, _ = await asyncio.wait_for(
+            loop.run_in_executor(None, _do_claim),
+            timeout=60,
+        )
+    except asyncio.TimeoutError:
+        logger.warning("[Claim] Timeout saat claim — lanjut")
         return
-
-    logger.info(f"[Claim] {len(positions)} posisi redeemable")
-    claimed_count  = 0
-    claimed_amount = 0.0
-
-    for pos in positions:
-        cid = pos.get("conditionId", "")
-        if not cid:
-            continue
-        size = float(pos.get("size", pos.get("currentValue", 0)) or 0)
-        ok   = executor.claim_position(cid)
-        if ok:
-            state.total_claimed += 1
-            claimed_count       += 1
-            claimed_amount      += size
-        time.sleep(1)
+    except Exception as e:
+        logger.warning(f"[Claim] Error: {e}")
+        return
 
     if claimed_count > 0:
         old_bal = executor.balance
-        executor.get_balance()
+        try:
+            await asyncio.wait_for(
+                loop.run_in_executor(None, executor.get_balance),
+                timeout=10,
+            )
+        except asyncio.TimeoutError:
+            pass
         gain = executor.balance - old_bal
         state.tg.send(
             f"💰 <b>Auto-Claim</b>\n"
@@ -497,12 +456,10 @@ def execute_bet(
         return
 
     token_id = market["token_id_up"] if direction == "UP" else market["token_id_down"]
-    beat_src  = win.beat_source
-    beat_rel  = beat_src in ("PREV_WINDOW", "GAMMA_API", "CHAINLINK")
 
     logger.info(
         f"[Bet] {coin} {direction} ${state.bet_amount:.2f} @ {odds:.4f} "
-        f"| price=${price:,.2f} beat=${beat:,.2f} [{beat_src}] Δ${abs(price-beat):.0f} "
+        f"| price=${price:,.2f} beat=${beat:,.2f} [SCRAPER] Δ${abs(price-beat):.0f} "
         f"| rem={remaining:.0f}s"
     )
 
@@ -529,10 +486,10 @@ def execute_bet(
             signal_mode="LATE",
             coin=coin,
             market_id=market.get("market_id", ""),
-            beat_source=beat_src,
-            beat_reliable=beat_rel,
+            beat_source="SCRAPER",
+            beat_reliable=True,
         )
-        logger.info(f"[Bet] ✓ {coin} {direction} [{beat_src}]")
+        logger.info(f"[Bet] ✓ {coin} {direction} [SCRAPER]")
         state.tg.notify_bet(
             coin=coin,
             direction=direction,
@@ -541,8 +498,8 @@ def execute_bet(
             beat=beat,
             price=price,
             window_id=win.window_id,
-            beat_source=beat_src,
-            beat_reliable=beat_rel,
+            beat_source="SCRAPER",
+            beat_reliable=True,
         )
     else:
         logger.warning(f"[Bet] ✗ {coin} {direction} — order gagal")
@@ -551,29 +508,27 @@ def execute_bet(
 
 # ── Main loop ─────────────────────────────────────────────────
 async def main_loop(
-    state:      BotState,
-    windows:    Dict[str, WindowState],
-    mws:        MultiWS,
-    results:    ResultTracker,
-    executor:   PolymarketExecutor,
-    cl_monitor,
-    resolver:   PrevWindowResolver,
+    state:          BotState,
+    windows:        Dict[str, WindowState],
+    mws:            MultiWS,
+    results:        ResultTracker,
+    executor:       PolymarketExecutor,
+    scraper_source: ScraperBeatSource,
 ) -> None:
     last_dash      = 0.0
     last_balance   = 0.0
     last_resolved  = ""
     cmd_handler    = CommandHandler(state.tg)
+    loop           = asyncio.get_event_loop()
 
-    # Mulai beat sync loop
-    asyncio.create_task(beat_sync_loop(windows, executor, mws, cl_monitor, resolver))
+    # Mulai beat sync loop sebagai background task
+    asyncio.create_task(beat_sync_loop(windows, scraper_source))
 
     logger.info(f"[LateBot] Start — coins: {ACTIVE_COINS}")
     logger.info(f"[LateBot] Entry zone: remaining {ENTRY_MIN_REM}-{ENTRY_MAX_REM}s")
     logger.info(f"[LateBot] Beat distance min: ${BEAT_DISTANCE}")
-    logger.info(f"[LateBot] PrevWindowResolver: wait={PREV_WINDOW_WAIT}s, tries={PREV_WINDOW_TRIES}, interval={PREV_WINDOW_RETRY}s")
-
-    # Track window ID untuk deteksi window baru
-    prev_window_ids: Dict[str, str] = {}
+    logger.info(f"[LateBot] Beat source: SCRAPER only")
+    logger.info(f"[LateBot] Scraper retry_interval={SCRAPER_RETRY_INTERVAL}s, timeout={SCRAPER_TIMEOUT}s")
 
     while True:
         now = time.time()
@@ -598,16 +553,22 @@ async def main_loop(
             new_id = windows[coin].window_id
 
             if old_id and new_id != old_id:
-                # Window baru dimulai — init resolver untuk coin ini
                 logger.info(f"[Main] {coin} window baru: {old_id} → {new_id}")
-                resolver.on_new_window(coin, new_id)
+                # Invalidate scraper cache saat window baru
+                scraper_source.on_new_window(coin)
 
         blocked, _ = is_session_blocked()
         cb_ok, _   = state.circuit_breaker.can_bet()
 
-        # 3. Balance refresh
+        # 3. Balance refresh — pakai executor agar tidak blocking
         if now - last_balance > 30:
-            executor.get_balance()
+            try:
+                await asyncio.wait_for(
+                    loop.run_in_executor(None, executor.get_balance),
+                    timeout=10,
+                )
+            except asyncio.TimeoutError:
+                logger.warning("[Main] Balance refresh timeout — skip")
             last_balance = now
             state.circuit_breaker.check_drawdown(executor.balance)
             if executor.balance < state.bet_amount * 3 and executor.balance > 0:
@@ -618,8 +579,8 @@ async def main_loop(
         # 4. Daily summary
         state.tg.maybe_send_daily_summary(executor.balance, results.running_pnl)
 
-        # 5. Claim
-        maybe_claim(state, executor)
+        # 5. Claim — non-blocking
+        await maybe_claim_async(state, executor, loop)
 
         # 6. Resolve bet aktif
         if results.current_bet:
@@ -629,14 +590,9 @@ async def main_loop(
 
             is_new_window = (cb_r.window_id != bet_win.window_id)
             if is_new_window and cb_r.window_id != last_resolved:
-                elapsed_new = bet_win.elapsed
-                if elapsed_new >= 10:
-                    close_price = None
-                    if cl_monitor:
-                        close_price = cl_monitor.get_price(bet_coin)
-                    if not close_price:
-                        data = mws.coins.get(bet_coin)
-                        close_price = data.get_price() if data else None
+                if bet_win.elapsed >= 10:
+                    data        = mws.coins.get(bet_coin)
+                    close_price = data.get_price() if data else None
 
                     if close_price:
                         market_id = getattr(cb_r, "market_id", "")
@@ -676,11 +632,10 @@ async def main_loop(
                 if not (ENTRY_MIN_REM <= remaining <= ENTRY_MAX_REM):
                     continue
 
-                # Ambil harga current
-                cl_price = cl_monitor.get_price(coin) if cl_monitor else None
-                data     = mws.coins.get(coin)
-                price    = cl_price or (data.get_price() if data else None)
-                beat     = win.beat_price
+                # Harga live dari WebSocket
+                data  = mws.coins.get(coin)
+                price = data.get_price() if data else None
+                beat  = win.beat_price
 
                 if not price or not beat:
                     logger.debug(f"[{coin}] Skip — price={price} beat={beat}")
@@ -710,7 +665,7 @@ async def main_loop(
 
                 logger.info(
                     f"[{coin}] SIGNAL: {direction} | "
-                    f"price=${price:,.2f} beat=${beat:,.2f} [{win.beat_source}] "
+                    f"price=${price:,.2f} beat=${beat:,.2f} [SCRAPER] "
                     f"Δ${abs_diff:.0f} | rem={remaining:.0f}s | odds={odds:.4f}"
                 )
 
@@ -735,7 +690,9 @@ async def main_loop(
         )
 
         if now - last_dash >= (0.2 if any_near_zone else 2.0):
-            render_dashboard(state, windows, mws, results, executor, cl_monitor, resolver)
+            render_dashboard(
+                state, windows, mws, results, executor, scraper_source
+            )
             last_dash = now
 
         await asyncio.sleep(0.2 if any_near_zone else 2.0)
@@ -811,10 +768,9 @@ def startup_prompt() -> float:
     print(f"  Min odds     : {MIN_ODDS}")
     print(f"  Auto Claim   : {'ON' if AUTO_REDEEM else 'OFF'}")
     print()
-    print(bold("  🎯 Beat Price Strategy:"))
-    print(f"  Sumber       : Final price window sebelumnya")
-    print(f"  Wait before  : {PREV_WINDOW_WAIT:.0f}s setelah window baru")
-    print(f"  Max retries  : {PREV_WINDOW_TRIES}x setiap {PREV_WINDOW_RETRY:.0f}s")
+    print(bold("  🌐 Beat Price: SCRAPER only (UI Polymarket)"))
+    print(f"  Scraper retry  : tiap {SCRAPER_RETRY_INTERVAL:.0f}s per window")
+    print(f"  Scraper timeout: {SCRAPER_TIMEOUT:.0f}s per call")
     print()
 
     dry = args.dry_run or DRY_RUN
@@ -867,50 +823,39 @@ async def run():
         coin: WindowState() for coin in ACTIVE_COINS
     }
 
-    # Init PrevWindowResolver
-    resolver = PrevWindowResolver(
-        wait_before_fetch=PREV_WINDOW_WAIT,
-        max_fetch_attempts=PREV_WINDOW_TRIES,
-        fetch_interval=PREV_WINDOW_RETRY,
+    # Init Scraper (satu-satunya sumber beat price)
+    logger.info("[LateBot] Initializing Selenium scraper...")
+    scraper_source = ScraperBeatSource(
+        coins=ACTIVE_COINS,
+        retry_interval=SCRAPER_RETRY_INTERVAL,
     )
-
-    # Init resolver untuk window saat ini (window pertama)
-    for coin in ACTIVE_COINS:
-        resolver.on_new_window(coin, windows[coin].window_id)
-
-    # Chainlink monitor
-    cl_monitor = None
-    if CL_ENABLED:
-        cl_monitor = ChainlinkMonitor(coins=ACTIVE_COINS, poll_interval=2.5)
-        logger.info("[LateBot] Chainlink monitor ENABLED")
+    logger.info("[LateBot] Scraper initialized ✓")
 
     setup_keyboard(state)
     await mws.connect()
-    if cl_monitor:
-        await cl_monitor.start()
     await asyncio.sleep(3)
 
-    # Pre-load: coba fetch resolved price window sebelumnya SEKARANG
-    # (karena kita tidak tahu berapa lama bot sudah berjalan sejak window mulai)
-    logger.info("[LateBot] Pre-loading beat prices dari prev window...")
+    # ── Pre-load beat prices via scraper ─────────────────────
+    logger.info("[LateBot] Pre-loading beat prices dari scraper...")
+    loop = asyncio.get_event_loop()
     for coin in ACTIVE_COINS:
-        # Langsung coba fetch, bypass wait (bot baru start)
-        from fetcher.prev_window_resolver import fetch_resolved_price_from_gamma, get_prev_window_timestamps
-        prev_start, prev_end, prev_id = get_prev_window_timestamps()
-        price = fetch_resolved_price_from_gamma(coin, prev_start, prev_end)
-        if price:
-            windows[coin].set_beat(price, "PREV_WINDOW")
-            logger.info(f"[{coin}] ✅ Pre-loaded beat dari prev window: ${price:,.2f}")
-        else:
-            # Fallback ke Gamma API strike
-            market = executor.get_active_market(coin, force_refresh=True)
-            if market:
-                strike = market.get("strike_price")
-                if strike:
-                    windows[coin].set_beat(strike, "GAMMA_API")
-                    logger.info(f"[{coin}] Beat fallback GAMMA_API: ${strike:,.2f}")
-                else:
-                    logger.warning(f"[{coin}] Belum dapat beat price — akan fetch setelah {PREV_WINDOW_WAIT:.0f}s")
+        try:
+            price = await asyncio.wait_for(
+                scraper_source.try_get_beat(coin),
+                timeout=SCRAPER_TIMEOUT,
+            )
+            if price:
+                windows[coin].set_beat(price)
+                logger.info(f"[{coin}] ✅ Pre-loaded beat: ${price:,.2f}")
+            else:
+                logger.warning(
+                    f"[{coin}] Beat belum dapat — "
+                    f"scraper retry tiap {SCRAPER_RETRY_INTERVAL:.0f}s"
+                )
+        except asyncio.TimeoutError:
+            logger.warning(f"[{coin}] Pre-load scraper timeout — lanjut")
+        except Exception as e:
+            logger.warning(f"[{coin}] Pre-load error: {e}")
 
     logger.info(f"[LateBot] Saldo: ${executor.balance:.2f}")
 
@@ -920,13 +865,14 @@ async def run():
     state.tg.notify_start("Late Bot", bet, ACTIVE_COINS, DRY_RUN)
 
     try:
-        await main_loop(state, windows, mws, results, executor, cl_monitor, resolver)
+        await main_loop(
+            state, windows, mws, results, executor, scraper_source
+        )
     except KeyboardInterrupt:
         pass
     finally:
         await mws.disconnect()
-        if cl_monitor:
-            await cl_monitor.stop()
+        scraper_source.stop()
         state.tg.notify_stop(
             results.total_bets, results.wins, results.losses, results.running_pnl
         )

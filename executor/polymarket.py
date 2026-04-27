@@ -744,8 +744,16 @@ class PolymarketExecutor:
             from py_clob_client.clob_types import MarketOrderArgs, OrderType, PartialCreateOrderOptions
 
             for attempt in range(MAX_FOK_RETRIES):
-                current_price_d   = price_d + Decimal("0.01") * attempt
-                current_price_dec = float(current_price_d)
+                # Setiap retry: refresh live ask agar harga selalu up-to-date
+                if attempt > 0:
+                    refreshed_ask = self._get_best_ask_live(token_id)
+                    if refreshed_ask and refreshed_ask > float(price_d):
+                        price_d = Decimal(str(refreshed_ask)).quantize(TICK_2, rounding=ROUND_HALF_UP)
+                    else:
+                        # Kalau tidak dapat ask terbaru, naikkan 0.01 dari attempt sebelumnya
+                        price_d = price_d + Decimal("0.01")
+
+                current_price_dec = float(price_d)
 
                 if current_price_dec > MAX_PRICE:
                     logger.warning(f"[Executor] Price {current_price_dec} > MAX {MAX_PRICE}, berhenti")
@@ -815,22 +823,62 @@ class PolymarketExecutor:
 
     def _place_gtc_legacy(self, token_id: str, amount_dec: float, price_dec: float,
                           side: str, direction: str) -> bool:
+        """
+        Fallback GTC terakhir — pakai MarketOrderArgs (bukan raw dict yang
+        menyebabkan 'dict object has no attribute token_id') dan post sebagai GTC.
+        Kalau GTC juga tidak tersedia, kirim ulang sebagai market order biasa.
+        """
+        # Attempt 1: MarketOrderArgs + GTC
         try:
-            from py_clob_client.clob_types import CreateOrderOptions, OrderType
-            options = CreateOrderOptions(tick_size=POLYMARKET_TICK_STR, neg_risk=False)
-            signed  = self._client.create_order(
-                {"token_id": token_id, "price": price_dec, "size": amount_dec, "side": side},
-                options,
+            from py_clob_client.clob_types import (
+                MarketOrderArgs, PartialCreateOrderOptions, OrderType
             )
+            order_args = MarketOrderArgs(
+                token_id=token_id,
+                price=price_dec,
+                amount=amount_dec,
+                side=side,
+            )
+            options = PartialCreateOrderOptions(tick_size=POLYMARKET_TICK_STR, neg_risk=False)
+            signed  = self._client.create_market_order(order_args, options)
+            if signed is None:
+                raise ValueError("create_market_order returned None")
+            resp = self._client.post_order(signed, OrderType.GTC)
+            if resp and resp.get("status") in ("live", "matched", "LIVE", "MATCHED", "filled"):
+                order_id = resp.get("orderID", resp.get("id", "?"))
+                logger.info(
+                    f"[Executor] ✓ GTC-legacy LIVE {direction} @ {price_dec:.2f} "
+                    f"id={str(order_id)[:12]}..."
+                )
+                return True
+            logger.warning(f"[Executor] GTC-legacy not accepted: {resp}")
+            return False
+        except ImportError:
+            pass
+        except Exception as e:
+            logger.error(f"[Executor] GTC legacy (MarketOrderArgs) error: {e}")
+
+        # Attempt 2: Market order tanpa type — biarkan CLOB decide
+        try:
+            from py_clob_client.clob_types import MarketOrderArgs, PartialCreateOrderOptions
+            order_args = MarketOrderArgs(
+                token_id=token_id,
+                price=price_dec,
+                amount=amount_dec,
+                side=side,
+            )
+            options = PartialCreateOrderOptions(tick_size=POLYMARKET_TICK_STR, neg_risk=False)
+            signed  = self._client.create_market_order(order_args, options)
             if signed is None:
                 return False
-            resp = self._client.post_order(signed, OrderType.GTC)
-            if resp and resp.get("status") in ("live", "matched", "LIVE", "MATCHED"):
-                logger.info(f"[Executor] ✓ GTC legacy LIVE {direction} @ {price_dec:.2f}")
+            resp = self._client.post_order(signed)   # tanpa OrderType
+            if resp and resp.get("status") not in (None, "error", "ERROR"):
+                logger.info(f"[Executor] ✓ Market fallback {direction} @ {price_dec:.2f}")
                 return True
+            logger.warning(f"[Executor] Market fallback not accepted: {resp}")
             return False
         except Exception as e:
-            logger.error(f"[Executor] GTC legacy error: {e}")
+            logger.error(f"[Executor] GTC legacy final error: {e}")
             return False
 
     def _log_order_err(self, e: Exception, direction: str) -> None:
